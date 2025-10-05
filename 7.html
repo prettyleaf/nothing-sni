@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHANGEMEPLS Cloud Storage</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+            position: relative;
+        }
+
+        body.light {
+            background: #FFFFFF;
+            color: #000000;
+        }
+
+        body.dark {
+            background: #000000;
+            color: #FFFFFF;
+        }
+
+        /* Dot Matrix Pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: radial-gradient(circle, rgba(128, 128, 128, 0.08) 1px, transparent 1px);
+            background-size: 24px 24px;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.5;
+        }
+
+        /* Orbital rings in background */
+        .bg-structures {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        .orbit-ring {
+            position: absolute;
+            border: 1px solid;
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+
+        body.light .orbit-ring { border-color: rgba(0, 0, 0, 0.3); }
+        body.dark .orbit-ring { border-color: rgba(255, 255, 255, 0.3); }
+
+        .orbit-1 {
+            width: 600px;
+            height: 600px;
+            top: 20%;
+            right: -200px;
+            animation: rotate-orbit 60s linear infinite;
+        }
+
+        .orbit-2 {
+            width: 400px;
+            height: 400px;
+            bottom: 10%;
+            left: -100px;
+            animation: rotate-orbit 45s linear infinite reverse;
+        }
+
+        @keyframes rotate-orbit {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Main Container */
+        .app-container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            border-bottom: 1px solid;
+            background: inherit;
+            z-index: 100;
+        }
+
+        body.light .header { border-color: rgba(0, 0, 0, 0.1); background: rgba(255, 255, 255, 0.95); }
+        body.dark .header { border-color: rgba(255, 255, 255, 0.1); background: rgba(0, 0, 0, 0.95); }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #FF3B30;
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.2); }
+        }
+
+        .search-bar {
+            width: 400px;
+            height: 36px;
+            background: transparent;
+            border: 1px solid;
+            padding: 0 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: inherit;
+            transition: all 0.3s;
+        }
+
+        body.light .search-bar { border-color: rgba(0, 0, 0, 0.15); }
+        body.dark .search-bar { border-color: rgba(255, 255, 255, 0.15); }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: #FF3B30;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+            background: transparent;
+            border: 1px solid;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        body.light .icon-btn { border-color: rgba(0, 0, 0, 0.15); color: #000; }
+        body.dark .icon-btn { border-color: rgba(255, 255, 255, 0.15); color: #FFF; }
+
+        .icon-btn:hover {
+            border-color: #FF3B30;
+            transform: translateY(-2px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 60px;
+            width: 240px;
+            height: calc(100vh - 60px);
+            border-right: 1px solid;
+            padding: 24px 16px;
+            overflow-y: auto;
+        }
+
+        body.light .sidebar { border-color: rgba(0, 0, 0, 0.1); background: rgba(255, 255, 255, 0.5); }
+        body.dark .sidebar { border-color: rgba(255, 255, 255, 0.1); background: rgba(0, 0, 0, 0.5); }
+
+        .upload-btn {
+            width: 100%;
+            height: 40px;
+            background: #FF3B30;
+            color: #FFFFFF;
+            border: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-bottom: 24px;
+            transition: all 0.3s;
+            letter-spacing: -0.01em;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 59, 48, 0.3);
+        }
+
+        .nav-section {
+            margin-bottom: 32px;
+        }
+
+        .nav-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            opacity: 0.5;
+            margin-bottom: 12px;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-item {
+            padding: 10px 12px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 4px;
+            border-left: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-item:hover {
+            border-left-color: #FF3B30;
+            padding-left: 16px;
+        }
+
+        .nav-item.active {
+            border-left-color: #FF3B30;
+            font-weight: 500;
+        }
+
+        .nav-item-count {
+            font-size: 11px;
+            opacity: 0.5;
+        }
+
+        /* Storage Indicator */
+        .storage-info {
+            margin-top: 32px;
+            padding: 16px;
+            border: 1px solid;
+        }
+
+        body.light .storage-info { border-color: rgba(0, 0, 0, 0.1); }
+        body.dark .storage-info { border-color: rgba(255, 255, 255, 0.1); }
+
+        .storage-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(128, 128, 128, 0.2);
+            margin: 12px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .storage-fill {
+            height: 100%;
+            background: #FF3B30;
+            width: 67%;
+            transition: width 0.3s;
+        }
+
+        .storage-text {
+            font-size: 11px;
+            opacity: 0.6;
+        }
+
+        .made-with {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid;
+            text-align: center;
+            font-size: 11px;
+        }
+
+        body.light .made-with { border-color: rgba(0, 0, 0, 0.1); }
+        body.dark .made-with { border-color: rgba(255, 255, 255, 0.1); }
+
+        .made-with a {
+            color: inherit;
+            text-decoration: none;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+
+        .made-with a:hover {
+            opacity: 1;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 240px;
+            margin-top: 60px;
+            padding: 32px;
+            flex: 1;
+            min-height: calc(100vh - 60px);
+        }
+
+        .breadcrumb {
+            font-size: 13px;
+            margin-bottom: 24px;
+            opacity: 0.6;
+        }
+
+        .breadcrumb span {
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .breadcrumb span:hover {
+            opacity: 1;
+            color: #FF3B30;
+        }
+
+        .content-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .content-title {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .view-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .view-btn {
+            width: 32px;
+            height: 32px;
+            background: transparent;
+            border: 1px solid;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        body.light .view-btn { border-color: rgba(0, 0, 0, 0.15); }
+        body.dark .view-btn { border-color: rgba(255, 255, 255, 0.15); }
+
+        .view-btn.active,
+        .view-btn:hover {
+            border-color: #FF3B30;
+        }
+
+        /* File Grid */
+        .file-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+
+        .file-card {
+            border: 1px solid;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body.light .file-card { border-color: rgba(0, 0, 0, 0.1); }
+        body.dark .file-card { border-color: rgba(255, 255, 255, 0.1); }
+
+        .file-card:hover {
+            border-color: #FF3B30;
+            transform: translateY(-4px);
+        }
+
+        .file-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .file-name {
+            font-size: 12px;
+            text-align: center;
+            word-break: break-word;
+            margin-bottom: 8px;
+        }
+
+        .file-meta {
+            font-size: 10px;
+            opacity: 0.5;
+            text-align: center;
+        }
+
+        .file-card-dot {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 6px;
+            height: 6px;
+            background: #FF3B30;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .file-card:hover .file-card-dot {
+            opacity: 1;
+        }
+
+        /* File List View */
+        .file-list {
+            display: none;
+        }
+
+        .file-list.active {
+            display: block;
+        }
+
+        .file-grid.active {
+            display: grid;
+        }
+
+        .file-list-item {
+            display: grid;
+            grid-template-columns: 40px 1fr 120px 120px 60px;
+            align-items: center;
+            gap: 16px;
+            padding: 12px 16px;
+            border-bottom: 1px solid;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        body.light .file-list-item { border-color: rgba(0, 0, 0, 0.05); }
+        body.dark .file-list-item { border-color: rgba(255, 255, 255, 0.05); }
+
+        .file-list-item:hover {
+            background: rgba(255, 59, 48, 0.05);
+            padding-left: 20px;
+        }
+
+        .file-list-icon {
+            font-size: 20px;
+        }
+
+        .file-list-name {
+            font-size: 13px;
+        }
+
+        .file-list-size,
+        .file-list-modified {
+            font-size: 11px;
+            opacity: 0.6;
+        }
+
+        .file-list-actions {
+            font-size: 14px;
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .action-icon {
+            opacity: 0;
+            transition: opacity 0.3s;
+            cursor: pointer;
+        }
+
+        .file-list-item:hover .action-icon {
+            opacity: 0.6;
+        }
+
+        .action-icon:hover {
+            opacity: 1 !important;
+            color: #FF3B30;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin: 48px 0 16px 0;
+            opacity: 0.7;
+            letter-spacing: -0.01em;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .search-bar {
+                width: 200px;
+            }
+
+            .file-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body class="dark">
+    <!-- Background Elements -->
+    <div class="bg-structures">
+        <div class="orbit-ring orbit-1"></div>
+        <div class="orbit-ring orbit-2"></div>
+    </div>
+
+    <!-- App Container -->
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <a href="https://github.com/TeamDominant/sni-templates" target="_blank" style="color: inherit; text-decoration: none;"><div class="logo">CHANGEMEPLS Cloud</div></a>
+                <input type="text" class="search-bar" placeholder="Search files...">
+            </div>
+            <div class="header-right">
+                <button class="icon-btn" title="Notifications">🔔</button>
+                <button class="icon-btn" title="Settings">⚙️</button>
+                <button class="icon-btn" title="Profile">👤</button>
+            </div>
+        </header>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <button class="upload-btn">+ Upload</button>
+
+            <div class="nav-section">
+                <div class="nav-title">Quick Access</div>
+                <div class="nav-item active">
+                    <span>All Files</span>
+                    <span class="nav-item-count">142</span>
+                </div>
+                <div class="nav-item">
+                    <span>Recent</span>
+                    <span class="nav-item-count">23</span>
+                </div>
+                <div class="nav-item">
+                    <span>Starred</span>
+                    <span class="nav-item-count">8</span>
+                </div>
+                <div class="nav-item">
+                    <span>Shared</span>
+                    <span class="nav-item-count">15</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Categories</div>
+                <div class="nav-item">
+                    <span>Documents</span>
+                    <span class="nav-item-count">45</span>
+                </div>
+                <div class="nav-item">
+                    <span>Images</span>
+                    <span class="nav-item-count">67</span>
+                </div>
+                <div class="nav-item">
+                    <span>Videos</span>
+                    <span class="nav-item-count">12</span>
+                </div>
+                <div class="nav-item">
+                    <span>Audio</span>
+                    <span class="nav-item-count">18</span>
+                </div>
+            </div>
+
+            <div class="storage-info">
+                <div>Storage</div>
+                <div class="storage-bar">
+                    <div class="storage-fill"></div>
+                </div>
+                <div class="storage-text">67 GB of 100 GB used</div>
+                <div class="made-with">
+                    <a href="https://github.com/TeamDominant/sni-templates" target="_blank">Made with ❤️</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="breadcrumb">
+                <span>Home</span> / <span>All Files</span>
+            </div>
+
+            <div class="content-header">
+                <h1 class="content-title">All Files</h1>
+                <div class="view-controls">
+                    <button class="view-btn active" id="gridView">▦</button>
+                    <button class="view-btn" id="listView">☰</button>
+                </div>
+            </div>
+
+            <!-- Folders Section -->
+            <div class="section-title">Folders</div>
+            <div class="file-grid active" id="foldersGrid">
+                <div class="file-card">
+                    <div class="file-card-dot"></div>
+                    <div class="file-icon">📁</div>
+                    <div class="file-name">Projects</div>
+                    <div class="file-meta">24 items</div>
+                </div>
+                <div class="file-card">
+                    <div class="file-card-dot"></div>
+                    <div class="file-icon">📁</div>
+                    <div class="file-name">Documents</div>
+                    <div class="file-meta">45 items</div>
+                </div>
+                <div class="file-card">
+                    <div class="file-card-dot"></div>
+                    <div class="file-icon">📁</div>
+                    <div class="file-name">Photos 2024</div>
+                    <div class="file-meta">156 items</div>
+                </div>
+                <div class="file-card">
+                    <div class="file-card-dot"></div>
+                    <div class="file-icon">📁</div>
+                    <div class="file-name">Work</div>
+                    <div class="file-meta">89 items</div>
+                </div>
+                <div class="file-card">
+                    <div class="file-card-dot"></div>
+                    <div class="file-icon">📁</div>
+                    <div class="file-name">Archive</div>
+                    <div class="file-meta">312 items</div>
+                </div>
+                <div class="file-card">
+                    <div class="file-card-dot"></div>
+                    <div class="file-icon">📁</div>
+                    <div class="file-name">Personal</div>
+                    <div class="file-meta">67 items</div>
+                </div>
+            </div>
+
+            <!-- Recent Files Section -->
+            <div class="section-title">Recent Files</div>
+            <div class="file-grid active" id="filesGrid">
+                <div class="file-card">
+                    <div class="file-card-dot"></div>
+                    <div class="file-icon">📄</div>
+                    <div class="file-name">presentation.pdf</div>
+                    <div class="file-meta">2.4 MB</div>
+                </div>
+                <div class="file-card">
+                    <div class="file-card-dot"></div>
+                    <div class="file-icon">🖼️</div>
+                    <div class="file-name">design_mockup.fig</div>
+                    <div class="file-meta">8.7 MB</div>
+                </div>
+                <div class="file-card">
+                    <div class="file-card-dot"></div>
+                    <div class="file-icon">📊</div>
+                    <div class="file-name">data_analysis.xlsx</div>
+                    <div class="file-meta">1.2 MB</div>
+                </div>
+                <div class="file-card">
+                    <div class="file-card-dot"></div>
+                    <div class="file-icon">📝</div>
+                    <div class="file-name">meeting_notes.txt</div>
+                    <div class="file-meta">45 KB</div>
+                </div>
+                <div class="file-card">
+                    <div class="file-card-dot"></div>
+                    <div class="file-icon">🎵</div>
+                    <div class="file-name">podcast_ep12.mp3</div>
+                    <div class="file-meta">24.5 MB</div>
+                </div>
+                <div class="file-card">
+                    <div class="file-card-dot"></div>
+                    <div class="file-icon">🎬</div>
+                    <div class="file-name">tutorial_video.mp4</div>
+                    <div class="file-meta">156 MB</div>
+                </div>
+                <div class="file-card">
+                    <div class="file-card-dot"></div>
+                    <div class="file-icon">📷</div>
+                    <div class="file-name">IMG_2024.jpg</div>
+                    <div class="file-meta">4.2 MB</div>
+                </div>
+                <div class="file-card">
+                    <div class="file-card-dot"></div>
+                    <div class="file-icon">💾</div>
+                    <div class="file-name">backup.zip</div>
+                    <div class="file-meta">342 MB</div>
+                </div>
+                <div class="file-card">
+                    <div class="file-card-dot"></div>
+                    <div class="file-icon">📋</div>
+                    <div class="file-name">report_Q4.docx</div>
+                    <div class="file-meta">892 KB</div>
+                </div>
+                <div class="file-card">
+                    <div class="file-card-dot"></div>
+                    <div class="file-icon">🔧</div>
+                    <div class="file-name">config.json</div>
+                    <div class="file-meta">12 KB</div>
+                </div>
+                <div class="file-card">
+                    <div class="file-card-dot"></div>
+                    <div class="file-icon">📈</div>
+                    <div class="file-name">sales_chart.pptx</div>
+                    <div class="file-meta">5.6 MB</div>
+                </div>
+                <div class="file-card">
+                    <div class="file-card-dot"></div>
+                    <div class="file-icon">🎨</div>
+                    <div class="file-name">logo_design.psd</div>
+                    <div class="file-meta">45.2 MB</div>
+                </div>
+            </div>
+
+            <!-- List View (Hidden by default) -->
+            <div class="file-list" id="filesList">
+                <div class="file-list-item">
+                    <div class="file-list-icon">📄</div>
+                    <div class="file-list-name">presentation.pdf</div>
+                    <div class="file-list-size">2.4 MB</div>
+                    <div class="file-list-modified">2 hours ago</div>
+                    <div class="file-list-actions">
+                        <span class="action-icon">↓</span>
+                        <span class="action-icon">⋯</span>
+                    </div>
+                </div>
+                <div class="file-list-item">
+                    <div class="file-list-icon">🖼️</div>
+                    <div class="file-list-name">design_mockup.fig</div>
+                    <div class="file-list-size">8.7 MB</div>
+                    <div class="file-list-modified">5 hours ago</div>
+                    <div class="file-list-actions">
+                        <span class="action-icon">↓</span>
+                        <span class="action-icon">⋯</span>
+                    </div>
+                </div>
+                <div class="file-list-item">
+                    <div class="file-list-icon">📊</div>
+                    <div class="file-list-name">data_analysis.xlsx</div>
+                    <div class="file-list-size">1.2 MB</div>
+                    <div class="file-list-modified">Yesterday</div>
+                    <div class="file-list-actions">
+                        <span class="action-icon">↓</span>
+                        <span class="action-icon">⋯</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Theme detection
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.body.classList.add('dark');
+            document.body.classList.remove('light');
+        } else {
+            document.body.classList.add('light');
+            document.body.classList.remove('dark');
+        }
+
+        // View toggle
+        const gridViewBtn = document.getElementById('gridView');
+        const listViewBtn = document.getElementById('listView');
+        const foldersGrid = document.getElementById('foldersGrid');
+        const filesGrid = document.getElementById('filesGrid');
+        const filesList = document.getElementById('filesList');
+
+        gridViewBtn.addEventListener('click', () => {
+            gridViewBtn.classList.add('active');
+            listViewBtn.classList.remove('active');
+            foldersGrid.style.display = 'grid';
+            filesGrid.style.display = 'grid';
+            filesList.style.display = 'none';
+        });
+
+        listViewBtn.addEventListener('click', () => {
+            listViewBtn.classList.add('active');
+            gridViewBtn.classList.remove('active');
+            foldersGrid.style.display = 'none';
+            filesGrid.style.display = 'none';
+            filesList.style.display = 'block';
+        });
+
+        // Interactive navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
