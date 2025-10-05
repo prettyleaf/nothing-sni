@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHANGEMEPLS Media</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: #000000;
+            color: #FFFFFF;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Dot Matrix Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 24px 24px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Animated Background Elements */
+        .bg-structures {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .orbit-ring {
+            position: absolute;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+
+        .orbit-1 {
+            width: 800px;
+            height: 800px;
+            top: -200px;
+            right: -300px;
+            animation: rotate-orbit 60s linear infinite;
+        }
+
+        .orbit-2 {
+            width: 500px;
+            height: 500px;
+            bottom: -150px;
+            left: -200px;
+            animation: rotate-orbit 45s linear infinite reverse;
+        }
+
+        @keyframes rotate-orbit {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float-particle 20s ease-in-out infinite;
+        }
+
+        .particle-1 { top: 20%; left: 10%; animation-delay: 0s; }
+        .particle-2 { top: 60%; right: 15%; animation-delay: 3s; }
+        .particle-3 { bottom: 30%; left: 20%; animation-delay: 6s; }
+        .particle-red { background: #FF3B30; opacity: 0.6; }
+
+        @keyframes float-particle {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(40px, -40px); }
+            50% { transform: translate(-30px, 50px); }
+            75% { transform: translate(50px, 30px); }
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            padding: 24px 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-dot {
+            width: 8px;
+            height: 8px;
+            background: #FF3B30;
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.3); }
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 600px;
+            margin: 0 40px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 14px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #FFFFFF;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .search-bar input:focus {
+            border-color: #FF3B30;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .btn-upload {
+            padding: 12px 28px;
+            background: #FF3B30;
+            color: #FFFFFF;
+            border: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: -0.01em;
+        }
+
+        .btn-upload:hover {
+            background: #E63329;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 59, 48, 0.4);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        /* Main Layout */
+        .main-layout {
+            display: flex;
+            padding: 40px;
+            gap: 40px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            flex-shrink: 0;
+        }
+
+        .nav-section {
+            margin-bottom: 32px;
+        }
+
+        .nav-title {
+            font-size: 12px;
+            font-weight: 600;
+            opacity: 0.5;
+            margin-bottom: 12px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .nav-item {
+            padding: 12px 16px;
+            margin-bottom: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 2px solid transparent;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        .nav-item:hover {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border-left-color: #FF3B30;
+        }
+
+        .nav-item.active {
+            opacity: 1;
+            background: rgba(255, 59, 48, 0.1);
+            border-left-color: #FF3B30;
+        }
+
+        /* Content Area */
+        .content {
+            flex: 1;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+        }
+
+        .filter-tab {
+            padding: 8px 20px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #FFFFFF;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+            opacity: 0.6;
+        }
+
+        .filter-tab:hover {
+            opacity: 1;
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .filter-tab.active {
+            background: rgba(255, 59, 48, 0.2);
+            border-color: #FF3B30;
+            opacity: 1;
+        }
+
+        /* Video Grid */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 32px;
+        }
+
+        .video-card {
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .video-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-thumbnail::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .video-card:hover .video-thumbnail::before {
+            opacity: 1;
+        }
+
+        .video-thumbnail::after {
+            content: '▶';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-45%, -50%);
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .video-card:hover .video-thumbnail::after {
+            opacity: 1;
+        }
+
+        .video-duration {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            padding: 4px 8px;
+            background: rgba(0, 0, 0, 0.8);
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .video-info {
+            padding: 16px 0;
+        }
+
+        .video-title {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .video-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 12px;
+            opacity: 0.6;
+        }
+
+        .video-author {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .author-avatar {
+            width: 24px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+
+        .video-stats {
+            display: flex;
+            gap: 12px;
+        }
+
+        /* Featured Section */
+        .featured-section {
+            margin-bottom: 48px;
+        }
+
+        .featured-video {
+            width: 100%;
+            aspect-ratio: 21/9;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .featured-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 40px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+        }
+
+        .featured-title {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .featured-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .video-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 968px) {
+            .main-layout {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                display: flex;
+                gap: 32px;
+                overflow-x: auto;
+            }
+
+            .nav-section {
+                margin-bottom: 0;
+                min-width: 200px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-wrap: wrap;
+                gap: 16px;
+            }
+
+            .search-bar {
+                order: 3;
+                margin: 0;
+                max-width: 100%;
+                flex-basis: 100%;
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-video {
+                aspect-ratio: 16/9;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="bg-structures">
+        <div class="orbit-ring orbit-1"></div>
+        <div class="orbit-ring orbit-2"></div>
+        <div class="particle particle-1"></div>
+        <div class="particle particle-2"></div>
+        <div class="particle particle-3 particle-red"></div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <div class="logo-dot"></div>
+                <a href="https://github.com/TeamDominant/sni-templates" target="_blank" style="color: inherit; text-decoration: none;">CHANGEMEPLS Media</a>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search videos...">
+            </div>
+            <div class="header-actions">
+                <button class="btn-upload">Upload</button>
+                <div class="user-avatar">U</div>
+            </div>
+        </header>
+
+        <!-- Main Layout -->
+        <div class="main-layout">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="nav-section">
+                    <div class="nav-title">Menu</div>
+                    <div class="nav-item active">Home</div>
+                    <div class="nav-item">Trending</div>
+                    <div class="nav-item">Subscriptions</div>
+                    <div class="nav-item">Library</div>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-title">Categories</div>
+                    <div class="nav-item">Technology</div>
+                    <div class="nav-item">Design</div>
+                    <div class="nav-item">Music</div>
+                    <div class="nav-item">Education</div>
+                    <div class="nav-item">Gaming</div>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-title">Playlists</div>
+                    <div class="nav-item">Watch Later</div>
+                    <div class="nav-item">Favorites</div>
+                    <div class="nav-item">History</div>
+                </div>
+            </aside>
+
+            <!-- Content -->
+            <main class="content">
+                <!-- Featured Section -->
+                <div class="featured-section">
+                    <div class="featured-video">
+                        <div class="featured-overlay">
+                            <div class="featured-title">Design Matters: The Future of Minimalism</div>
+                            <div class="featured-meta">
+                                <span><a href="https://github.com/TeamDominant/sni-templates" target="_blank" style="color: inherit; text-decoration: none;">CHANGEMEPLS Studios</a></span>
+                                <span>•</span>
+                                <span>2.4M views</span>
+                                <span>•</span>
+                                <span>2 days ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Videos Section -->
+                <div class="section-header">
+                    <h2 class="section-title">Recommended</h2>
+                    <div class="filter-tabs">
+                        <button class="filter-tab active">All</button>
+                        <button class="filter-tab">New</button>
+                        <button class="filter-tab">Popular</button>
+                    </div>
+                </div>
+
+                <div class="video-grid">
+                    <!-- Video Card 1 -->
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <div class="video-duration">12:34</div>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-title">Back to Instinct: Designing Products That Matter</div>
+                            <div class="video-meta">
+                                <div class="video-author">
+                                    <div class="author-avatar">N</div>
+                                    <span><a href="https://github.com/TeamDominant/sni-templates" target="_blank" style="color: inherit; text-decoration: none;">CHANGEMEPLS Design</a></span>
+                                </div>
+                            </div>
+                            <div class="video-stats">
+                                <span>1.2M views</span>
+                                <span>•</span>
+                                <span>3 days ago</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Video Card 2 -->
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <div class="video-duration">8:45</div>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-title">The Philosophy of Transparent Technology</div>
+                            <div class="video-meta">
+                                <div class="video-author">
+                                    <div class="author-avatar">T</div>
+                                    <span>Tech Insights</span>
+                                </div>
+                            </div>
+                            <div class="video-stats">
+                                <span>856K views</span>
+                                <span>•</span>
+                                <span>1 week ago</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Video Card 3 -->
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <div class="video-duration">15:20</div>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-title">Minimalist UI/UX Design Principles for 2025</div>
+                            <div class="video-meta">
+                                <div class="video-author">
+                                    <div class="author-avatar">D</div>
+                                    <span>Design Studio</span>
+                                </div>
+                            </div>
+                            <div class="video-stats">
+                                <span>2.1M views</span>
+                                <span>•</span>
+                                <span>5 days ago</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Video Card 4 -->
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <div class="video-duration">20:12</div>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-title">Building Modern Web Applications with Clean Architecture</div>
+                            <div class="video-meta">
+                                <div class="video-author">
+                                    <div class="author-avatar">C</div>
+                                    <span>Code Academy</span>
+                                </div>
+                            </div>
+                            <div class="video-stats">
+                                <span>543K views</span>
+                                <span>•</span>
+                                <span>2 weeks ago</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Video Card 5 -->
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <div class="video-duration">10:05</div>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-title">The Art of Dot Matrix Typography in Digital Design</div>
+                            <div class="video-meta">
+                                <div class="video-author">
+                                    <div class="author-avatar">F</div>
+                                    <span>Font Masters</span>
+                                </div>
+                            </div>
+                            <div class="video-stats">
+                                <span>392K views</span>
+                                <span>•</span>
+                                <span>4 days ago</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Video Card 6 -->
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <div class="video-duration">18:30</div>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-title">Neural Networks and Computer Vision: Technical Deep Dive</div>
+                            <div class="video-meta">
+                                <div class="video-author">
+                                    <div class="author-avatar">A</div>
+                                    <span>AI Research</span>
+                                </div>
+                            </div>
+                            <div class="video-stats">
+                                <span>1.8M views</span>
+                                <span>•</span>
+                                <span>1 week ago</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Video Card 7 -->
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <div class="video-duration">14:22</div>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-title">Database Management: PostgreSQL Command Line Tools</div>
+                            <div class="video-meta">
+                                <div class="video-author">
+                                    <div class="author-avatar">D</div>
+                                    <span>Dev Tutorials</span>
+                                </div>
+                            </div>
+                            <div class="video-stats">
+                                <span>678K views</span>
+                                <span>•</span>
+                                <span>6 days ago</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Video Card 8 -->
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <div class="video-duration">9:18</div>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-title">Geometric Design Systems in Modern Interfaces</div>
+                            <div class="video-meta">
+                                <div class="video-author">
+                                    <div class="author-avatar">G</div>
+                                    <span>Graphic Lab</span>
+                                </div>
+                            </div>
+                            <div class="video-stats">
+                                <span>924K views</span>
+                                <span>•</span>
+                                <span>3 days ago</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Video Card 9 -->
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <div class="video-duration">22:45</div>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-title">Engineering Excellence: Building Scalable Systems</div>
+                            <div class="video-meta">
+                                <div class="video-author">
+                                    <div class="author-avatar">E</div>
+                                    <span>Engineering Pro</span>
+                                </div>
+                            </div>
+                            <div class="video-stats">
+                                <span>1.5M views</span>
+                                <span>•</span>
+                                <span>1 week ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Navigation items
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Video card hover effects
+        document.querySelectorAll('.video-card').forEach(card => {
+            card.addEventListener('click', function() {
+                console.log('Video clicked:', this.querySelector('.video-title').textContent);
+            });
+        });
+    </script>
+</body>
+</html>
