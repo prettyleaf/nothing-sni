@@ -4,7 +4,7 @@
 
 A collection of simple and clean HTML page templates ready to use for your projects.
 
-Inspired by Nothing Tech.
+Inspired by [Nothing Tech](https://nothing.tech/).
 
 Made by AI.
 
