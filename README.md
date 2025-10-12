@@ -8,7 +8,7 @@ Inspired by Nothing Tech.
 
 Made by AI.
 
-## Showcaase
+## Showcase
 
 ### [Forum page](https://prettyleaf.github.io/nothing-sni/1.html)
 ![Forum](.github/1.png)
