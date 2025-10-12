@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHANGEMEPLS Bank</title>
+    <title>CHANGEMEPLS.Auth - Sign In</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Sora:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
         * {
             margin: 0;
@@ -14,11 +14,14 @@
         }
 
         body {
-            font-family: 'Space Grotesk', 'Inter', 'JetBrains Mono', monospace;
+            font-family: 'Inter', 'JetBrains Mono', monospace;
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
             transition: background-color 0.3s, color 0.3s;
             position: relative;
         }
@@ -55,8 +58,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 800px;
-            height: 800px;
+            width: 600px;
+            height: 600px;
             border: 1px solid currentColor;
             border-radius: 50%;
             opacity: 0.1;
@@ -64,7 +67,6 @@
             z-index: 0;
         }
 
-        /* Background structures */
         .bg-structures {
             position: fixed;
             top: 0;
@@ -80,7 +82,7 @@
             position: absolute;
             border: 1px solid;
             border-radius: 50%;
-            opacity: 0.1;
+            opacity: 0.15;
         }
 
         body.light .orbit-ring {
@@ -92,147 +94,162 @@
         }
 
         .orbit-1 {
-            width: 500px;
-            height: 500px;
-            top: 20%;
-            left: -100px;
-            animation: rotate-orbit 60s linear infinite;
+            width: 400px;
+            height: 400px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: rotate-orbit 40s linear infinite;
         }
 
         .orbit-2 {
-            width: 400px;
-            height: 400px;
-            bottom: 10%;
-            right: -80px;
-            animation: rotate-orbit 50s linear infinite reverse;
+            width: 300px;
+            height: 300px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: rotate-orbit 30s linear infinite reverse;
+        }
+
+        .orbit-3 {
+            width: 200px;
+            height: 200px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: rotate-orbit 25s linear infinite;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            opacity: 0.4;
+        }
+
+        body.light .particle {
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        body.dark .particle {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .particle-1 {
+            top: 20%;
+            left: 15%;
+            animation: float-particle 15s ease-in-out infinite;
+        }
+
+        .particle-2 {
+            top: 70%;
+            right: 20%;
+            animation: float-particle 18s ease-in-out infinite 2s;
+        }
+
+        .particle-3 {
+            bottom: 25%;
+            left: 25%;
+            animation: float-particle 20s ease-in-out infinite 4s;
+        }
+
+        .particle-4 {
+            top: 40%;
+            right: 10%;
+            animation: float-particle 16s ease-in-out infinite 1s;
+        }
+
+        .particle-5 {
+            top: 15%;
+            right: 30%;
+            animation: float-particle 22s ease-in-out infinite 3s;
+        }
+
+        .particle-red {
+            background: #FF3B30 !important;
+            opacity: 0.5;
+            animation: pulse-particle 3s ease-in-out infinite;
+        }
+
+        .particle-red-1 {
+            top: 30%;
+            left: 20%;
+        }
+
+        .particle-red-2 {
+            bottom: 30%;
+            right: 25%;
+            animation-delay: 1.5s;
         }
 
         @keyframes rotate-orbit {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            from {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
         }
 
-        /* Main container */
-        .app-container {
-            max-width: 420px;
-            margin: 0 auto;
-            min-height: 100vh;
+        @keyframes float-particle {
+            0%, 100% {
+                transform: translate(0, 0);
+                opacity: 0.4;
+            }
+            25% {
+                transform: translate(30px, -30px);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translate(-20px, 40px);
+                opacity: 0.3;
+            }
+            75% {
+                transform: translate(40px, 20px);
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes pulse-particle {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 0.8;
+            }
+        }
+
+        /* Login Container */
+        .login-container {
             position: relative;
             z-index: 1;
-        }
-
-        /* Header */
-        .header {
-            padding: 24px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid;
-            position: relative;
-        }
-
-        body.light .header {
-            border-bottom-color: rgba(0, 0, 0, 0.05);
-        }
-
-        body.dark .header {
-            border-bottom-color: rgba(255, 255, 255, 0.08);
-        }
-
-        .logo {
-            font-size: 18px;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            font-family: 'Sora', sans-serif;
-        }
-
-        .red-accent {
-            color: #FF3B30;
-        }
-
-        .header-icons {
-            display: flex;
-            gap: 16px;
-        }
-
-        .theme-switcher {
-            position: relative;
-        }
-
-        .theme-dropdown {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            margin-top: 8px;
-            background: inherit;
-            border: 1px solid;
-            min-width: 120px;
-            display: none;
-            z-index: 1000;
-        }
-
-        body.light .theme-dropdown {
-            background: rgba(255, 255, 255, 0.95);
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        body.dark .theme-dropdown {
-            background: rgba(0, 0, 0, 0.95);
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .theme-dropdown.show {
-            display: block;
-        }
-
-        .theme-option {
-            padding: 10px 16px;
-            cursor: pointer;
-            font-size: 12px;
-            transition: all 0.3s;
-            font-family: 'DM Sans', sans-serif;
-        }
-
-        .theme-option:hover {
-            background: rgba(255, 59, 48, 0.1);
-            color: #FF3B30;
-        }
-
-        .theme-option.active {
-            color: #FF3B30;
-        }
-
-        .icon-btn {
-            width: 32px;
-            height: 32px;
+            max-width: 480px;
+            width: 90%;
+            padding: 48px 40px;
             border: 1px solid;
             background: transparent;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            position: relative;
+            backdrop-filter: blur(10px);
         }
 
-        body.light .icon-btn {
+        body.light .login-container {
             border-color: rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.5);
         }
 
-        body.dark .icon-btn {
+        body.dark .login-container {
             border-color: rgba(255, 255, 255, 0.15);
+            background: rgba(0, 0, 0, 0.5);
         }
 
-        .icon-btn:hover {
-            border-color: #FF3B30;
-        }
-
-        .notification-dot {
+        .red-dot {
             position: absolute;
-            top: -2px;
-            right: -2px;
-            width: 6px;
-            height: 6px;
+            top: 20px;
+            right: 20px;
+            width: 8px;
+            height: 8px;
             background: #FF3B30;
             border-radius: 50%;
             animation: pulse 2s ease-in-out infinite;
@@ -245,809 +262,302 @@
             }
             50% {
                 opacity: 0.6;
-                transform: scale(1.3);
+                transform: scale(1.2);
             }
         }
 
-        /* Balance Card */
-        .balance-card {
-            margin: 24px 20px;
-            padding: 32px 24px;
-            border: 1px solid;
-            position: relative;
-            overflow: hidden;
-        }
-
-        body.light .balance-card {
-            border-color: rgba(0, 0, 0, 0.08);
-        }
-
-        body.dark .balance-card {
-            border-color: rgba(255, 255, 255, 0.12);
-        }
-
-        .balance-label {
-            font-size: 12px;
-            opacity: 0.6;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .balance-amount {
-            font-size: 36px;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            font-family: 'Sora', sans-serif;
-        }        .balance-change {
-            font-size: 13px;
-            opacity: 0.6;
-        }
-
-        .balance-change.positive {
-            color: #34C759;
-        }
-
-        /* Quick Actions */
-        .quick-actions {
-            margin: 0 20px 32px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-        }
-
-        .action-btn {
-            padding: 20px 16px;
-            border: 1px solid;
-            background: transparent;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-        }
-
-        body.light .action-btn {
-            border-color: rgba(0, 0, 0, 0.08);
-        }
-
-        body.dark .action-btn {
-            border-color: rgba(255, 255, 255, 0.12);
-        }
-
-        .action-btn:hover {
-            border-color: #FF3B30;
-            transform: translateY(-2px);
-        }
-
-        .action-icon {
-            font-size: 24px;
-            margin-bottom: 8px;
-        }
-
-        .action-label {
-            font-size: 11px;
-            letter-spacing: 0.02em;
-        }
-
-        /* Cards Section */
-        .section {
-            margin: 32px 20px;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
-        .section-title {
-            font-size: 16px;
-            font-weight: 600;
-            letter-spacing: -0.01em;
-        }
-
-        .view-all {
-            font-size: 12px;
-            opacity: 0.5;
-            cursor: pointer;
-            transition: opacity 0.3s;
-        }
-
-        .view-all:hover {
-            opacity: 1;
-            color: #FF3B30;
-        }
-
-        .card-item {
-            padding: 24px;
-            border: 1px solid;
-            margin-bottom: 12px;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        body.light .card-item {
-            border-color: rgba(0, 0, 0, 0.08);
-        }
-
-        body.dark .card-item {
-            border-color: rgba(255, 255, 255, 0.12);
-        }
-
-        .card-item:hover {
-            border-color: #FF3B30;
-        }
-
-        .card-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 60px;
-            height: 60px;
-            border: 1px solid #FF3B30;
-            border-radius: 50%;
-            opacity: 0.2;
-            transform: translate(30%, -30%);
-        }
-
-        .card-number {
-            font-size: 14px;
-            margin-bottom: 12px;
-            letter-spacing: 0.05em;
-        }
-
-        .card-balance {
-            font-size: 24px;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-        }
-
-        .card-type {
-            position: absolute;
-            top: 24px;
-            right: 24px;
-            font-size: 10px;
-            opacity: 0.4;
-            letter-spacing: 0.05em;
-        }
-
-        /* Transactions */
-        .transaction-item {
-            padding: 16px 0;
-            border-bottom: 1px solid;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: opacity 0.3s;
-            cursor: pointer;
-        }
-
-        body.light .transaction-item {
-            border-bottom-color: rgba(0, 0, 0, 0.05);
-        }
-
-        body.dark .transaction-item {
-            border-bottom-color: rgba(255, 255, 255, 0.05);
-        }
-
-        .transaction-item:hover {
-            opacity: 0.7;
-        }
-
-        .transaction-info {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .transaction-icon {
-            width: 40px;
-            height: 40px;
-            border: 1px solid;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-        }
-
-        body.light .transaction-icon {
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        body.dark .transaction-icon {
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .transaction-details {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .transaction-name {
-            font-size: 13px;
-            font-weight: 500;
-        }
-
-        .transaction-date {
-            font-size: 11px;
-            opacity: 0.5;
-        }
-
-        .transaction-amount {
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: -0.01em;
-        }
-
-        .transaction-amount.positive {
-            color: #34C759;
-        }
-
-        .transaction-amount.negative {
-            opacity: 0.8;
-        }
-
-        /* Statistics */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-
-        .stat-item {
-            padding: 20px;
-            border: 1px solid;
-        }
-
-        body.light .stat-item {
-            border-color: rgba(0, 0, 0, 0.08);
-        }
-
-        body.dark .stat-item {
-            border-color: rgba(255, 255, 255, 0.12);
-        }
-
-        .stat-label {
-            font-size: 11px;
-            opacity: 0.5;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .stat-value {
-            font-size: 20px;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-        }
-
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 420px;
-            padding: 16px 20px;
-            border-top: 1px solid;
-            display: flex;
-            justify-content: space-around;
-            z-index: 10;
-        }
-
-        body.light .bottom-nav {
-            background: rgba(255, 255, 255, 0.95);
-            border-top-color: rgba(0, 0, 0, 0.05);
-            backdrop-filter: blur(20px);
-        }
-
-        body.dark .bottom-nav {
-            background: rgba(0, 0, 0, 0.95);
-            border-top-color: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px);
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            transition: all 0.3s;
-            opacity: 0.4;
-        }
-
-        .nav-item.active {
-            opacity: 1;
-        }
-
-        .nav-item:hover {
-            opacity: 1;
-        }
-
-        .nav-item.active .nav-icon {
-            color: #FF3B30;
-        }
-
-        .nav-icon {
-            font-size: 20px;
-        }
-
-        .nav-label {
-            font-size: 10px;
-            letter-spacing: 0.02em;
-        }
-
-        /* Loading animation */
-        .loading-indicator {
+        .loading-bar {
             position: absolute;
             bottom: 0;
             left: 0;
             height: 2px;
             background: #FF3B30;
-            width: 100%;
-            animation: loadingPulse 2s ease-in-out infinite;
+            width: 0;
+            animation: loadProgress 3s ease-in-out infinite;
         }
 
-        @keyframes loadingPulse {
-            0%, 100% {
-                opacity: 0.3;
-                transform: scaleX(0.5);
+        @keyframes loadProgress {
+            0% {
+                width: 0%;
             }
             50% {
-                opacity: 1;
-                transform: scaleX(1);
+                width: 70%;
+            }
+            100% {
+                width: 100%;
             }
         }
 
-        /* Spacer for bottom nav */
-        .bottom-spacer {
-            height: 80px;
-        }
-
-        /* Page containers */
-        .page {
-            display: none;
-            animation: fadeIn 0.4s ease-in-out;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Made with link */
-        .made-with {
+        /* Header */
+        .login-header {
             text-align: center;
-            padding: 20px;
-            font-size: 12px;
-            opacity: 0.6;
-            margin-top: 20px;
+            margin-bottom: 40px;
         }
 
-        .made-with a {
-            color: inherit;
-            text-decoration: none;
-            transition: opacity 0.3s;
-        }
-
-        .made-with a:hover {
-            opacity: 1;
-        }
-
-        /* Analytics Page Styles */
-        .analytics-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-
-        .analytics-card {
-            padding: 20px;
-            border: 1px solid;
-            background: transparent;
-        }
-
-        body.light .analytics-card {
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        body.dark .analytics-card {
-            border-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .analytics-card-title {
-            font-size: 12px;
-            opacity: 0.6;
-            margin-bottom: 8px;
-        }
-
-        .analytics-card-value {
+        .logo {
             font-size: 24px;
             font-weight: 600;
-            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+            font-family: 'Space Grotesk', sans-serif;
+            margin-bottom: 12px;
         }
 
-        .analytics-card-change {
-            font-size: 11px;
-        }
-
-        .analytics-card-change.positive {
-            color: #34C759;
-        }
-
-        .analytics-card-change.negative {
+        .red-accent {
             color: #FF3B30;
         }
 
-        /* Cards Page Styles */
-        .cards-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .card-item {
-            padding: 24px;
-            border: 1px solid;
-            background: transparent;
-            position: relative;
-            overflow: hidden;
-        }
-
-        body.light .card-item {
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        body.dark .card-item {
-            border-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .card-item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .card-type {
-            font-size: 12px;
+        .subtitle {
+            font-size: 14px;
             opacity: 0.6;
+            font-weight: 400;
         }
 
-        .card-status {
-            font-size: 11px;
-            padding: 4px 8px;
-            border: 1px solid #34C759;
-            color: #34C759;
-        }
-
-        .card-number {
-            font-size: 16px;
-            letter-spacing: 2px;
-            margin-bottom: 16px;
-        }
-
-        .card-item-footer {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .card-info-item {
-            font-size: 11px;
-        }
-
-        .card-info-label {
-            opacity: 0.6;
-            margin-bottom: 4px;
-        }
-
-        .card-info-value {
-            font-weight: 600;
-        }
-
-        /* Profile Page Styles */
-        .profile-header {
-            text-align: center;
-            padding: 32px 0;
-            border-bottom: 1px solid;
-            margin-bottom: 24px;
-        }
-
-        body.light .profile-header {
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        body.dark .profile-header {
-            border-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .profile-avatar {
-            width: 80px;
-            height: 80px;
-            background: #FF3B30;
-            border-radius: 50%;
-            margin: 0 auto 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-        }
-
-        .profile-name {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .profile-email {
-            font-size: 13px;
-            opacity: 0.6;
-        }
-
-        .profile-menu {
-            display: flex;
-            flex-direction: column;
-            gap: 0;
-        }
-
-        .profile-menu-item {
-            padding: 16px 20px;
-            border-bottom: 1px solid;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        body.light .profile-menu-item {
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        body.dark .profile-menu-item {
-            border-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .profile-menu-item:hover {
-            background: rgba(255, 59, 48, 0.05);
-        }
-
-        .profile-menu-item:last-child {
-            border-bottom: none;
-        }
-
-        .profile-menu-label {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .page-title {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 24px;
-            padding: 0 20px;
-            font-family: 'Sora', sans-serif;
-        }
-
-        /* Login Modal */
-        .login-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(12px);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .login-modal.show {
-            display: flex;
-        }
-
-        .login-content {
-            background: inherit;
-            border: 1px solid;
-            padding: 40px;
-            max-width: 400px;
-            width: 90%;
-            position: relative;
-        }
-
-        body.light .login-content {
-            background: #FFFFFF;
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        body.dark .login-content {
-            background: #000000;
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .login-title {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            font-family: 'Sora', sans-serif;
-        }
-
-        .login-subtitle {
-            font-size: 13px;
-            opacity: 0.6;
-            margin-bottom: 32px;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .login-form {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
+        /* Form Styles */
         .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+            margin-bottom: 24px;
         }
 
         .form-label {
+            display: block;
             font-size: 12px;
             font-weight: 500;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
             opacity: 0.8;
-            font-family: 'DM Sans', sans-serif;
         }
 
         .form-input {
-            padding: 12px 16px;
-            background: transparent;
+            width: 100%;
+            padding: 14px 16px;
             border: 1px solid;
+            background: transparent;
             font-family: 'Inter', sans-serif;
             font-size: 14px;
+            color: inherit;
+            outline: none;
             transition: all 0.3s;
         }
 
         body.light .form-input {
-            border-color: rgba(0, 0, 0, 0.15);
-            color: #000000;
+            border-color: rgba(0, 0, 0, 0.1);
         }
 
         body.dark .form-input {
-            border-color: rgba(255, 255, 255, 0.2);
-            color: #FFFFFF;
+            border-color: rgba(255, 255, 255, 0.15);
         }
 
         .form-input:focus {
-            outline: none;
             border-color: #FF3B30;
         }
 
+        .form-input::placeholder {
+            opacity: 0.4;
+        }
+
+        /* Captcha Container */
         .captcha-container {
-            display: flex;
-            gap: 12px;
-            align-items: center;
+            margin: 28px 0;
+            padding: 24px;
+            border: 1px solid;
+            position: relative;
+        }
+
+        body.light .captcha-container {
+            border-color: rgba(0, 0, 0, 0.1);
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        body.dark .captcha-container {
+            border-color: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .captcha-title {
+            font-size: 11px;
+            margin-bottom: 16px;
+            opacity: 0.8;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .captcha-display {
-            flex: 1;
-            padding: 12px 16px;
-            border: 1px solid;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 18px;
-            font-weight: 600;
-            letter-spacing: 0.3em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
             text-align: center;
+            margin-bottom: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 28px;
+            letter-spacing: 12px;
+            color: white;
             user-select: none;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
         }
 
-        body.light .captcha-display {
-            border-color: rgba(0, 0, 0, 0.15);
-            background: rgba(0, 0, 0, 0.03);
+        .captcha-display::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shimmer 3s infinite;
         }
 
-        body.dark .captcha-display {
-            border-color: rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.05);
+        @keyframes shimmer {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
         }
 
         .captcha-refresh {
-            padding: 12px;
-            background: transparent;
-            border: 1px solid;
+            display: inline-block;
+            font-size: 11px;
+            color: #FF3B30;
             cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        body.light .captcha-refresh {
-            border-color: rgba(0, 0, 0, 0.15);
-        }
-
-        body.dark .captcha-refresh {
-            border-color: rgba(255, 255, 255, 0.2);
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
         }
 
         .captcha-refresh:hover {
-            border-color: #FF3B30;
-            transform: rotate(180deg);
+            opacity: 1;
         }
 
-        .login-button {
-            padding: 14px;
-            background: #FF3B30;
-            border: none;
-            color: #FFFFFF;
-            font-family: 'DM Sans', sans-serif;
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 16px 24px;
             font-size: 14px;
             font-weight: 500;
+            color: #FFFFFF;
+            background: #FF3B30;
+            border: none;
             cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .login-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(255, 59, 48, 0.3);
-        }
-
-        .login-error {
-            font-size: 12px;
-            color: #FF3B30;
-            display: none;
             font-family: 'Inter', sans-serif;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: -0.01em;
+            text-transform: uppercase;
+            font-size: 12px;
+            margin-top: 8px;
         }
 
-        .login-error.show {
-            display: block;
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 59, 48, 0.4);
         }
 
-        .login-close {
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Error Message */
+        .error-message {
+            color: #FF3B30;
+            font-size: 12px;
+            margin-top: 16px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-weight: 500;
+        }
+
+        .error-message.show {
+            opacity: 1;
+        }
+
+        /* Additional Options */
+        .form-options {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .form-link {
+            font-size: 12px;
+            opacity: 0.6;
+            text-decoration: none;
+            color: inherit;
+            transition: opacity 0.3s;
+        }
+
+        .form-link:hover {
+            opacity: 1;
+            color: #FF3B30;
+        }
+
+        /* Theme Switcher */
+        .theme-switcher {
             position: absolute;
-            top: 16px;
-            right: 16px;
-            width: 32px;
-            height: 32px;
-            background: transparent;
+            top: 20px;
+            left: 20px;
+        }
+
+        .theme-btn {
+            width: 40px;
+            height: 40px;
             border: 1px solid;
-            cursor: pointer;
+            background: transparent;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 18px;
+            cursor: pointer;
             transition: all 0.3s;
         }
 
-        body.light .login-close {
-            border-color: rgba(0, 0, 0, 0.15);
+        body.light .theme-btn {
+            border-color: rgba(0, 0, 0, 0.1);
         }
 
-        body.dark .login-close {
-            border-color: rgba(255, 255, 255, 0.2);
+        body.dark .theme-btn {
+            border-color: rgba(255, 255, 255, 0.15);
         }
 
-        .login-close:hover {
+        .theme-btn:hover {
             border-color: #FF3B30;
-            color: #FF3B30;
-            transform: rotate(90deg);
+            transform: translateY(-2px);
         }
 
-        .login-trigger {
-            cursor: pointer;
+        /* Success State */
+        .success-message {
+            color: #34C759;
+            font-size: 12px;
+            margin-top: 16px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-weight: 500;
+        }
+
+        .success-message.show {
+            opacity: 1;
+        }
+
+        @media (max-width: 576px) {
+            .login-container {
+                padding: 40px 28px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .captcha-display {
+                font-size: 22px;
+                letter-spacing: 8px;
+            }
         }
     </style>
 </head>
@@ -1056,322 +566,121 @@
     <div class="bg-structures">
         <div class="orbit-ring orbit-1"></div>
         <div class="orbit-ring orbit-2"></div>
+        <div class="orbit-ring orbit-3"></div>
+        
+        <div class="particle particle-1"></div>
+        <div class="particle particle-2"></div>
+        <div class="particle particle-3"></div>
+        <div class="particle particle-4"></div>
+        <div class="particle particle-5"></div>
+        
+        <div class="particle particle-red particle-red-1"></div>
+        <div class="particle particle-red particle-red-2"></div>
     </div>
 
-    <div class="app-container">
-        <!-- Header -->
-        <div class="header">
-            <a href="#" target="_blank" style="color: inherit; text-decoration: none;"><div class="logo">CHANGEMEPLS<span class="red-accent">.</span>Bank</div></a>
-            <div class="header-icons">
-                <button class="icon-btn">
-                    <span>🔍</span>
-                </button>
-                <button class="icon-btn">
-                    <span>🔔</span>
-                    <div class="notification-dot"></div>
-                </button>
-                <div class="theme-switcher">
-                    <button class="icon-btn" id="themeToggle">☀</button>
-                    <div class="theme-dropdown" id="themeDropdown">
-                        <div class="theme-option active" data-theme="auto">Auto</div>
-                        <div class="theme-option" data-theme="light">Light</div>
-                        <div class="theme-option" data-theme="dark">Dark</div>
-                    </div>
+    <!-- Login Container -->
+    <div class="login-container">
+        <div class="red-dot"></div>
+        <div class="loading-bar"></div>
+        
+        <div class="theme-switcher">
+            <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">🌓</button>
+        </div>
+
+        <div class="login-header">
+            <div class="logo">CHANGEMEPLS<span class="red-accent">.</span>Auth</div>
+            <p class="subtitle">Secure authentication portal to your services</p>
+        </div>
+
+        <form id="loginForm" onsubmit="return handleLogin(event)">
+            <div class="form-group">
+                <label class="form-label">Username</label>
+                <input 
+                    type="text" 
+                    class="form-input" 
+                    id="username"
+                    placeholder="Enter your username" 
+                    required
+                    autocomplete="username"
+                >
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input 
+                    type="password" 
+                    class="form-input" 
+                    id="password"
+                    placeholder="Enter your password" 
+                    required
+                    autocomplete="current-password"
+                >
+            </div>
+
+            <div class="captcha-container">
+                <div class="captcha-title">Verification Required</div>
+                <div class="captcha-display" id="captchaDisplay">AB7K9X</div>
+                <div>
+                    <a href="#" class="captcha-refresh" onclick="refreshCaptcha(); return false;">
+                        🔄 Generate New Code
+                    </a>
+                </div>
+                <div class="form-group" style="margin-top: 16px; margin-bottom: 0;">
+                    <input 
+                        type="text" 
+                        class="form-input" 
+                        id="captchaInput" 
+                        placeholder="Enter the code above" 
+                        required
+                        autocomplete="off"
+                    >
                 </div>
             </div>
-        </div>
 
-        <!-- Home Page -->
-        <div class="page active" id="homePage">
-            <!-- Balance Card -->
-            <div class="balance-card">
-            <div class="balance-label">Total Balance</div>
-            <div class="balance-amount" id="totalBalance">$24,582.50</div>
-            <div class="balance-change positive" id="monthlyChange">+$1,240.00 (5.3%) this month</div>
-            <div class="loading-indicator"></div>
-        </div>
-
-        <!-- Quick Actions -->
-                <!-- Quick Actions -->
-        <div class="quick-actions">
-            <div class="action-btn login-trigger">
-                <div class="action-icon">💸</div>
-                <div class="action-label">Send</div>
-            </div>
-            <div class="action-btn login-trigger">
-                <div class="action-icon">💰</div>
-                <div class="action-label">Request</div>
-            </div>
-            <div class="action-btn login-trigger">
-                <div class="action-icon">📊</div>
-                <div class="action-label">Invest</div>
-            </div>
-            <div class="action-btn login-trigger">
-                <div class="action-icon">➕</div>
-                <div class="action-label">More</div>
-            </div>
-        </div>
-
-        <!-- Cards Section -->
-                <!-- Cards Section -->
-        <div class="section">
-            <div class="section-header">
-                <div class="section-title">My Cards</div>
-                <div class="view-all login-trigger">View All →</div>
+            <button type="submit" class="submit-btn">Sign In</button>
+            
+            <div class="error-message" id="errorMessage">
+                Authentication failed. Please try again.
             </div>
             
-            <div class="card-item login-trigger">
-                <div class="card-type">DEBIT</div>
-                <div class="card-number">•••• 4892</div>
-                <div class="card-balance" id="debitCardBalance">$18,420.00</div>
+            <div class="success-message" id="successMessage">
+                Verifying credentials...
             </div>
-
-            <div class="card-item login-trigger">
-                <div class="card-type">CREDIT</div>
-                <div class="card-number">•••• 7261</div>
-                <div class="card-balance" id="creditCardBalance">$6,162.50</div>
-            </div>
-        </div>
-
-        <!-- Statistics -->
-        <div class="section">
-            <div class="section-header">
-                <div class="section-title">This Month</div>
-            </div>
-            
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-label">Income</div>
-                    <div class="stat-value" id="incomeCount">$720</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">Expenses</div>
-                    <div class="stat-value" id="expensesCount">$540</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">Savings</div>
-                    <div class="stat-value" id="savingsCount">$650</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">Investments</div>
-                    <div class="stat-value" id="investmentsCount">$780</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Recent Transactions -->
-        <div class="section">
-            <div class="section-header">
-                <div class="section-title">Recent Transactions</div>
-                <div class="view-all login-trigger">View All →</div>
-            </div>
-
-            <div id="transactionsContainer">
-            <div class="transaction-item login-trigger">
-                <div class="transaction-info">
-                    <div class="transaction-icon">🛒</div>
-                    <div class="transaction-details">
-                        <div class="transaction-name">Amazon Purchase</div>
-                        <div class="transaction-date">Today, 14:32</div>
-                    </div>
-                </div>
-                <div class="transaction-amount negative">-$89.99</div>
-            </div>
-
-            <div class="transaction-item login-trigger">
-                <div class="transaction-info">
-                    <div class="transaction-icon">💰</div>
-                    <div class="transaction-details">
-                        <div class="transaction-name">Salary Deposit</div>
-                        <div class="transaction-date">Oct 1, 09:00</div>
-                    </div>
-                </div>
-                <div class="transaction-amount positive">+$5,200.00</div>
-            </div>
-
-            <div class="transaction-item login-trigger">
-                <div class="transaction-info">
-                    <div class="transaction-icon">☕</div>
-                    <div class="transaction-details">
-                        <div class="transaction-name">Starbucks</div>
-                        <div class="transaction-date">Yesterday, 08:15</div>
-                    </div>
-                </div>
-                <div class="transaction-amount negative">-$6.50</div>
-            </div>
-
-            <div class="transaction-item login-trigger">
-                <div class="transaction-info">
-                    <div class="transaction-icon">🎵</div>
-                    <div class="transaction-details">
-                        <div class="transaction-name">Spotify Premium</div>
-                        <div class="transaction-date">Oct 3, 12:00</div>
-                    </div>
-                </div>
-                <div class="transaction-amount negative">-$9.99</div>
-            </div>
-
-            <div class="transaction-item login-trigger">
-                <div class="transaction-info">
-                    <div class="transaction-icon">🏠</div>
-                    <div class="transaction-details">
-                        <div class="transaction-name">Rent Payment</div>
-                        <div class="transaction-date">Oct 1, 10:30</div>
-                    </div>
-                </div>
-                <div class="transaction-amount negative">-$1,500.00</div>
-            </div>
-
-            <div class="transaction-item login-trigger">
-                <div class="transaction-info">
-                    <div class="transaction-icon">📱</div>
-                    <div class="transaction-details">
-                        <div class="transaction-name">Phone Bill</div>
-                        <div class="transaction-date">Oct 2, 16:45</div>
-                    </div>
-                </div>
-                <div class="transaction-amount negative">-$45.00</div>
-            </div>
-            </div>
-            </div>
-
-            <div class="made-with">
-                <a href="#" target="_blank">Made with ❤️</a>
-            </div>
-
-            <div class="bottom-spacer"></div>
-        </div>
-
-        <!-- Analytics Page -->
-        <div class="page" id="analyticsPage">
-            <!-- Content locked - Login required -->
-        </div>
-
-        <!-- Cards Page -->
-        <div class="page" id="cardsPage">
-            <!-- Content locked - Login required -->
-        </div>
-
-        <!-- Profile Page -->
-        <div class="page" id="profilePage">
-            <!-- Content locked - Login required -->
-        </div>
-    </div>
-
-    <!-- Bottom Navigation -->
-    <div class="bottom-nav">
-        <div class="nav-item active" data-page="homePage">
-            <div class="nav-icon">⌂</div>
-            <div class="nav-label">Home</div>
-        </div>
-        <div class="nav-item login-trigger" data-page="analyticsPage">
-            <div class="nav-icon">📊</div>
-            <div class="nav-label">Analytics</div>
-        </div>
-        <div class="nav-item login-trigger" data-page="cardsPage">
-            <div class="nav-icon">💳</div>
-            <div class="nav-label">Cards</div>
-        </div>
-        <div class="nav-item login-trigger" data-page="profilePage">
-            <div class="nav-icon">👤</div>
-            <div class="nav-label">Profile</div>
-        </div>
-    </div>
-
-    <!-- Login Modal -->
-    <div class="login-modal" id="loginModal">
-        <div class="login-content">
-            <button class="login-close" id="closeModal">✕</button>
-            <div class="login-title">Login Required</div>
-            <div class="login-subtitle">Please verify your identity to continue</div>
-            <form class="login-form" id="loginForm">
-                <div class="form-group">
-                    <label class="form-label">Username</label>
-                    <input type="text" class="form-input" placeholder="Enter username" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Password</label>
-                    <input type="password" class="form-input" placeholder="Enter password" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Security Verification</label>
-                    <div class="captcha-container">
-                        <div class="captcha-display" id="captchaDisplay">AB12CD</div>
-                        <button type="button" class="captcha-refresh" id="refreshCaptcha">↻</button>
-                    </div>
-                    <input type="text" class="form-input" id="captchaInput" placeholder="Enter code above" required>
-                </div>
-                <div class="login-error" id="loginError">Verification failed. Please try again.</div>
-                <button type="submit" class="login-button">Login</button>
-            </form>
-        </div>
+        </form>
     </div>
 
     <script>
         // Theme Management
-        const themeToggle = document.getElementById('themeToggle');
-        const themeDropdown = document.getElementById('themeDropdown');
-        const themeOptions = document.querySelectorAll('.theme-option');
-        const body = document.body;
+        let currentTheme = localStorage.getItem('theme') || 'dark';
 
-        // Initialize theme
         function applyTheme(theme) {
+            currentTheme = theme;
             localStorage.setItem('theme', theme);
+            document.body.classList.remove('light', 'dark');
             
             if (theme === 'auto') {
-                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                body.classList.toggle('dark', prefersDark);
-                body.classList.toggle('light', !prefersDark);
-            } else if (theme === 'dark') {
-                body.classList.add('dark');
-                body.classList.remove('light');
+                const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.body.classList.add(isDark ? 'dark' : 'light');
             } else {
-                body.classList.add('light');
-                body.classList.remove('dark');
+                document.body.classList.add(theme);
             }
-
-            themeOptions.forEach(opt => {
-                opt.classList.toggle('active', opt.dataset.theme === theme);
-            });
         }
 
-        // Load saved theme or default to auto
-        const savedTheme = localStorage.getItem('theme') || 'auto';
-        applyTheme(savedTheme);
+        function toggleTheme() {
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
+        }
 
-        // Theme toggle dropdown
-        themeToggle.addEventListener('click', (e) => {
-            e.stopPropagation();
-            themeDropdown.classList.toggle('show');
-        });
-
-        themeOptions.forEach(option => {
-            option.addEventListener('click', () => {
-                applyTheme(option.dataset.theme);
-                themeDropdown.classList.remove('show');
-            });
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', () => {
-            themeDropdown.classList.remove('show');
-        });
+        // Initialize theme
+        applyTheme(currentTheme);
 
         // Listen for system theme changes
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-            if (localStorage.getItem('theme') === 'auto') {
-                applyTheme('auto');
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (currentTheme === 'auto') {
+                document.body.classList.remove('light', 'dark');
+                document.body.classList.add(e.matches ? 'dark' : 'light');
             }
         });
-
-        // Login Modal System
-        const loginModal = document.getElementById('loginModal');
-        const closeModal = document.getElementById('closeModal');
-        const loginForm = document.getElementById('loginForm');
-        const captchaDisplay = document.getElementById('captchaDisplay');
-        const captchaInput = document.getElementById('captchaInput');
-        const refreshCaptcha = document.getElementById('refreshCaptcha');
-        const loginError = document.getElementById('loginError');
 
         // Generate random captcha
         function generateCaptcha() {
@@ -1383,240 +692,52 @@
             return captcha;
         }
 
-        // Show login modal
-        function showLoginModal() {
-            loginModal.classList.add('show');
-            captchaDisplay.textContent = generateCaptcha();
-            captchaInput.value = '';
-            loginError.classList.remove('show');
+        function refreshCaptcha() {
+            document.getElementById('captchaDisplay').textContent = generateCaptcha();
+            document.getElementById('captchaInput').value = '';
+            document.getElementById('errorMessage').classList.remove('show');
+            document.getElementById('successMessage').classList.remove('show');
         }
 
-        // Close login modal
-        function hideLoginModal() {
-            loginModal.classList.remove('show');
-        }
-
-        // Refresh captcha
-        refreshCaptcha.addEventListener('click', () => {
-            captchaDisplay.textContent = generateCaptcha();
-            captchaInput.value = '';
+        // Initialize captcha on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            refreshCaptcha();
         });
 
-        // Handle login form (infinite loop)
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            loginError.classList.add('show');
+        // Handle login form - always fails and regenerates captcha (infinite loop)
+        function handleLogin(event) {
+            event.preventDefault();
             
-            // Generate new captcha to loop infinitely
+            const errorMsg = document.getElementById('errorMessage');
+            const successMsg = document.getElementById('successMessage');
+            
+            // Hide error, show success temporarily
+            errorMsg.classList.remove('show');
+            successMsg.classList.add('show');
+            
+            // After delay, show error and refresh captcha (infinite loop)
             setTimeout(() => {
-                captchaDisplay.textContent = generateCaptcha();
-                captchaInput.value = '';
-                loginError.classList.remove('show');
+                successMsg.classList.remove('show');
+                errorMsg.classList.add('show');
+                
+                // Refresh captcha and clear sensitive fields after another delay
+                setTimeout(() => {
+                    refreshCaptcha();
+                    document.getElementById('password').value = '';
+                    document.getElementById('captchaInput').value = '';
+                    errorMsg.classList.remove('show');
+                }, 2000);
             }, 1500);
-        });
-
-        // Close modal handlers
-        closeModal.addEventListener('click', hideLoginModal);
-        loginModal.addEventListener('click', (e) => {
-            if (e.target === loginModal) {
-                hideLoginModal();
-            }
-        });
-
-        // Add login triggers to all elements with login-trigger class
-        document.querySelectorAll('.login-trigger').forEach(element => {
-            element.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                showLoginModal();
-            });
-        });
-
-        // Dynamic Transactions System
-        let currentBalance = 24582.50;
-        const startingBalance = 24582.50;
-        let monthlyChange = 1240.00; // Starting monthly change
-        
-        // Track income and expenses separately
-        let monthlyIncome = 720;
-        let monthlyExpenses = 540;
-        let monthlySavings = 650;
-        let monthlyInvestments = 780;
-        
-        // Card balances
-        let debitBalance = 18420.00;
-        let creditBalance = 6162.50;
-        
-        const transactionTypes = [
-            // Deposits (positive)
-            { type: 'deposit', icon: '💰', names: ['Salary Deposit', 'Freelance Payment', 'Investment Return', 'Bonus Payment', 'Refund'], amountRange: [500, 2000] },
-            { type: 'deposit', icon: '📈', names: ['Stock Dividend', 'Interest Payment', 'Cashback'], amountRange: [50, 500] },
             
-            // Purchases (negative)
-            { type: 'purchase', icon: '🛒', names: ['Amazon Purchase', 'eBay Purchase', 'Online Shopping', 'Grocery Store'], amountRange: [20, 200] },
-            { type: 'purchase', icon: '☕', names: ['Starbucks', 'Coffee Shop', 'Cafe'], amountRange: [4, 15] },
-            { type: 'purchase', icon: '🍔', names: ['Restaurant', 'Fast Food', 'Food Delivery', 'Dinner'], amountRange: [15, 80] },
-            { type: 'purchase', icon: '⛽', names: ['Gas Station', 'Fuel'], amountRange: [40, 90] },
-            { type: 'purchase', icon: '🎬', names: ['Netflix', 'Disney+', 'HBO Max', 'Prime Video'], amountRange: [9, 20] },
-            { type: 'purchase', icon: '🎵', names: ['Spotify', 'Apple Music', 'YouTube Premium'], amountRange: [9, 15] },
-            { type: 'purchase', icon: '🏋️', names: ['Gym Membership', 'Fitness Class'], amountRange: [30, 100] },
-            { type: 'purchase', icon: '🚕', names: ['Uber', 'Lyft', 'Taxi'], amountRange: [12, 50] },
-            { type: 'purchase', icon: '📱', names: ['Phone Bill', 'Internet Bill', 'Cable Bill'], amountRange: [40, 120] },
-            { type: 'purchase', icon: '🎮', names: ['Steam Purchase', 'Game Store', 'PlayStation Store'], amountRange: [20, 70] }
-        ];
-
-        function getRandomTransaction() {
-            const randomType = transactionTypes[Math.floor(Math.random() * transactionTypes.length)];
-            const randomName = randomType.names[Math.floor(Math.random() * randomType.names.length)];
-            const amount = (Math.random() * (randomType.amountRange[1] - randomType.amountRange[0]) + randomType.amountRange[0]).toFixed(2);
-            
-            return {
-                type: randomType.type,
-                icon: randomType.icon,
-                name: randomName,
-                amount: parseFloat(amount),
-                date: new Date()
-            };
+            return false;
         }
 
-        function formatTime(date) {
-            const now = new Date();
-            const diffMs = now - date;
-            const diffSecs = Math.floor(diffMs / 1000);
-            const diffMins = Math.floor(diffSecs / 60);
-            
-            if (diffSecs < 60) {
-                return 'Just now';
-            } else if (diffMins < 60) {
-                return `${diffMins} min${diffMins > 1 ? 's' : ''} ago`;
-            } else {
-                const hours = date.getHours().toString().padStart(2, '0');
-                const mins = date.getMinutes().toString().padStart(2, '0');
-                return `Today, ${hours}:${mins}`;
+        // Keyboard accessibility
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.getElementById('errorMessage').classList.remove('show');
+                document.getElementById('successMessage').classList.remove('show');
             }
-        }
-
-        function updateBalance(amount, type) {
-            if (type === 'deposit') {
-                currentBalance += amount;
-                monthlyChange += amount;
-                monthlyIncome += amount;
-                
-                // Update debit card (deposits go to debit)
-                debitBalance += amount;
-            } else {
-                currentBalance -= amount;
-                monthlyChange -= amount;
-                monthlyExpenses += amount;
-                
-                // Randomly deduct from debit or credit card
-                if (Math.random() > 0.7 && creditBalance >= amount) {
-                    creditBalance -= amount;
-                } else if (debitBalance >= amount) {
-                    debitBalance -= amount;
-                }
-            }
-            
-            // Update savings and investments (small random changes)
-            if (Math.random() > 0.5) {
-                const savingsChange = Math.random() * 10;
-                monthlySavings += savingsChange;
-            }
-            if (Math.random() > 0.5) {
-                const investmentChange = Math.random() * 15;
-                monthlyInvestments += investmentChange;
-            }
-            
-            // Update balance display
-            document.getElementById('totalBalance').textContent = '$' + currentBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            
-            // Update monthly change display
-            const changePercent = ((monthlyChange / startingBalance) * 100).toFixed(1);
-            const monthlyChangeEl = document.getElementById('monthlyChange');
-            const isPositive = monthlyChange >= 0;
-            
-            monthlyChangeEl.className = isPositive ? 'balance-change positive' : 'balance-change negative';
-            monthlyChangeEl.textContent = `${isPositive ? '+' : ''}$${Math.abs(monthlyChange).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} (${isPositive ? '+' : ''}${changePercent}%) this month`;
-            
-            // Update This Month metrics
-            document.getElementById('incomeCount').textContent = '$' + Math.floor(monthlyIncome).toLocaleString();
-            document.getElementById('expensesCount').textContent = '$' + Math.floor(monthlyExpenses).toLocaleString();
-            document.getElementById('savingsCount').textContent = '$' + Math.floor(monthlySavings).toLocaleString();
-            document.getElementById('investmentsCount').textContent = '$' + Math.floor(monthlyInvestments).toLocaleString();
-            
-            // Update card balances
-            document.getElementById('debitCardBalance').textContent = '$' + debitBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            document.getElementById('creditCardBalance').textContent = '$' + creditBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        }
-
-        function addTransaction() {
-            const transaction = getRandomTransaction();
-            const container = document.getElementById('transactionsContainer');
-            
-            // Create transaction element
-            const transactionEl = document.createElement('div');
-            transactionEl.className = 'transaction-item login-trigger';
-            transactionEl.innerHTML = `
-                <div class="transaction-info">
-                    <div class="transaction-icon">${transaction.icon}</div>
-                    <div class="transaction-details">
-                        <div class="transaction-name">${transaction.name}</div>
-                        <div class="transaction-date">${formatTime(transaction.date)}</div>
-                    </div>
-                </div>
-                <div class="transaction-amount ${transaction.type === 'deposit' ? 'positive' : 'negative'}">
-                    ${transaction.type === 'deposit' ? '+' : '-'}$${transaction.amount.toFixed(2)}
-                </div>
-            `;
-            
-            // Add login trigger to new transaction
-            transactionEl.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                showLoginModal();
-            });
-            
-            // Add to top of list
-            container.insertBefore(transactionEl, container.firstChild);
-            
-            // Update balance
-            updateBalance(transaction.amount, transaction.type);
-            
-            // Keep only last 5 transactions
-            while (container.children.length > 5) {
-                container.removeChild(container.lastChild);
-            }
-            
-            // Schedule next transaction (3-8 seconds)
-            setTimeout(addTransaction, (Math.random() * 5000) + 3000);
-        }
-
-        // Start transactions after 3 seconds
-        setTimeout(addTransaction, 3000);
-
-        // Page navigation with smooth transitions
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function() {
-                if (this.classList.contains('login-trigger')) {
-                    return; // Let login trigger handle it
-                }
-
-                // Update active nav item
-                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-                this.classList.add('active');
-                
-                // Get target page
-                const targetPage = this.getAttribute('data-page');
-                
-                // Hide all pages
-                document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-                
-                // Show target page with animation
-                const pageToShow = document.getElementById(targetPage);
-                if (pageToShow) {
-                    pageToShow.classList.add('active');
-                }
-            });
         });
     </script>
 </body>
