@@ -6,7 +6,7 @@ A collection of simple and clean HTML page templates ready to use for your proje
 
 Inspired by [Nothing Tech](https://nothing.tech/).
 
-Made by AI.
+Made with AI.
 
 ## Showcase
 
