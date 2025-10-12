@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CHANGEMEPLS Media</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Sora:wght@300;400;500;600;700&display=swap');
 
         * {
             margin: 0;
@@ -14,11 +14,26 @@
         }
 
         body {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'Inter', 'JetBrains Mono', monospace;
             background: #000000;
             color: #FFFFFF;
             overflow-x: hidden;
             position: relative;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.light {
+            background: #FFFFFF;
+            color: #000000;
+        }
+
+        body.dark {
+            background: #000000;
+            color: #FFFFFF;
+        }
+
+        body.auto {
+            /* Will be set by JavaScript based on system preference */
         }
 
         /* Dot Matrix Background */
@@ -33,6 +48,10 @@
             background-size: 24px 24px;
             pointer-events: none;
             z-index: 0;
+        }
+
+        body.light::before {
+            background-image: radial-gradient(circle, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
         }
 
         /* Animated Background Elements */
@@ -52,6 +71,10 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 50%;
             opacity: 0.3;
+        }
+
+        body.light .orbit-ring {
+            border-color: rgba(0, 0, 0, 0.1);
         }
 
         .orbit-1 {
@@ -118,6 +141,11 @@
             background: rgba(0, 0, 0, 0.8);
         }
 
+        body.light header {
+            border-bottom-color: rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
         .logo {
             font-size: 20px;
             font-weight: 700;
@@ -125,6 +153,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            font-family: 'Space Grotesk', sans-serif;
         }
 
         .logo-dot {
@@ -153,10 +182,16 @@
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: #FFFFFF;
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'Inter', monospace;
             font-size: 14px;
             outline: none;
             transition: all 0.3s;
+        }
+
+        body.light .search-bar input {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.1);
+            color: #000000;
         }
 
         .search-bar input:focus {
@@ -203,6 +238,277 @@
             justify-content: center;
             font-size: 16px;
             font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .user-avatar:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        body.light .user-avatar {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        body.light .user-avatar:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Theme Switcher */
+        .theme-switcher {
+            position: relative;
+        }
+
+        .theme-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .theme-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        body.light .theme-btn {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        body.light .theme-btn:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .theme-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: rgba(20, 20, 20, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            min-width: 150px;
+            display: none;
+            z-index: 1000;
+        }
+
+        body.light .theme-dropdown {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-dropdown.show {
+            display: block;
+        }
+
+        .theme-option {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .theme-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        body.light .theme-option:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .theme-option.active {
+            background: rgba(255, 59, 48, 0.2);
+            color: #FF3B30;
+        }
+
+        /* Login Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #1a1a1a;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            max-width: 450px;
+            width: 90%;
+            position: relative;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body.light .modal-content {
+            background: #ffffff;
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: inherit;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            opacity: 1;
+        }
+
+        .modal-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-family: 'Sora', sans-serif;
+        }
+
+        .modal-subtitle {
+            font-size: 14px;
+            opacity: 0.6;
+            margin-bottom: 32px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            opacity: 0.8;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: inherit;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        body.light .form-input {
+            border-color: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .form-input:focus {
+            border-color: #FF3B30;
+        }
+
+        .captcha-container {
+            margin: 28px 0;
+            padding: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        body.light .captcha-container {
+            border-color: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .captcha-title {
+            font-size: 13px;
+            margin-bottom: 16px;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        .captcha-image {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 28px;
+            letter-spacing: 12px;
+            color: white;
+            user-select: none;
+            font-weight: 700;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+        }
+
+        .captcha-refresh {
+            display: inline-block;
+            font-size: 12px;
+            color: #FF3B30;
+            cursor: pointer;
+            text-decoration: underline;
+            margin-top: 8px;
+        }
+
+        .captcha-refresh:hover {
+            opacity: 0.8;
+        }
+
+        .modal-submit {
+            width: 100%;
+            padding: 16px 24px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #FFFFFF;
+            background: #FF3B30;
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: -0.01em;
+            margin-top: 12px;
+        }
+
+        .modal-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 59, 48, 0.4);
+        }
+
+        .error-message {
+            color: #FF3B30;
+            font-size: 13px;
+            margin-top: 12px;
+            display: none;
+            padding: 12px;
+            background: rgba(255, 59, 48, 0.1);
+            border-left: 3px solid #FF3B30;
+        }
+
+        .error-message.show {
+            display: block;
         }
 
         /* Main Layout */
@@ -229,6 +535,7 @@
             margin-bottom: 12px;
             letter-spacing: 0.05em;
             text-transform: uppercase;
+            font-family: 'Space Grotesk', sans-serif;
         }
 
         .nav-item {
@@ -245,6 +552,10 @@
             opacity: 1;
             background: rgba(255, 255, 255, 0.05);
             border-left-color: #FF3B30;
+        }
+
+        body.light .nav-item:hover {
+            background: rgba(0, 0, 0, 0.05);
         }
 
         .nav-item.active {
@@ -269,6 +580,7 @@
             font-size: 24px;
             font-weight: 600;
             letter-spacing: -0.02em;
+            font-family: 'Sora', sans-serif;
         }
 
         .filter-tabs {
@@ -291,6 +603,14 @@
         .filter-tab:hover {
             opacity: 1;
             border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        body.light .filter-tab {
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        body.light .filter-tab:hover {
+            border-color: rgba(0, 0, 0, 0.4);
         }
 
         .filter-tab.active {
@@ -324,6 +644,25 @@
             overflow: hidden;
         }
 
+        .video-thumbnail img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .video-card:hover .video-thumbnail img {
+            transform: scale(1.05);
+        }
+
+        body.light .video-thumbnail {
+            background: rgba(0, 0, 0, 0.03);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
         .video-thumbnail::before {
             content: '';
             position: absolute;
@@ -336,6 +675,7 @@
             border-radius: 50%;
             opacity: 0;
             transition: opacity 0.3s;
+            z-index: 1;
         }
 
         .video-card:hover .video-thumbnail::before {
@@ -352,6 +692,7 @@
             color: rgba(255, 255, 255, 0.8);
             opacity: 0;
             transition: opacity 0.3s;
+            z-index: 1;
         }
 
         .video-card:hover .video-thumbnail::after {
@@ -366,6 +707,7 @@
             background: rgba(0, 0, 0, 0.8);
             font-size: 11px;
             font-weight: 500;
+            z-index: 2;
         }
 
         .video-info {
@@ -408,6 +750,11 @@
             font-size: 10px;
         }
 
+        body.light .author-avatar {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
         .video-stats {
             display: flex;
             gap: 12px;
@@ -429,6 +776,20 @@
             margin-bottom: 20px;
         }
 
+        .featured-video img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        body.light .featured-video {
+            background: rgba(0, 0, 0, 0.03);
+            border-color: rgba(0, 0, 0, 0.15);
+        }
+
         .featured-overlay {
             position: absolute;
             bottom: 0;
@@ -436,6 +797,7 @@
             right: 0;
             padding: 40px;
             background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            z-index: 1;
         }
 
         .featured-title {
@@ -518,11 +880,28 @@
                 <a href="https://github.com/TeamDominant/sni-templates" target="_blank" style="color: inherit; text-decoration: none;">CHANGEMEPLS Media</a>
             </div>
             <div class="search-bar">
-                <input type="text" placeholder="Search videos...">
+                <input type="text" placeholder="Search videos..." class="login-trigger" readonly>
             </div>
             <div class="header-actions">
-                <button class="btn-upload">Upload</button>
-                <div class="user-avatar">U</div>
+                <button class="btn-upload login-trigger">Upload</button>
+                <div class="theme-switcher">
+                    <button class="theme-btn" id="themeBtn">🌓</button>
+                    <div class="theme-dropdown" id="themeDropdown">
+                        <div class="theme-option" data-theme="auto">
+                            <span>🔄</span>
+                            <span>Auto</span>
+                        </div>
+                        <div class="theme-option" data-theme="dark">
+                            <span>🌙</span>
+                            <span>Dark</span>
+                        </div>
+                        <div class="theme-option" data-theme="light">
+                            <span>☀️</span>
+                            <span>Light</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="user-avatar login-trigger">U</div>
             </div>
         </header>
 
@@ -533,9 +912,9 @@
                 <div class="nav-section">
                     <div class="nav-title">Menu</div>
                     <div class="nav-item active">Home</div>
-                    <div class="nav-item">Trending</div>
-                    <div class="nav-item">Subscriptions</div>
-                    <div class="nav-item">Library</div>
+                    <div class="nav-item login-trigger">Trending</div>
+                    <div class="nav-item login-trigger">Subscriptions</div>
+                    <div class="nav-item login-trigger">Library</div>
                 </div>
                 <div class="nav-section">
                     <div class="nav-title">Categories</div>
@@ -558,6 +937,7 @@
                 <!-- Featured Section -->
                 <div class="featured-section">
                     <div class="featured-video">
+                        <img src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=1200&h=500&fit=crop" alt="Design Minimalism" style="width: 100%; height: 100%; object-fit: cover;">
                         <div class="featured-overlay">
                             <div class="featured-title">Design Matters: The Future of Minimalism</div>
                             <div class="featured-meta">
@@ -585,6 +965,7 @@
                     <!-- Video Card 1 -->
                     <div class="video-card">
                         <div class="video-thumbnail">
+                            <img src="https://images.unsplash.com/photo-1558655146-d09347e92766?w=400&h=225&fit=crop" alt="Design Products" style="width: 100%; height: 100%; object-fit: cover;">
                             <div class="video-duration">12:34</div>
                         </div>
                         <div class="video-info">
@@ -596,7 +977,7 @@
                                 </div>
                             </div>
                             <div class="video-stats">
-                                <span>1.2M views</span>
+                                <span class="view-count">652</span>
                                 <span>•</span>
                                 <span>3 days ago</span>
                             </div>
@@ -606,6 +987,7 @@
                     <!-- Video Card 2 -->
                     <div class="video-card">
                         <div class="video-thumbnail">
+                            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=225&fit=crop" alt="Technology" style="width: 100%; height: 100%; object-fit: cover;">
                             <div class="video-duration">8:45</div>
                         </div>
                         <div class="video-info">
@@ -617,7 +999,7 @@
                                 </div>
                             </div>
                             <div class="video-stats">
-                                <span>856K views</span>
+                                <span class="view-count">587</span>
                                 <span>•</span>
                                 <span>1 week ago</span>
                             </div>
@@ -627,6 +1009,7 @@
                     <!-- Video Card 3 -->
                     <div class="video-card">
                         <div class="video-thumbnail">
+                            <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=225&fit=crop" alt="UI UX Design" style="width: 100%; height: 100%; object-fit: cover;">
                             <div class="video-duration">15:20</div>
                         </div>
                         <div class="video-info">
@@ -638,7 +1021,7 @@
                                 </div>
                             </div>
                             <div class="video-stats">
-                                <span>2.1M views</span>
+                                <span class="view-count">743</span>
                                 <span>•</span>
                                 <span>5 days ago</span>
                             </div>
@@ -648,6 +1031,7 @@
                     <!-- Video Card 4 -->
                     <div class="video-card">
                         <div class="video-thumbnail">
+                            <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=225&fit=crop" alt="Web Development" style="width: 100%; height: 100%; object-fit: cover;">
                             <div class="video-duration">20:12</div>
                         </div>
                         <div class="video-info">
@@ -659,7 +1043,7 @@
                                 </div>
                             </div>
                             <div class="video-stats">
-                                <span>543K views</span>
+                                <span class="view-count">519</span>
                                 <span>•</span>
                                 <span>2 weeks ago</span>
                             </div>
@@ -669,6 +1053,7 @@
                     <!-- Video Card 5 -->
                     <div class="video-card">
                         <div class="video-thumbnail">
+                            <img src="https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?w=400&h=225&fit=crop" alt="Typography" style="width: 100%; height: 100%; object-fit: cover;">
                             <div class="video-duration">10:05</div>
                         </div>
                         <div class="video-info">
@@ -680,7 +1065,7 @@
                                 </div>
                             </div>
                             <div class="video-stats">
-                                <span>392K views</span>
+                                <span class="view-count">628</span>
                                 <span>•</span>
                                 <span>4 days ago</span>
                             </div>
@@ -690,6 +1075,7 @@
                     <!-- Video Card 6 -->
                     <div class="video-card">
                         <div class="video-thumbnail">
+                            <img src="https://images.unsplash.com/photo-1555255707-c07966088b7b?w=400&h=225&fit=crop" alt="AI Neural Networks" style="width: 100%; height: 100%; object-fit: cover;">
                             <div class="video-duration">18:30</div>
                         </div>
                         <div class="video-info">
@@ -701,7 +1087,7 @@
                                 </div>
                             </div>
                             <div class="video-stats">
-                                <span>1.8M views</span>
+                                <span class="view-count">791</span>
                                 <span>•</span>
                                 <span>1 week ago</span>
                             </div>
@@ -711,6 +1097,7 @@
                     <!-- Video Card 7 -->
                     <div class="video-card">
                         <div class="video-thumbnail">
+                            <img src="https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=400&h=225&fit=crop" alt="Database" style="width: 100%; height: 100%; object-fit: cover;">
                             <div class="video-duration">14:22</div>
                         </div>
                         <div class="video-info">
@@ -722,7 +1109,7 @@
                                 </div>
                             </div>
                             <div class="video-stats">
-                                <span>678K views</span>
+                                <span class="view-count">561</span>
                                 <span>•</span>
                                 <span>6 days ago</span>
                             </div>
@@ -732,6 +1119,7 @@
                     <!-- Video Card 8 -->
                     <div class="video-card">
                         <div class="video-thumbnail">
+                            <img src="https://images.unsplash.com/photo-1509395062183-67c5ad6faff9?w=400&h=225&fit=crop" alt="Geometric Design" style="width: 100%; height: 100%; object-fit: cover;">
                             <div class="video-duration">9:18</div>
                         </div>
                         <div class="video-info">
@@ -743,7 +1131,7 @@
                                 </div>
                             </div>
                             <div class="video-stats">
-                                <span>924K views</span>
+                                <span class="view-count">704</span>
                                 <span>•</span>
                                 <span>3 days ago</span>
                             </div>
@@ -753,6 +1141,7 @@
                     <!-- Video Card 9 -->
                     <div class="video-card">
                         <div class="video-thumbnail">
+                            <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=225&fit=crop" alt="Engineering Systems" style="width: 100%; height: 100%; object-fit: cover;">
                             <div class="video-duration">22:45</div>
                         </div>
                         <div class="video-info">
@@ -764,7 +1153,7 @@
                                 </div>
                             </div>
                             <div class="video-stats">
-                                <span>1.5M views</span>
+                                <span class="view-count">673</span>
                                 <span>•</span>
                                 <span>1 week ago</span>
                             </div>
@@ -775,7 +1164,186 @@
         </div>
     </div>
 
+    <!-- Login Modal -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <h2 class="modal-title">Sign In Required</h2>
+            <p class="modal-subtitle">Please log in to access this feature</p>
+            
+            <form id="loginForm" onsubmit="return handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label">Email or Username</label>
+                    <input type="text" class="form-input" placeholder="Enter your email or username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" placeholder="Enter your password" required>
+                </div>
+                
+                <div class="captcha-container">
+                    <div class="captcha-title">Security Verification</div>
+                    <div class="captcha-image" id="captchaImage">XK9P4V</div>
+                    <div>
+                        <span class="captcha-refresh" onclick="refreshCaptcha()">🔄 Refresh code</span>
+                    </div>
+                    <div class="form-group" style="margin-top: 16px; margin-bottom: 0;">
+                        <input type="text" class="form-input" id="captchaInput" placeholder="Enter the code above" required>
+                    </div>
+                </div>
+                
+                <button type="submit" class="modal-submit">Sign In</button>
+                <div class="error-message" id="errorMessage">❌ Invalid credentials or verification code. Please try again.</div>
+            </form>
+        </div>
+    </div>
+
     <script>
+        // Theme Management
+        const themeBtn = document.getElementById('themeBtn');
+        const themeDropdown = document.getElementById('themeDropdown');
+        let currentTheme = localStorage.getItem('theme') || 'auto';
+
+        function applyTheme(theme) {
+            currentTheme = theme;
+            localStorage.setItem('theme', theme);
+            
+            // Remove all theme classes
+            document.body.classList.remove('light', 'dark', 'auto');
+            
+            if (theme === 'auto') {
+                const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.body.classList.add(isDark ? 'dark' : 'light');
+            } else {
+                document.body.classList.add(theme);
+            }
+            
+            // Update active state
+            document.querySelectorAll('.theme-option').forEach(opt => {
+                opt.classList.toggle('active', opt.dataset.theme === theme);
+            });
+        }
+
+        // Initialize theme
+        applyTheme(currentTheme);
+
+        // Theme button click
+        themeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            themeDropdown.classList.toggle('show');
+        });
+
+        // Theme option click
+        document.querySelectorAll('.theme-option').forEach(option => {
+            option.addEventListener('click', () => {
+                applyTheme(option.dataset.theme);
+                themeDropdown.classList.remove('show');
+            });
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!themeBtn.contains(e.target) && !themeDropdown.contains(e.target)) {
+                themeDropdown.classList.remove('show');
+            }
+        });
+
+        // Listen for system theme changes when in auto mode
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (currentTheme === 'auto') {
+                document.body.classList.remove('light', 'dark');
+                document.body.classList.add(e.matches ? 'dark' : 'light');
+            }
+        });
+
+        // Login Modal Functions
+        const modal = document.getElementById('loginModal');
+        const loginTriggers = document.querySelectorAll('.login-trigger');
+        
+        loginTriggers.forEach(trigger => {
+            trigger.addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal();
+            });
+        });
+
+        function openModal() {
+            modal.classList.add('show');
+            refreshCaptcha();
+        }
+
+        function closeModal() {
+            modal.classList.remove('show');
+            document.getElementById('loginForm').reset();
+            document.getElementById('errorMessage').classList.remove('show');
+        }
+
+        // Generate random captcha
+        function generateCaptcha() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let captcha = '';
+            for (let i = 0; i < 6; i++) {
+                captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return captcha;
+        }
+
+        function refreshCaptcha() {
+            document.getElementById('captchaImage').textContent = generateCaptcha();
+            document.getElementById('captchaInput').value = '';
+        }
+
+        // Handle login form - always fails and regenerates captcha (infinite loop)
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            // Show error message
+            document.getElementById('errorMessage').classList.add('show');
+            
+            // Refresh captcha to create infinite loop
+            setTimeout(() => {
+                refreshCaptcha();
+                document.getElementById('errorMessage').classList.remove('show');
+                // Clear password and captcha fields
+                event.target.querySelector('input[type="password"]').value = '';
+                event.target.querySelector('#captchaInput').value = '';
+            }, 1800);
+            
+            return false;
+        }
+
+        // Close modal on outside click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // View count incrementer
+        const viewCountElements = document.querySelectorAll('.view-count');
+        
+        function updateViewCounts() {
+            viewCountElements.forEach(element => {
+                let currentCount = parseInt(element.textContent);
+                // Randomly increase by 1-3
+                const increase = Math.floor(Math.random() * 3) + 1;
+                currentCount += increase;
+                element.textContent = currentCount;
+            });
+        }
+
+        // Update view counts every 5-8 seconds randomly
+        function scheduleViewUpdate() {
+            const delay = Math.floor(Math.random() * 3000) + 5000; // 5-8 seconds
+            setTimeout(() => {
+                updateViewCounts();
+                scheduleViewUpdate();
+            }, delay);
+        }
+
+        scheduleViewUpdate();
+
         // Tab switching
         document.querySelectorAll('.filter-tab').forEach(tab => {
             tab.addEventListener('click', function() {
@@ -784,11 +1352,13 @@
             });
         });
 
-        // Navigation items
+        // Navigation items - only Home is allowed, others trigger login
         document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', function() {
-                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
+                if (!this.classList.contains('login-trigger')) {
+                    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                }
             });
         });
 

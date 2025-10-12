@@ -4,6 +4,10 @@
 
 A collection of simple and clean HTML page templates ready to use for your projects.
 
+Inspired by Nothing Tech.
+
+Made by AI.
+
 ## Showcaase
 
 ### [Forum page](https://prettyleaf.github.io/html-templates/1.html)

@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Router Configuration - OpenWrt</title>
     <style>
-        /* Import JetBrains Mono font */
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+        /* Import Multiple Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Sora:wght@300;400;500;600;700&display=swap');
 
         * {
             margin: 0;
@@ -15,7 +15,7 @@
         }
 
         body {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'Space Grotesk', 'Inter', 'JetBrains Mono', monospace;
             margin: 0;
             padding: 0;
             display: flex;
@@ -112,14 +112,102 @@
             font-size: 28px;
             font-weight: 600;
             letter-spacing: -0.02em;
+            font-family: 'Sora', sans-serif;
         }
 
         .router-status {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 16px;
             font-size: 14px;
             opacity: 0.6;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .live-clock {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+        }
+
+        .theme-switcher {
+            position: relative;
+        }
+
+        .theme-toggle {
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: -0.01em;
+        }
+
+        body.light .theme-toggle {
+            border-color: rgba(0, 0, 0, 0.15);
+            color: #000000;
+        }
+
+        body.dark .theme-toggle {
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #FFFFFF;
+        }
+
+        .theme-toggle:hover {
+            border-color: #FF3B30;
+            color: #FF3B30;
+        }
+
+        .theme-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: inherit;
+            border: 1px solid;
+            min-width: 120px;
+            display: none;
+            z-index: 1000;
+        }
+
+        body.light .theme-dropdown {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(12px);
+        }
+
+        body.dark .theme-dropdown {
+            background: rgba(0, 0, 0, 0.95);
+            border-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+        }
+
+        .theme-dropdown.show {
+            display: block;
+        }
+
+        .theme-option {
+            padding: 10px 16px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .theme-option:hover {
+            background: rgba(255, 59, 48, 0.1);
+            color: #FF3B30;
+        }
+
+        .theme-option.active {
+            color: #FF3B30;
         }
 
         /* Red accent dot */
@@ -159,6 +247,7 @@
             cursor: pointer;
             transition: all 0.3s;
             letter-spacing: -0.01em;
+            font-family: 'DM Sans', sans-serif;
         }
 
         body.light .tab {
@@ -606,6 +695,209 @@
             background: currentColor;
             border-radius: 50%;
         }
+
+        /* Login Modal */
+        .login-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(12px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-modal.show {
+            display: flex;
+        }
+
+        .login-content {
+            background: inherit;
+            border: 1px solid;
+            padding: 40px;
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+        }
+
+        body.light .login-content {
+            background: #FFFFFF;
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark .login-content {
+            background: #000000;
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .login-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-family: 'Sora', sans-serif;
+        }
+
+        .login-subtitle {
+            font-size: 13px;
+            opacity: 0.6;
+            margin-bottom: 32px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-label {
+            font-size: 12px;
+            font-weight: 500;
+            opacity: 0.8;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .form-input {
+            padding: 12px 16px;
+            background: transparent;
+            border: 1px solid;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        body.light .form-input {
+            border-color: rgba(0, 0, 0, 0.15);
+            color: #000000;
+        }
+
+        body.dark .form-input {
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #FFFFFF;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #FF3B30;
+        }
+
+        .captcha-container {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .captcha-display {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.3em;
+            text-align: center;
+            user-select: none;
+        }
+
+        body.light .captcha-display {
+            border-color: rgba(0, 0, 0, 0.15);
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        body.dark .captcha-display {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .captcha-refresh {
+            padding: 12px;
+            background: transparent;
+            border: 1px solid;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        body.light .captcha-refresh {
+            border-color: rgba(0, 0, 0, 0.15);
+        }
+
+        body.dark .captcha-refresh {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .captcha-refresh:hover {
+            border-color: #FF3B30;
+            transform: rotate(180deg);
+        }
+
+        .login-button {
+            padding: 14px;
+            background: #FF3B30;
+            border: none;
+            color: #FFFFFF;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 59, 48, 0.3);
+        }
+
+        .login-error {
+            font-size: 12px;
+            color: #FF3B30;
+            display: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .login-error.show {
+            display: block;
+        }
+
+        .login-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+            background: transparent;
+            border: 1px solid;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        body.light .login-close {
+            border-color: rgba(0, 0, 0, 0.15);
+        }
+
+        body.dark .login-close {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .login-close:hover {
+            border-color: #FF3B30;
+            color: #FF3B30;
+            transform: rotate(90deg);
+        }
+
+        .login-trigger {
+            cursor: pointer !important;
+        }
     </style>
 </head>
 <body>
@@ -633,8 +925,13 @@
             <div>
                 <h1>Router Configuration</h1>
                 <div class="router-status">
-                    <span class="red-dot"></span>
-                    <span>OpenWrt 23.05.2</span>
+                    <div class="status-item">
+                        <span class="red-dot"></span>
+                        <span>OpenWrt 23.05.2</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="live-clock" id="liveClock">--:--:--</span>
+                    </div>
                 </div>
             </div>
             <div style="display: flex; align-items: center; gap: 16px;">
@@ -643,19 +940,39 @@
                     <span class="dot"></span>
                     <span>ONLINE</span>
                 </div>
+                <div class="theme-switcher">
+                    <button class="theme-toggle" id="themeToggle">
+                        <span id="themeLabel">Auto</span>
+                        <span>▼</span>
+                    </button>
+                    <div class="theme-dropdown" id="themeDropdown">
+                        <div class="theme-option" data-theme="auto">
+                            <span>Auto</span>
+                            <span id="autoCheck">✓</span>
+                        </div>
+                        <div class="theme-option" data-theme="light">
+                            <span>Light</span>
+                            <span id="lightCheck"></span>
+                        </div>
+                        <div class="theme-option" data-theme="dark">
+                            <span>Dark</span>
+                            <span id="darkCheck"></span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </header>
 
         <!-- Navigation Tabs -->
         <div class="tabs">
             <button class="tab active" data-tab="system">System</button>
-            <button class="tab" data-tab="network">Network</button>
-            <button class="tab" data-tab="wireless">Wireless</button>
-            <button class="tab" data-tab="sqm">SQM QoS</button>
-            <button class="tab" data-tab="firewall">Firewall</button>
-            <button class="tab" data-tab="dhcp">DHCP/DNS</button>
-            <button class="tab" data-tab="vpn">Tunnel</button>
-            <button class="tab" data-tab="advanced">Advanced</button>
+            <button class="tab login-trigger" data-tab="network">Network</button>
+            <button class="tab login-trigger" data-tab="wireless">Wireless</button>
+            <button class="tab login-trigger" data-tab="sqm">SQM QoS</button>
+            <button class="tab login-trigger" data-tab="firewall">Firewall</button>
+            <button class="tab login-trigger" data-tab="dhcp">DHCP/DNS</button>
+            <button class="tab login-trigger" data-tab="vpn">Tunnel</button>
+            <button class="tab login-trigger" data-tab="advanced">Advanced</button>
         </div>
 
         <!-- System Tab -->
@@ -677,6 +994,7 @@
                             <option>America/New_York</option>
                             <option>Europe/London</option>
                             <option>Asia/Tokyo</option>
+                            <option>Remnawave/Reverse_Proxy</option>
                         </select>
                     </div>
                 </div>
@@ -705,852 +1023,226 @@
 
                 <div class="form-group">
                     <div class="checkbox-group">
-                        <input type="checkbox" id="ssh-access">
+                        <input type="checkbox" id="ssh-access" class="login-trigger">
                         <label for="ssh-access">Enable SSH Access</label>
                     </div>
                     <div class="checkbox-group">
-                        <input type="checkbox" id="password-auth" checked>
+                        <input type="checkbox" id="password-auth" checked class="login-trigger">
                         <label for="password-auth">Allow Password Authentication</label>
                     </div>
                 </div>
             </div>
 
             <div class="button-group">
-                <button class="button">Save Changes</button>
-                <button class="button button-secondary">Reset</button>
+                <button class="button login-trigger">Save Changes</button>
+                <button class="button button-secondary login-trigger">Reset</button>
             </div>
         </div>
 
         <!-- Network Tab -->
         <div class="tab-content" id="network">
-            <div class="form-section">
-                <h2 class="form-section-title">LAN Interface</h2>
-                
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>IPv4 Address</label>
-                        <input type="text" value="192.168.1.1" placeholder="192.168.1.1">
-                    </div>
-
-                    <div class="form-group">
-                        <label>IPv4 Netmask</label>
-                        <input type="text" value="255.255.255.0" placeholder="255.255.255.0">
-                    </div>
-                </div>
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>IPv6 Assignment Length</label>
-                        <select>
-                            <option>Disabled</option>
-                            <option>/60</option>
-                            <option selected>/64</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Bridge Device</label>
-                        <input type="text" value="br-lan" readonly>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-section">
-                <h2 class="form-section-title">WAN Interface</h2>
-                
-                <div class="info-box">
-                    Configure your internet connection settings. Select DHCP for automatic configuration or Static for manual setup.
-                </div>
-
-                <div class="form-group">
-                    <label>Protocol</label>
-                    <select>
-                        <option selected>DHCP Client</option>
-                        <option>Static Address</option>
-                        <option>PPPoE</option>
-                        <option>None</option>
-                    </select>
-                </div>
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Hostname to Send</label>
-                        <input type="text" placeholder="(optional)">
-                    </div>
-
-                    <div class="form-group">
-                        <label>MAC Address</label>
-                        <input type="text" placeholder="Leave empty to use default">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Custom DNS Servers</label>
-                    <input type="text" value="8.8.8.8 8.8.4.4" placeholder="8.8.8.8 8.8.4.4">
-                    <div class="helper-text">Space-separated list of DNS servers</div>
-                </div>
-            </div>
-
-            <div class="button-group">
-                <button class="button">Save & Apply</button>
-                <button class="button button-secondary">Revert</button>
-            </div>
+            <!-- Content locked - Login required -->
         </div>
 
         <!-- Wireless Tab -->
         <div class="tab-content" id="wireless">
-            <div class="form-section">
-                <h2 class="form-section-title">2.4 GHz Wireless</h2>
-                
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="wifi-24-enable" checked>
-                        <label for="wifi-24-enable">Enable 2.4 GHz Radio</label>
-                    </div>
-                </div>
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>ESSID</label>
-                        <input type="text" value="OpenWrt" placeholder="Network Name">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Mode</label>
-                        <select>
-                            <option selected>Access Point</option>
-                            <option>Client</option>
-                            <option>Ad-Hoc</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Channel</label>
-                        <select>
-                            <option selected>auto</option>
-                            <option>1 (2.412 GHz)</option>
-                            <option>6 (2.437 GHz)</option>
-                            <option>11 (2.462 GHz)</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Width</label>
-                        <select>
-                            <option>20 MHz</option>
-                            <option selected>20/40 MHz</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Transmit Power</label>
-                        <select>
-                            <option>auto</option>
-                            <option>10 dBm</option>
-                            <option selected>17 dBm</option>
-                            <option>20 dBm</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Country Code</label>
-                        <select>
-                            <option selected>US - United States</option>
-                            <option>GB - United Kingdom</option>
-                            <option>DE - Germany</option>
-                            <option>JP - Japan</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-section">
-                <h2 class="form-section-title">Wireless Security (2.4 GHz)</h2>
-                
-                <div class="form-group">
-                    <label>Encryption</label>
-                    <select>
-                        <option>No Encryption</option>
-                        <option>WPA2-PSK</option>
-                        <option selected>WPA2/WPA3-PSK Mixed</option>
-                        <option>WPA3-SAE</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Cipher</label>
-                    <select>
-                        <option>Force CCMP (AES)</option>
-                        <option selected>Force CCMP/GCMP (AES)</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Key</label>
-                    <input type="password" value="••••••••••••" placeholder="Wireless password">
-                    <div class="helper-text">Minimum 8 characters</div>
-                </div>
-
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="80211r">
-                        <label for="80211r">Enable 802.11r Fast Transition</label>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="80211w" checked>
-                        <label for="80211w">Enable 802.11w Management Frame Protection</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-section">
-                <h2 class="form-section-title">5 GHz Wireless</h2>
-                
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="wifi-5-enable" checked>
-                        <label for="wifi-5-enable">Enable 5 GHz Radio</label>
-                    </div>
-                </div>
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>ESSID</label>
-                        <input type="text" value="OpenWrt_5G" placeholder="Network Name">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Channel</label>
-                        <select>
-                            <option selected>auto</option>
-                            <option>36 (5.180 GHz)</option>
-                            <option>44 (5.220 GHz)</option>
-                            <option>149 (5.745 GHz)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Width</label>
-                        <select>
-                            <option>20 MHz</option>
-                            <option>40 MHz</option>
-                            <option selected>80 MHz</option>
-                            <option>160 MHz</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>802.11ax (WiFi 6)</label>
-                        <select>
-                            <option selected>Enabled</option>
-                            <option>Disabled</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="button-group">
-                <button class="button">Save & Apply</button>
-                <button class="button button-secondary">Revert</button>
-            </div>
+            <!-- Content locked - Login required -->
         </div>
 
         <!-- SQM QoS Tab -->
         <div class="tab-content" id="sqm">
-            <div class="info-box warning">
-                Smart Queue Management (SQM) helps reduce bufferbloat and improves network responsiveness. Configure your actual internet speeds for optimal performance.
-            </div>
-
-            <div class="form-section">
-                <h2 class="form-section-title">Basic Settings</h2>
-                
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="sqm-enable" checked>
-                        <label for="sqm-enable">Enable SQM</label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Interface</label>
-                    <select>
-                        <option selected>eth1 (WAN)</option>
-                        <option>eth0.2 (WAN)</option>
-                        <option>pppoe-wan (WAN)</option>
-                    </select>
-                    <div class="helper-text">Select your WAN interface</div>
-                </div>
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Download Speed (kbps)</label>
-                        <input type="number" value="95000" placeholder="95000">
-                        <div class="helper-text">Set to 90-95% of actual download speed</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Upload Speed (kbps)</label>
-                        <input type="number" value="9500" placeholder="9500">
-                        <div class="helper-text">Set to 90-95% of actual upload speed</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-section">
-                <h2 class="form-section-title">Queue Discipline</h2>
-                
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Queueing Discipline</label>
-                        <select>
-                            <option selected>cake (default)</option>
-                            <option>fq_codel</option>
-                            <option>simplest.qos</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Script</label>
-                        <select>
-                            <option selected>piece_of_cake.qos</option>
-                            <option>simple.qos</option>
-                            <option>simplest.qos</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="ecn" checked>
-                        <label for="ecn">Enable Explicit Congestion Notification (ECN)</label>
-                    </div>
-                    <div class="helper-text">Recommended for reducing packet loss</div>
-                </div>
-            </div>
-
-            <div class="form-section">
-                <h2 class="form-section-title">Link Layer Adaptation</h2>
-                
-                <div class="form-group">
-                    <label>Link Layer Type</label>
-                    <select>
-                        <option selected>Ethernet with overhead</option>
-                        <option>None</option>
-                        <option>ADSL</option>
-                        <option>VDSL</option>
-                        <option>DOCSIS (Cable)</option>
-                    </select>
-                </div>
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Per Packet Overhead (bytes)</label>
-                        <input type="number" value="44" placeholder="44">
-                        <div class="helper-text">Typical values: Ethernet=44, PPPoE=52</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>MPU (Minimum Packet Unit)</label>
-                        <input type="number" value="64" placeholder="64">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="atm">
-                        <label for="atm">ATM Cell Tax</label>
-                    </div>
-                    <div class="helper-text">Enable for DSL connections</div>
-                </div>
-            </div>
-
-            <div class="button-group">
-                <button class="button">Save & Apply</button>
-                <button class="button button-secondary">Test Bufferbloat</button>
-            </div>
+            <!-- Content locked - Login required -->
         </div>
 
         <!-- Firewall Tab -->
         <div class="tab-content" id="firewall">
-            <div class="form-section">
-                <h2 class="form-section-title">General Settings</h2>
-                
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="fw-enable" checked>
-                        <label for="fw-enable">Enable Firewall</label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="syn-flood" checked>
-                        <label for="syn-flood">Enable SYN-flood Protection</label>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="drop-invalid" checked>
-                        <label for="drop-invalid">Drop Invalid Packets</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-section">
-                <h2 class="form-section-title">Zone Settings</h2>
-                
-                <h3 style="font-size: 14px; font-weight: 600; margin: 24px 0 16px; opacity: 0.8;">LAN Zone</h3>
-                
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Input</label>
-                        <select>
-                            <option selected>ACCEPT</option>
-                            <option>REJECT</option>
-                            <option>DROP</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Output</label>
-                        <select>
-                            <option selected>ACCEPT</option>
-                            <option>REJECT</option>
-                            <option>DROP</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Forward</label>
-                        <select>
-                            <option selected>ACCEPT</option>
-                            <option>REJECT</option>
-                            <option>DROP</option>
-                        </select>
-                    </div>
-                </div>
-
-                <h3 style="font-size: 14px; font-weight: 600; margin: 24px 0 16px; opacity: 0.8;">WAN Zone</h3>
-                
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Input</label>
-                        <select>
-                            <option>ACCEPT</option>
-                            <option selected>REJECT</option>
-                            <option>DROP</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Output</label>
-                        <select>
-                            <option selected>ACCEPT</option>
-                            <option>REJECT</option>
-                            <option>DROP</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Forward</label>
-                        <select>
-                            <option>ACCEPT</option>
-                            <option selected>REJECT</option>
-                            <option>DROP</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="wan-masq" checked>
-                        <label for="wan-masq">Enable Masquerading (NAT)</label>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="wan-mss" checked>
-                        <label for="wan-mss">MSS Clamping</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-section">
-                <h2 class="form-section-title">Port Forwarding</h2>
-                
-                <div class="info-box">
-                    Add port forwarding rules to allow external access to services on your local network.
-                </div>
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" placeholder="HTTP Server">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Protocol</label>
-                        <select>
-                            <option>TCP+UDP</option>
-                            <option selected>TCP</option>
-                            <option>UDP</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>External Port</label>
-                        <input type="text" placeholder="80">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Internal IP</label>
-                        <input type="text" placeholder="192.168.1.100">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Internal Port</label>
-                        <input type="text" placeholder="8080">
-                    </div>
-                </div>
-
-                <button class="button button-secondary">Add Rule</button>
-            </div>
-
-            <div class="button-group">
-                <button class="button">Save & Apply</button>
-                <button class="button button-secondary">Revert</button>
-            </div>
+            <!-- Content locked - Login required -->
         </div>
 
         <!-- DHCP/DNS Tab -->
         <div class="tab-content" id="dhcp">
-            <div class="form-section">
-                <h2 class="form-section-title">DHCP Server (LAN)</h2>
-                
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="dhcp-enable" checked>
-                        <label for="dhcp-enable">Enable DHCP Server</label>
-                    </div>
-                </div>
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Start Address</label>
-                        <input type="number" value="100" placeholder="100">
-                        <div class="helper-text">Starting IP address offset</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Limit</label>
-                        <input type="number" value="150" placeholder="150">
-                        <div class="helper-text">Maximum number of leases</div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Lease Time</label>
-                    <select>
-                        <option>1h</option>
-                        <option>6h</option>
-                        <option selected>12h</option>
-                        <option>24h</option>
-                        <option>Infinite</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-section">
-                <h2 class="form-section-title">Static Leases</h2>
-                
-                <div class="info-box">
-                    Assign fixed IP addresses to specific devices based on MAC address.
-                </div>
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Hostname</label>
-                        <input type="text" placeholder="device-name">
-                    </div>
-
-                    <div class="form-group">
-                        <label>MAC Address</label>
-                        <input type="text" placeholder="00:11:22:33:44:55">
-                    </div>
-
-                    <div class="form-group">
-                        <label>IPv4 Address</label>
-                        <input type="text" placeholder="192.168.1.50">
-                    </div>
-                </div>
-
-                <button class="button button-secondary">Add Static Lease</button>
-            </div>
-
-            <div class="form-section">
-                <h2 class="form-section-title">DNS Settings</h2>
-                
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="dns-forward" checked>
-                        <label for="dns-forward">DNS Forwarding</label>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="dns-rebind" checked>
-                        <label for="dns-rebind">Rebind Protection</label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>DNS Forwardings</label>
-                    <textarea placeholder="1.1.1.1&#10;8.8.8.8&#10;8.8.4.4"></textarea>
-                    <div class="helper-text">One server per line</div>
-                </div>
-
-                <div class="form-group">
-                    <label>Local Domain</label>
-                    <input type="text" value="lan" placeholder="lan">
-                </div>
-            </div>
-
-            <div class="button-group">
-                <button class="button">Save & Apply</button>
-                <button class="button button-secondary">Revert</button>
-            </div>
+            <!-- Content locked - Login required -->
         </div>
 
         <!-- Tunnel Tab -->
         <div class="tab-content" id="vpn">
-            <div class="form-section">
-                <h2 class="form-section-title">OpenTunnel Client</h2>
-                
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="ovpn-enable">
-                        <label for="ovpn-enable">Enable OpenTunnel Client</label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Configuration File</label>
-                    <textarea placeholder="Paste your OpenTunnel configuration here..."></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>Protocol</label>
-                    <select>
-                        <option>UDP</option>
-                        <option selected>TCP</option>
-                    </select>
-                </div>
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Server Address</label>
-                        <input type="text" placeholder="vpn.example.com">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Port</label>
-                        <input type="number" value="1194" placeholder="1194">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="vpn-killswitch">
-                        <label for="vpn-killswitch">Enable Kill Switch</label>
-                    </div>
-                    <div class="helper-text">Block internet if Tunnel disconnects</div>
-                </div>
-            </div>
-
-            <div class="form-section">
-                <h2 class="form-section-title">WireGuard</h2>
-                
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="wg-enable">
-                        <label for="wg-enable">Enable WireGuard</label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Interface Name</label>
-                    <input type="text" value="wg0" placeholder="wg0">
-                </div>
-
-                <div class="form-group">
-                    <label>Private Key</label>
-                    <input type="password" placeholder="Private key">
-                </div>
-
-                <div class="form-group">
-                    <label>Listen Port</label>
-                    <input type="number" value="51820" placeholder="51820">
-                </div>
-
-                <div class="form-group">
-                    <label>Peer Public Key</label>
-                    <input type="text" placeholder="Peer public key">
-                </div>
-
-                <div class="form-group">
-                    <label>Endpoint</label>
-                    <input type="text" placeholder="server.example.com:51820">
-                </div>
-
-                <div class="form-group">
-                    <label>Allowed IPs</label>
-                    <input type="text" value="0.0.0.0/0, ::/0" placeholder="0.0.0.0/0">
-                    <div class="helper-text">Comma-separated list of allowed IP ranges</div>
-                </div>
-            </div>
-
-            <div class="button-group">
-                <button class="button">Save & Apply</button>
-                <button class="button button-secondary">Generate Keys</button>
-            </div>
+            <!-- Content locked - Login required -->
         </div>
 
         <!-- Advanced Tab -->
         <div class="tab-content" id="advanced">
-            <div class="form-section">
-                <h2 class="form-section-title">Performance Tuning</h2>
+            <!-- Content locked - Login required -->
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="login-modal" id="loginModal">
+        <div class="login-content">
+            <button class="login-close" id="closeModal">×</button>
+            <h2 class="login-title">Authentication Required</h2>
+            <p class="login-subtitle">Please log in to access this section</p>
+            
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-input" required>
+                </div>
                 
                 <div class="form-group">
-                    <label>Packet Steering</label>
-                    <select>
-                        <option>Disabled</option>
-                        <option selected>Enabled</option>
-                    </select>
-                    <div class="helper-text">Improves performance on multi-core systems</div>
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" required>
                 </div>
-
-                <div class="form-group">
-                    <label>Software Flow Offloading</label>
-                    <select>
-                        <option>Disabled</option>
-                        <option selected>Enabled</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Hardware Flow Offloading</label>
-                    <select>
-                        <option selected>Disabled</option>
-                        <option>Enabled</option>
-                    </select>
-                    <div class="helper-text">Enable if hardware supports it</div>
-                </div>
-            </div>
-
-            <div class="form-section">
-                <h2 class="form-section-title">IPv6 Settings</h2>
                 
                 <div class="form-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="ipv6-enable" checked>
-                        <label for="ipv6-enable">Enable IPv6</label>
+                    <label class="form-label">Captcha Code</label>
+                    <div class="captcha-container">
+                        <div class="captcha-display" id="captchaDisplay">ABC123</div>
+                        <button type="button" class="captcha-refresh" id="refreshCaptcha">↻</button>
                     </div>
+                    <input type="text" class="form-input" id="captchaInput" placeholder="Enter captcha code" required>
                 </div>
-
-                <div class="form-group">
-                    <label>IPv6 WAN Protocol</label>
-                    <select>
-                        <option selected>DHCPv6</option>
-                        <option>Static</option>
-                        <option>6in4 Tunnel</option>
-                        <option>6to4 Tunnel</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>IPv6 ULA Prefix</label>
-                    <input type="text" value="fd12:3456:789a::/48" placeholder="fd00::/48">
-                    <div class="helper-text">Unique Local Address prefix</div>
-                </div>
-            </div>
-
-            <div class="form-section">
-                <h2 class="form-section-title">Dynamic DNS</h2>
                 
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="ddns-enable">
-                        <label for="ddns-enable">Enable Dynamic DNS</label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Service Provider</label>
-                    <select>
-                        <option>No-IP</option>
-                        <option>DynDNS</option>
-                        <option>Cloudflare</option>
-                        <option>Duck DNS</option>
-                        <option selected>Custom</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Hostname</label>
-                    <input type="text" placeholder="myrouter.ddns.net">
-                </div>
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Username</label>
-                        <input type="text" placeholder="username">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" placeholder="password">
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-section">
-                <h2 class="form-section-title">Custom Scripts</h2>
+                <p class="login-error" id="loginError">Incorrect captcha. Please try again.</p>
                 
-                <div class="form-group">
-                    <label>Startup Script</label>
-                    <textarea placeholder="# Add custom startup commands here&#10;# Example: iptables rules, custom services, etc."></textarea>
-                    <div class="helper-text">Executed at boot time</div>
-                </div>
-
-                <div class="form-group">
-                    <label>Shutdown Script</label>
-                    <textarea placeholder="# Add custom shutdown commands here"></textarea>
-                </div>
-            </div>
-
-            <div class="button-group">
-                <button class="button">Save & Apply</button>
-                <button class="button button-secondary">Revert</button>
-            </div>
+                <button type="submit" class="login-button">Log In</button>
+            </form>
         </div>
     </div>
 
     <script>
-        // Theme detection and setting
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.body.classList.add('dark');
-        } else {
-            document.body.classList.add('light');
+        // Theme Management
+        function applyTheme(theme) {
+            const body = document.body;
+            const savedTheme = theme || localStorage.getItem('theme') || 'auto';
+            
+            localStorage.setItem('theme', savedTheme);
+            
+            // Remove all theme classes
+            body.classList.remove('light', 'dark');
+            
+            // Update checkmarks
+            document.getElementById('autoCheck').textContent = savedTheme === 'auto' ? '✓' : '';
+            document.getElementById('lightCheck').textContent = savedTheme === 'light' ? '✓' : '';
+            document.getElementById('darkCheck').textContent = savedTheme === 'dark' ? '✓' : '';
+            
+            // Update label
+            document.getElementById('themeLabel').textContent = savedTheme.charAt(0).toUpperCase() + savedTheme.slice(1);
+            
+            if (savedTheme === 'auto') {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                body.classList.add(prefersDark ? 'dark' : 'light');
+            } else {
+                body.classList.add(savedTheme);
+            }
         }
 
-        // Tab switching functionality
+        // Initialize theme
+        applyTheme();
+
+        // Theme toggle
+        document.getElementById('themeToggle').addEventListener('click', (e) => {
+            e.stopPropagation();
+            document.getElementById('themeDropdown').classList.toggle('show');
+        });
+
+        // Theme options
+        document.querySelectorAll('.theme-option').forEach(option => {
+            option.addEventListener('click', () => {
+                applyTheme(option.dataset.theme);
+                document.getElementById('themeDropdown').classList.remove('show');
+            });
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.theme-switcher')) {
+                document.getElementById('themeDropdown').classList.remove('show');
+            }
+        });
+
+        // Live Clock
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('liveClock').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        // Update clock immediately and every second
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        // Captcha Generation
+        function generateCaptcha() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let captcha = '';
+            for (let i = 0; i < 6; i++) {
+                captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return captcha;
+        }
+
+        let currentCaptcha = generateCaptcha();
+        document.getElementById('captchaDisplay').textContent = currentCaptcha;
+
+        // Refresh captcha
+        document.getElementById('refreshCaptcha').addEventListener('click', () => {
+            currentCaptcha = generateCaptcha();
+            document.getElementById('captchaDisplay').textContent = currentCaptcha;
+            document.getElementById('captchaInput').value = '';
+            document.getElementById('loginError').classList.remove('show');
+        });
+
+        // Show login modal
+        const loginModal = document.getElementById('loginModal');
+        const loginTriggers = document.querySelectorAll('.login-trigger');
+
+        loginTriggers.forEach(trigger => {
+            trigger.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                loginModal.classList.add('show');
+            });
+        });
+
+        // Close modal
+        document.getElementById('closeModal').addEventListener('click', () => {
+            loginModal.classList.remove('show');
+            document.getElementById('loginError').classList.remove('show');
+        });
+
+        // Close modal when clicking outside
+        loginModal.addEventListener('click', (e) => {
+            if (e.target === loginModal) {
+                loginModal.classList.remove('show');
+                document.getElementById('loginError').classList.remove('show');
+            }
+        });
+
+        // Login form submission (infinite loop)
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const captchaInput = document.getElementById('captchaInput').value.toUpperCase();
+            
+            // Always show error and regenerate captcha (infinite loop)
+            document.getElementById('loginError').classList.add('show');
+            currentCaptcha = generateCaptcha();
+            document.getElementById('captchaDisplay').textContent = currentCaptcha;
+            document.getElementById('captchaInput').value = '';
+        });
+
+        // Tab switching with login check
         const tabs = document.querySelectorAll('.tab');
         const tabContents = document.querySelectorAll('.tab-content');
-
+        
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
+                // Only allow System tab without login
+                if (tab.classList.contains('login-trigger')) {
+                    return; // Login modal already shows from click
+                }
+                
                 const targetTab = tab.dataset.tab;
                 
                 // Remove active class from all tabs and contents
@@ -1562,20 +1254,7 @@
                 document.getElementById(targetTab).classList.add('active');
             });
         });
-
-        // Form submit handlers (prevent actual submission for demo)
-        document.querySelectorAll('.button:not(.button-secondary)').forEach(button => {
-            button.addEventListener('click', (e) => {
-                e.preventDefault();
-                // Simulate save action
-                button.textContent = 'Saved!';
-                button.style.background = '#34C759';
-                setTimeout(() => {
-                    button.textContent = button.textContent.includes('Apply') ? 'Save & Apply' : 'Save Changes';
-                    button.style.background = '#FF3B30';
-                }, 2000);
-            });
-        });
     </script>
 </body>
 </html>
+

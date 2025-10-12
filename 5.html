@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CHANGEMEPLS AI - Pure Intelligence</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
 
         * {
             margin: 0;
@@ -14,7 +14,7 @@
         }
 
         body {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'Space Grotesk', 'Inter', 'DM Sans', 'Sora', 'JetBrains Mono', monospace;
             margin: 0;
             padding: 0;
             display: flex;
@@ -642,6 +642,321 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* Theme Switcher Styles */
+        .theme-switcher {
+            position: relative;
+            display: inline-block;
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid;
+            cursor: pointer;
+            font-family: 'Space Grotesk', 'Inter', monospace;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+
+        body.light .theme-toggle {
+            border-color: rgba(0, 0, 0, 0.15);
+            color: #000000;
+        }
+
+        body.dark .theme-toggle {
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #FFFFFF;
+        }
+
+        .theme-toggle:hover {
+            border-color: #FF3B30;
+            background: rgba(255, 59, 48, 0.05);
+        }
+
+        .theme-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: #FFFFFF;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            min-width: 140px;
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark .theme-dropdown {
+            background: #1a1a1a;
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .theme-dropdown.show {
+            display: flex;
+        }
+
+        .theme-option {
+            padding: 10px 16px;
+            cursor: pointer;
+            font-family: 'Space Grotesk', 'Inter', monospace;
+            font-size: 12px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        body.light .theme-option {
+            color: #000000;
+        }
+
+        body.dark .theme-option {
+            color: #FFFFFF;
+        }
+
+        .theme-option:hover {
+            background: rgba(255, 59, 48, 0.1);
+        }
+
+        .theme-option .checkmark {
+            color: #FF3B30;
+            font-weight: bold;
+            min-width: 12px;
+        }
+
+        /* Sign In Button */
+        .sign-in-btn {
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid;
+            cursor: pointer;
+            font-family: 'Space Grotesk', 'Inter', monospace;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+
+        body.light .sign-in-btn {
+            border-color: rgba(0, 0, 0, 0.15);
+            color: #000000;
+        }
+
+        body.dark .sign-in-btn {
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #FFFFFF;
+        }
+
+        .sign-in-btn:hover {
+            border-color: #FF3B30;
+            background: rgba(255, 59, 48, 0.05);
+        }
+
+        /* Login Modal */
+        .login-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-modal.show {
+            display: flex;
+        }
+
+        .login-content {
+            background: #FFFFFF;
+            padding: 40px;
+            width: 90%;
+            max-width: 420px;
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark .login-content {
+            background: #1a1a1a;
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .login-header {
+            margin-bottom: 24px;
+        }
+
+        .login-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-family: 'Space Grotesk', 'Inter', monospace;
+        }
+
+        .login-subtitle {
+            font-size: 13px;
+            opacity: 0.6;
+            font-family: 'DM Sans', 'Inter', monospace;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: transparent;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: inherit;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .close-modal:hover {
+            color: #FF3B30;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-family: 'Space Grotesk', monospace;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid;
+            background: transparent;
+            font-family: 'Inter', 'DM Sans', monospace;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        body.light .form-input {
+            border-color: rgba(0, 0, 0, 0.15);
+            color: #000000;
+        }
+
+        body.dark .form-input {
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #FFFFFF;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #FF3B30;
+        }
+
+        .captcha-container {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .captcha-display {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid;
+            text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.3em;
+            background: rgba(128, 128, 128, 0.05);
+        }
+
+        body.light .captcha-display {
+            border-color: rgba(0, 0, 0, 0.15);
+            color: #000000;
+        }
+
+        body.dark .captcha-display {
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #FFFFFF;
+        }
+
+        .refresh-captcha {
+            padding: 12px;
+            background: transparent;
+            border: 1px solid;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        body.light .refresh-captcha {
+            border-color: rgba(0, 0, 0, 0.15);
+        }
+
+        body.dark .refresh-captcha {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .refresh-captcha:hover {
+            border-color: #FF3B30;
+            background: rgba(255, 59, 48, 0.05);
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 14px;
+            background: #FF3B30;
+            color: #FFFFFF;
+            border: none;
+            cursor: pointer;
+            font-family: 'Space Grotesk', 'Inter', monospace;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s;
+        }
+
+        .login-button:hover {
+            background: #E6342A;
+        }
+
+        .login-error {
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(255, 59, 48, 0.1);
+            border: 1px solid rgba(255, 59, 48, 0.3);
+            color: #FF3B30;
+            font-size: 12px;
+            text-align: center;
+            display: none;
+            font-family: 'Inter', monospace;
+        }
+
+        .login-error.show {
+            display: block;
+        }
     </style>
 </head>
 <body class="dark">
@@ -677,7 +992,28 @@
         </div>
         <div style="display: flex; align-items: center; gap: 16px;">
             <a href="https://github.com/TeamDominant/sni-templates" target="_blank" style="color: inherit; text-decoration: none; font-size: 12px; opacity: 0.6; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">Made with ❤️</a>
-            <button class="theme-toggle" id="themeToggle">Toggle Theme</button>
+            
+            <button class="sign-in-btn login-trigger">Sign In</button>
+            
+            <div class="theme-switcher">
+                <button class="theme-toggle" id="themeToggle">
+                    <span id="themeLabel">Auto</span>
+                </button>
+                <div class="theme-dropdown" id="themeDropdown">
+                    <div class="theme-option" data-theme="auto">
+                        <span>Auto</span>
+                        <span class="checkmark" id="autoCheck">✓</span>
+                    </div>
+                    <div class="theme-option" data-theme="light">
+                        <span>Light</span>
+                        <span class="checkmark" id="lightCheck"></span>
+                    </div>
+                    <div class="theme-option" data-theme="dark">
+                        <span>Dark</span>
+                        <span class="checkmark" id="darkCheck"></span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -692,16 +1028,16 @@
                     <p class="welcome-subtitle">CHANGEMEPLS AI - Minimalist conversational experience</p>
                     
                     <div class="starter-prompts">
-                        <button class="prompt-card" onclick="sendMessage('Explain quantum computing in simple terms')">
+                        <button class="prompt-card login-trigger">
                             Explain quantum computing in simple terms
                         </button>
-                        <button class="prompt-card" onclick="sendMessage('Latest developments in AI technology')">
+                        <button class="prompt-card login-trigger">
                             Latest developments in AI technology
                         </button>
-                        <button class="prompt-card" onclick="sendMessage('How does machine learning work?')">
+                        <button class="prompt-card login-trigger">
                             How does machine learning work?
                         </button>
-                        <button class="prompt-card" onclick="sendMessage('Design principles for minimalist interfaces')">
+                        <button class="prompt-card login-trigger">
                             Design principles for minimalist interfaces
                         </button>
                     </div>
@@ -738,8 +1074,8 @@
                             </div>
                             
                             <div class="suggested-questions">
-                                <button class="suggestion-button" onclick="sendMessage('Tell me more about CHANGEMEPLS design')">Tell me more about CHANGEMEPLS design</button>
-                                <button class="suggestion-button" onclick="sendMessage('Examples of minimalist interfaces')">Examples of minimalist interfaces</button>
+                                <button class="suggestion-button login-trigger">Tell me more about CHANGEMEPLS design</button>
+                                <button class="suggestion-button login-trigger">Examples of minimalist interfaces</button>
                             </div>
                         </div>
                     </div>
@@ -750,130 +1086,191 @@
             <div class="input-area">
                 <div class="input-container">
                     <div class="input-wrapper">
-                        <button class="attach-button" title="Attach file">📎</button>
+                        <button class="attach-button login-trigger" title="Attach file">📎</button>
                         <textarea 
-                            class="chat-input" 
+                            class="chat-input login-trigger" 
                             id="chatInput" 
                             placeholder="Ask anything..."
                             rows="1"
                         ></textarea>
-                        <button class="send-button" id="sendButton" onclick="handleSend()">Send</button>
+                        <button class="send-button login-trigger" id="sendButton">Send</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
-        // Theme Toggle
-        const themeToggle = document.getElementById('themeToggle');
-        const body = document.body;
-
-        // Initialize theme based on system preference
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            body.classList.add('dark');
-            body.classList.remove('light');
-        } else {
-            body.classList.add('light');
-            body.classList.remove('dark');
-        }
-
-        themeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark');
-            body.classList.toggle('light');
-        });
-
-        // Chat Input Auto-resize
-        const chatInput = document.getElementById('chatInput');
-        chatInput.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
-        });
-
-        // Enter to send (Shift+Enter for new line)
-        chatInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                handleSend();
-            }
-        });
-
-        // Send Message Function
-        function handleSend() {
-            const message = chatInput.value.trim();
-            if (message) {
-                sendMessage(message);
-                chatInput.value = '';
-                chatInput.style.height = 'auto';
-            }
-        }
-
-        function sendMessage(message) {
-            const welcomeScreen = document.getElementById('welcomeScreen');
-            const chatMessages = document.getElementById('chatMessages');
-            const messagesContainer = document.getElementById('messagesContainer');
-
-            // Hide welcome screen and show chat messages
-            if (welcomeScreen.style.display !== 'none') {
-                welcomeScreen.style.display = 'none';
-                chatMessages.style.display = 'block';
-            }
-
-            // Create user message
-            const userMessage = document.createElement('div');
-            userMessage.className = 'message';
-            userMessage.innerHTML = `
-                <div class="message-avatar user">U</div>
-                <div class="message-content">
-                    <div class="message-text">${escapeHtml(message)}</div>
+    <!-- Login Modal -->
+    <div class="login-modal" id="loginModal">
+        <div class="login-content">
+            <button class="close-modal" id="closeModal">&times;</button>
+            <div class="login-header">
+                <h2 class="login-title">Authentication Required</h2>
+                <p class="login-subtitle">Please verify your identity to continue</p>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-input" placeholder="Enter username" required>
                 </div>
-            `;
-            chatMessages.appendChild(userMessage);
-
-            // Scroll to bottom
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
-            // Simulate AI response after a delay
-            setTimeout(() => {
-                const aiMessage = document.createElement('div');
-                aiMessage.className = 'message';
-                aiMessage.innerHTML = `
-                    <div class="message-avatar ai">AI</div>
-                    <div class="message-content">
-                        <div class="message-text">
-                            <p>This is a design demonstration of CHANGEMEPLS AI interface. In a real implementation, this would connect to an AI model to provide intelligent responses.</p>
-                            <p>The interface maintains the CHANGEMEPLS aesthetic with JetBrains Mono typography, geometric animations, and signature red accent colors.</p>
-                        </div>
-                        <div class="sources">
-                            <a href="#" class="source-chip">Source 1</a>
-                            <a href="#" class="source-chip">Source 2</a>
-                        </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" placeholder="Enter password" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Security Verification</label>
+                    <div class="captcha-container">
+                        <div class="captcha-display" id="captchaDisplay">ABC123</div>
+                        <button type="button" class="refresh-captcha" id="refreshCaptcha">🔄</button>
                     </div>
-                `;
-                chatMessages.appendChild(aiMessage);
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            }, 1000);
+                    <input type="text" class="form-input" id="captchaInput" placeholder="Enter code above" required>
+                </div>
+                <button type="submit" class="login-button">Sign In</button>
+                <div class="login-error" id="loginError">
+                    Invalid credentials or verification code. Please try again.
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Theme Management
+        function applyTheme(theme) {
+            const body = document.body;
+            const savedTheme = theme || localStorage.getItem('theme') || 'auto';
+            
+            localStorage.setItem('theme', savedTheme);
+            
+            // Remove all theme classes
+            body.classList.remove('light', 'dark');
+            
+            // Update checkmarks
+            document.getElementById('autoCheck').textContent = savedTheme === 'auto' ? '✓' : '';
+            document.getElementById('lightCheck').textContent = savedTheme === 'light' ? '✓' : '';
+            document.getElementById('darkCheck').textContent = savedTheme === 'dark' ? '✓' : '';
+            
+            // Update label
+            document.getElementById('themeLabel').textContent = savedTheme.charAt(0).toUpperCase() + savedTheme.slice(1);
+            
+            if (savedTheme === 'auto') {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                body.classList.add(prefersDark ? 'dark' : 'light');
+            } else {
+                body.classList.add(savedTheme);
+            }
         }
 
+        // Initialize theme
+        applyTheme();
+
+        // Theme toggle
+        document.getElementById('themeToggle').addEventListener('click', (e) => {
+            e.stopPropagation();
+            document.getElementById('themeDropdown').classList.toggle('show');
+        });
+
+        // Theme options
+        document.querySelectorAll('.theme-option').forEach(option => {
+            option.addEventListener('click', () => {
+                applyTheme(option.dataset.theme);
+                document.getElementById('themeDropdown').classList.remove('show');
+            });
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.theme-switcher')) {
+                document.getElementById('themeDropdown').classList.remove('show');
+            }
+        });
+
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+            if (localStorage.getItem('theme') === 'auto') {
+                applyTheme('auto');
+            }
+        });
+
+        // Captcha Generation
+        function generateCaptcha() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let captcha = '';
+            for (let i = 0; i < 6; i++) {
+                captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return captcha;
+        }
+
+        let currentCaptcha = generateCaptcha();
+        document.getElementById('captchaDisplay').textContent = currentCaptcha;
+
+        // Refresh captcha
+        document.getElementById('refreshCaptcha').addEventListener('click', () => {
+            currentCaptcha = generateCaptcha();
+            document.getElementById('captchaDisplay').textContent = currentCaptcha;
+            document.getElementById('captchaInput').value = '';
+            document.getElementById('loginError').classList.remove('show');
+        });
+
+        // Show login modal
+        const loginModal = document.getElementById('loginModal');
+        const loginTriggers = document.querySelectorAll('.login-trigger');
+
+        loginTriggers.forEach(trigger => {
+            trigger.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                loginModal.classList.add('show');
+            });
+        });
+
+        // Prevent typing in chat input
+        document.getElementById('chatInput').addEventListener('keydown', (e) => {
+            e.preventDefault();
+            loginModal.classList.add('show');
+        });
+
+        // Close modal
+        document.getElementById('closeModal').addEventListener('click', () => {
+            loginModal.classList.remove('show');
+            document.getElementById('loginError').classList.remove('show');
+        });
+
+        // Close modal when clicking outside
+        loginModal.addEventListener('click', (e) => {
+            if (e.target === loginModal) {
+                loginModal.classList.remove('show');
+                document.getElementById('loginError').classList.remove('show');
+            }
+        });
+
+        // Login form submission (infinite loop)
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const captchaInput = document.getElementById('captchaInput').value.toUpperCase();
+            
+            // Always show error and regenerate captcha (infinite loop)
+            document.getElementById('loginError').classList.add('show');
+            currentCaptcha = generateCaptcha();
+            document.getElementById('captchaDisplay').textContent = currentCaptcha;
+            document.getElementById('captchaInput').value = '';
+        });
+
+        // Disable all interactive functionality
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
         }
 
-        // Smooth scroll on new messages
-        const messagesContainer = document.getElementById('messagesContainer');
-        const observer = new MutationObserver(() => {
-            messagesContainer.scrollTo({
-                top: messagesContainer.scrollHeight,
-                behavior: 'smooth'
-            });
-        });
+        // Override sendMessage to show login instead
+        function sendMessage(message) {
+            loginModal.classList.add('show');
+        }
 
-        observer.observe(document.getElementById('chatMessages'), {
-            childList: true,
-            subtree: true
-        });
+        function handleSend() {
+            loginModal.classList.add('show');
+        }
     </script>
 </body>
 </html>

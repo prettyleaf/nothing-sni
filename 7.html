@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CHANGEMEPLS Cloud Storage</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Sora:wght@300;400;500;600;700&display=swap');
 
         * {
             margin: 0;
@@ -14,7 +14,7 @@
         }
 
         body {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'Space Grotesk', 'Inter', 'JetBrains Mono', monospace;
             margin: 0;
             padding: 0;
             min-height: 100vh;
@@ -131,6 +131,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            font-family: 'Sora', sans-serif;
         }
 
         .logo::before {
@@ -153,24 +154,78 @@
             background: transparent;
             border: 1px solid;
             padding: 0 16px;
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'Inter', sans-serif;
             font-size: 13px;
             color: inherit;
             transition: all 0.3s;
+            cursor: pointer;
         }
 
-        body.light .search-bar { border-color: rgba(0, 0, 0, 0.15); }
-        body.dark .search-bar { border-color: rgba(255, 255, 255, 0.15); }
+        body.light .search-bar { border-color: rgba(0, 0, 0, 0.15); color: #000; }
+        body.dark .search-bar { border-color: rgba(255, 255, 255, 0.15); color: #fff; }
 
         .search-bar:focus {
             outline: none;
             border-color: #FF3B30;
         }
 
+        .search-bar::placeholder {
+            opacity: 0.5;
+        }
+
         .header-right {
             display: flex;
             align-items: center;
             gap: 16px;
+        }
+
+        .theme-switcher {
+            position: relative;
+        }
+
+        .theme-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: inherit;
+            border: 1px solid;
+            min-width: 120px;
+            display: none;
+            z-index: 1000;
+        }
+
+        body.light .theme-dropdown {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(12px);
+        }
+
+        body.dark .theme-dropdown {
+            background: rgba(0, 0, 0, 0.95);
+            border-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+        }
+
+        .theme-dropdown.show {
+            display: block;
+        }
+
+        .theme-option {
+            padding: 10px 16px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .theme-option:hover {
+            background: rgba(255, 59, 48, 0.1);
+            color: #FF3B30;
+        }
+
+        .theme-option.active {
+            color: #FF3B30;
         }
 
         .icon-btn {
@@ -240,6 +295,7 @@
             opacity: 0.5;
             margin-bottom: 12px;
             letter-spacing: 0.05em;
+            font-family: 'DM Sans', sans-serif;
         }
 
         .nav-item {
@@ -252,6 +308,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            font-family: 'Inter', sans-serif;
         }
 
         .nav-item:hover {
@@ -544,6 +601,289 @@
                 grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
             }
         }
+
+        /* Login Modal */
+        .login-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(12px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-modal.show {
+            display: flex;
+        }
+
+        .login-content {
+            background: inherit;
+            border: 1px solid;
+            padding: 40px;
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+        }
+
+        body.light .login-content {
+            background: #FFFFFF;
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark .login-content {
+            background: #000000;
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .login-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-family: 'Sora', sans-serif;
+        }
+
+        .login-subtitle {
+            font-size: 13px;
+            opacity: 0.6;
+            margin-bottom: 32px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-label {
+            font-size: 12px;
+            font-weight: 500;
+            opacity: 0.8;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .form-input {
+            padding: 12px 16px;
+            background: transparent;
+            border: 1px solid;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        body.light .form-input {
+            border-color: rgba(0, 0, 0, 0.15);
+            color: #000000;
+        }
+
+        body.dark .form-input {
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #FFFFFF;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #FF3B30;
+        }
+
+        .captcha-container {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .captcha-display {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.3em;
+            text-align: center;
+            user-select: none;
+        }
+
+        body.light .captcha-display {
+            border-color: rgba(0, 0, 0, 0.15);
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        body.dark .captcha-display {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .captcha-refresh {
+            padding: 12px;
+            background: transparent;
+            border: 1px solid;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        body.light .captcha-refresh {
+            border-color: rgba(0, 0, 0, 0.15);
+        }
+
+        body.dark .captcha-refresh {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .captcha-refresh:hover {
+            border-color: #FF3B30;
+            transform: rotate(180deg);
+        }
+
+        .login-button {
+            padding: 14px;
+            background: #FF3B30;
+            border: none;
+            color: #FFFFFF;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 59, 48, 0.3);
+        }
+
+        .login-error {
+            font-size: 12px;
+            color: #FF3B30;
+            display: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .login-error.show {
+            display: block;
+        }
+
+        .login-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+            background: transparent;
+            border: 1px solid;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        body.light .login-close {
+            border-color: rgba(0, 0, 0, 0.15);
+        }
+
+        body.dark .login-close {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .login-close:hover {
+            border-color: #FF3B30;
+            color: #FF3B30;
+            transform: rotate(90deg);
+        }
+
+        .login-trigger {
+            cursor: pointer !important;
+        }
+
+        /* Content Blur Overlay */
+        .content-blur {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            backdrop-filter: blur(8px);
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .login-prompt {
+            text-align: center;
+            padding: 48px;
+            background: inherit;
+            border: 1px solid;
+            max-width: 400px;
+            pointer-events: all;
+        }
+
+        body.light .login-prompt {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark .login-prompt {
+            background: rgba(0, 0, 0, 0.95);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .login-prompt-icon {
+            font-size: 48px;
+            margin-bottom: 24px;
+        }
+
+        .login-prompt-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-family: 'Sora', sans-serif;
+        }
+
+        .login-prompt-text {
+            font-size: 14px;
+            opacity: 0.7;
+            margin-bottom: 32px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .login-prompt-button {
+            padding: 14px 32px;
+            background: #FF3B30;
+            border: none;
+            color: #FFFFFF;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .login-prompt-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 59, 48, 0.3);
+        }
+
+        .content-blurred {
+            filter: blur(4px);
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .main-content {
+            position: relative;
+        }
     </style>
 </head>
 <body class="dark">
@@ -559,73 +899,94 @@
         <header class="header">
             <div class="header-left">
                 <a href="https://github.com/TeamDominant/sni-templates" target="_blank" style="color: inherit; text-decoration: none;"><div class="logo">CHANGEMEPLS Cloud</div></a>
-                <input type="text" class="search-bar" placeholder="Search files...">
+                <input type="text" class="search-bar login-trigger" placeholder="Search files..." readonly>
             </div>
             <div class="header-right">
-                <button class="icon-btn" title="Notifications">🔔</button>
-                <button class="icon-btn" title="Settings">⚙️</button>
-                <button class="icon-btn" title="Profile">👤</button>
+                <button class="icon-btn login-trigger" title="Notifications">🔔</button>
+                <div class="theme-switcher">
+                    <button class="icon-btn" id="themeToggle" title="Theme">☀</button>
+                    <div class="theme-dropdown" id="themeDropdown">
+                        <div class="theme-option active" data-theme="auto">Auto</div>
+                        <div class="theme-option" data-theme="light">Light</div>
+                        <div class="theme-option" data-theme="dark">Dark</div>
+                    </div>
+                </div>
+                <button class="icon-btn login-trigger" title="Profile">👤</button>
             </div>
         </header>
 
         <!-- Sidebar -->
+                <!-- Sidebar -->
         <aside class="sidebar">
-            <button class="upload-btn">+ Upload</button>
+            <button class="upload-btn login-trigger">+ Upload</button>
 
             <div class="nav-section">
                 <div class="nav-title">Quick Access</div>
                 <div class="nav-item active">
                     <span>All Files</span>
-                    <span class="nav-item-count">142</span>
+                    <span class="nav-item-count" id="allFilesCount">654</span>
                 </div>
-                <div class="nav-item">
+                <div class="nav-item login-trigger">
                     <span>Recent</span>
                     <span class="nav-item-count">23</span>
                 </div>
-                <div class="nav-item">
+                <div class="nav-item login-trigger">
                     <span>Starred</span>
-                    <span class="nav-item-count">8</span>
+                    <span class="nav-item-count" id="starredCount">720</span>
                 </div>
-                <div class="nav-item">
+                <div class="nav-item login-trigger">
                     <span>Shared</span>
-                    <span class="nav-item-count">15</span>
+                    <span class="nav-item-count" id="sharedCount">580</span>
                 </div>
             </div>
 
             <div class="nav-section">
-                <div class="nav-title">Categories</div>
-                <div class="nav-item">
+                <div class="nav-title">Storage</div>
+                <div class="nav-item login-trigger">
                     <span>Documents</span>
-                    <span class="nav-item-count">45</span>
+                    <span class="nav-item-count" id="documentsCount">765</span>
                 </div>
-                <div class="nav-item">
+                <div class="nav-item login-trigger">
                     <span>Images</span>
-                    <span class="nav-item-count">67</span>
+                    <span class="nav-item-count" id="imagesCount">620</span>
                 </div>
-                <div class="nav-item">
+                <div class="nav-item login-trigger">
                     <span>Videos</span>
-                    <span class="nav-item-count">12</span>
+                    <span class="nav-item-count" id="videosCount">530</span>
                 </div>
-                <div class="nav-item">
-                    <span>Audio</span>
-                    <span class="nav-item-count">18</span>
+                <div class="nav-item login-trigger">
+                    <span>Music</span>
+                    <span class="nav-item-count" id="musicCount">680</span>
                 </div>
             </div>
 
-            <div class="storage-info">
-                <div>Storage</div>
+            <div class="storage-info login-trigger">
+                <div style="font-size: 12px; font-weight: 500; margin-bottom: 8px;">Storage</div>
                 <div class="storage-bar">
                     <div class="storage-fill"></div>
                 </div>
                 <div class="storage-text">67 GB of 100 GB used</div>
-                <div class="made-with">
-                    <a href="https://github.com/TeamDominant/sni-templates" target="_blank">Made with ❤️</a>
-                </div>
+            </div>
+
+            <div class="made-with">
+                <a href="https://github.com/TeamDominant/sni-templates" target="_blank">Made with ❤️</a>
             </div>
         </aside>
 
         <!-- Main Content -->
         <main class="main-content">
+            <!-- Blur Overlay with Login Prompt -->
+            <div class="content-blur">
+                <div class="login-prompt">
+                    <div class="login-prompt-icon">🔒</div>
+                    <div class="login-prompt-title">Log in to view your drive</div>
+                    <div class="login-prompt-text">Access your files, folders, and shared content</div>
+                    <button class="login-prompt-button login-trigger">Sign In</button>
+                </div>
+            </div>
+
+            <!-- Blurred Content -->
+            <div class="content-blurred">
             <div class="breadcrumb">
                 <span>Home</span> / <span>All Files</span>
             </div>
@@ -685,7 +1046,7 @@
                 <div class="file-card">
                     <div class="file-card-dot"></div>
                     <div class="file-icon">📄</div>
-                    <div class="file-name">presentation.pdf</div>
+                    <div class="file-name">Remnawave.pdf</div>
                     <div class="file-meta">2.4 MB</div>
                 </div>
                 <div class="file-card">
@@ -703,7 +1064,7 @@
                 <div class="file-card">
                     <div class="file-card-dot"></div>
                     <div class="file-icon">📝</div>
-                    <div class="file-name">meeting_notes.txt</div>
+                    <div class="file-name">how_to_install.txt</div>
                     <div class="file-meta">45 KB</div>
                 </div>
                 <div class="file-card">
@@ -715,7 +1076,7 @@
                 <div class="file-card">
                     <div class="file-card-dot"></div>
                     <div class="file-icon">🎬</div>
-                    <div class="file-name">tutorial_video.mp4</div>
+                    <div class="file-name">MY_REMNAWAVE_DOESNT_WORK.mp4</div>
                     <div class="file-meta">156 MB</div>
                 </div>
                 <div class="file-card">
@@ -789,18 +1150,206 @@
                     </div>
                 </div>
             </div>
+            </div> <!-- End content-blurred -->
         </main>
     </div>
 
+    <!-- Login Modal -->
+    <div class="login-modal" id="loginModal">
+        <div class="login-content">
+            <button class="login-close" id="closeModal">×</button>
+            <div class="login-title">Authentication Required</div>
+            <div class="login-subtitle">Please verify your identity to continue</div>
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" placeholder="••••••••" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Security Verification</label>
+                    <div class="captcha-container">
+                        <div class="captcha-display" id="captchaDisplay">ABC123</div>
+                        <button type="button" class="captcha-refresh" id="refreshCaptcha">↻</button>
+                    </div>
+                    <input type="text" class="form-input" id="captchaInput" placeholder="Enter code above" required>
+                </div>
+                <div class="login-error" id="loginError">Invalid captcha. Please try again.</div>
+                <button type="submit" class="login-button">Sign In</button>
+            </form>
+        </div>
+    </div>
+
     <script>
-        // Theme detection
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.body.classList.add('dark');
-            document.body.classList.remove('light');
-        } else {
-            document.body.classList.add('light');
-            document.body.classList.remove('dark');
+        // Theme Management
+        const themeToggle = document.getElementById('themeToggle');
+        const themeDropdown = document.getElementById('themeDropdown');
+        const themeOptions = document.querySelectorAll('.theme-option');
+        const body = document.body;
+
+        // Initialize theme
+        function applyTheme(theme) {
+            localStorage.setItem('theme', theme);
+            
+            if (theme === 'auto') {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                body.classList.toggle('dark', prefersDark);
+                body.classList.toggle('light', !prefersDark);
+            } else if (theme === 'dark') {
+                body.classList.add('dark');
+                body.classList.remove('light');
+            } else {
+                body.classList.add('light');
+                body.classList.remove('dark');
+            }
+
+            themeOptions.forEach(opt => {
+                opt.classList.toggle('active', opt.dataset.theme === theme);
+            });
         }
+
+        // Load saved theme or default to auto
+        const savedTheme = localStorage.getItem('theme') || 'auto';
+        applyTheme(savedTheme);
+
+        // Theme toggle dropdown
+        themeToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            themeDropdown.classList.toggle('show');
+        });
+
+        themeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                applyTheme(option.dataset.theme);
+                themeDropdown.classList.remove('show');
+            });
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', () => {
+            themeDropdown.classList.remove('show');
+        });
+
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+            if (localStorage.getItem('theme') === 'auto') {
+                applyTheme('auto');
+            }
+        });
+
+        // Login Modal System
+        const loginModal = document.getElementById('loginModal');
+        const closeModal = document.getElementById('closeModal');
+        const loginForm = document.getElementById('loginForm');
+        const captchaDisplay = document.getElementById('captchaDisplay');
+        const captchaInput = document.getElementById('captchaInput');
+        const refreshCaptcha = document.getElementById('refreshCaptcha');
+        const loginError = document.getElementById('loginError');
+
+        // Generate random captcha
+        function generateCaptcha() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let captcha = '';
+            for (let i = 0; i < 6; i++) {
+                captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return captcha;
+        }
+
+        // Show login modal
+        function showLoginModal() {
+            loginModal.classList.add('show');
+            captchaDisplay.textContent = generateCaptcha();
+            captchaInput.value = '';
+            loginError.classList.remove('show');
+        }
+
+        // Close login modal
+        function hideLoginModal() {
+            loginModal.classList.remove('show');
+        }
+
+        // Refresh captcha
+        refreshCaptcha.addEventListener('click', () => {
+            captchaDisplay.textContent = generateCaptcha();
+            captchaInput.value = '';
+        });
+
+        // Handle login form (infinite loop)
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            loginError.classList.add('show');
+            
+            // Generate new captcha to loop infinitely
+            setTimeout(() => {
+                captchaDisplay.textContent = generateCaptcha();
+                captchaInput.value = '';
+                loginError.classList.remove('show');
+            }, 1500);
+        });
+
+        // Close modal handlers
+        closeModal.addEventListener('click', hideLoginModal);
+        loginModal.addEventListener('click', (e) => {
+            if (e.target === loginModal) {
+                hideLoginModal();
+            }
+        });
+
+        // Add login triggers to all elements with login-trigger class
+        document.querySelectorAll('.login-trigger').forEach(element => {
+            element.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                showLoginModal();
+            });
+        });
+
+        // Dynamic Counter System
+        let allFilesCount = 654;
+        let starredCount = 720;
+        let sharedCount = 580;
+        let documentsCount = 765;
+        let imagesCount = 620;
+        let videosCount = 530;
+        let musicCount = 680;
+
+        function updateCounts() {
+            // Increment each counter by 1-3
+            allFilesCount += Math.floor(Math.random() * 3) + 1;
+            starredCount += Math.floor(Math.random() * 3) + 1;
+            sharedCount += Math.floor(Math.random() * 3) + 1;
+            documentsCount += Math.floor(Math.random() * 3) + 1;
+            imagesCount += Math.floor(Math.random() * 3) + 1;
+            videosCount += Math.floor(Math.random() * 3) + 1;
+            musicCount += Math.floor(Math.random() * 3) + 1;
+
+            // Update display
+            const allFilesEl = document.getElementById('allFilesCount');
+            const starredEl = document.getElementById('starredCount');
+            const sharedEl = document.getElementById('sharedCount');
+            const documentsEl = document.getElementById('documentsCount');
+            const imagesEl = document.getElementById('imagesCount');
+            const videosEl = document.getElementById('videosCount');
+            const musicEl = document.getElementById('musicCount');
+
+            if (allFilesEl) allFilesEl.textContent = allFilesCount;
+            if (starredEl) starredEl.textContent = starredCount;
+            if (sharedEl) sharedEl.textContent = sharedCount;
+            if (documentsEl) documentsEl.textContent = documentsCount;
+            if (imagesEl) imagesEl.textContent = imagesCount;
+            if (videosEl) videosEl.textContent = videosCount;
+            if (musicEl) musicEl.textContent = musicCount;
+
+            // Schedule next update (6-12 seconds)
+            setTimeout(updateCounts, (Math.random() * 6000) + 6000);
+        }
+
+        // Start counter updates
+        updateCounts();
 
         // View toggle
         const gridViewBtn = document.getElementById('gridView');
@@ -828,8 +1377,10 @@
         // Interactive navigation
         document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', () => {
-                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-                item.classList.add('active');
+                if (!item.classList.contains('login-trigger')) {
+                    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                }
             });
         });
     </script>

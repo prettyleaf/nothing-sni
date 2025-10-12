@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CHANGEMEPLS Social</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Sora:wght@300;400;500;600;700&display=swap');
 
         * {
             margin: 0;
@@ -14,11 +14,22 @@
         }
 
         body {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'Inter', 'JetBrains Mono', monospace;
             background: #000000;
             color: #FFFFFF;
             overflow-x: hidden;
             position: relative;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.light {
+            background: #FFFFFF;
+            color: #000000;
+        }
+
+        body.dark {
+            background: #000000;
+            color: #FFFFFF;
         }
 
         /* Dot Matrix Pattern Background */
@@ -33,6 +44,10 @@
             background-size: 24px 24px;
             pointer-events: none;
             z-index: 0;
+        }
+
+        body.light::before {
+            background-image: radial-gradient(circle, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
         }
 
         /* Background Elements */
@@ -51,6 +66,10 @@
             position: absolute;
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 50%;
+        }
+
+        body.light .orbit-ring {
+            border-color: rgba(0, 0, 0, 0.1);
         }
 
         .orbit-1 {
@@ -132,6 +151,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            font-family: 'Space Grotesk', sans-serif;
         }
 
         .logo-dot {
@@ -150,6 +170,7 @@
         .nav {
             display: flex;
             gap: 24px;
+            align-items: center;
         }
 
         .nav-item {
@@ -159,11 +180,276 @@
             cursor: pointer;
             transition: color 0.3s;
             text-decoration: none;
+            font-family: 'Sora', sans-serif;
+        }
+
+        body.light .nav-item {
+            color: rgba(0, 0, 0, 0.6);
         }
 
         .nav-item:hover,
         .nav-item.active {
             color: #FFFFFF;
+        }
+
+        body.light .nav-item:hover,
+        body.light .nav-item.active {
+            color: #000000;
+        }
+
+        /* Theme Switcher */
+        .theme-switcher {
+            position: relative;
+        }
+
+        .theme-btn {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        body.light .theme-btn {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .theme-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        body.light .theme-btn:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .theme-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: rgba(20, 20, 20, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            min-width: 140px;
+            display: none;
+            z-index: 1000;
+        }
+
+        body.light .theme-dropdown {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-dropdown.show {
+            display: block;
+        }
+
+        .theme-option {
+            padding: 10px 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .theme-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        body.light .theme-option:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .theme-option.active {
+            background: rgba(255, 59, 48, 0.2);
+            color: #FF3B30;
+        }
+
+        /* Login Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #1a1a1a;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 36px;
+            max-width: 420px;
+            width: 90%;
+            position: relative;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body.light .modal-content {
+            background: #ffffff;
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: inherit;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            opacity: 1;
+        }
+
+        .modal-title {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-family: 'Sora', sans-serif;
+        }
+
+        .modal-subtitle {
+            font-size: 14px;
+            opacity: 0.6;
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            opacity: 0.8;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: inherit;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        body.light .form-input {
+            border-color: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .form-input:focus {
+            border-color: #FF3B30;
+        }
+
+        .captcha-container {
+            margin: 24px 0;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        body.light .captcha-container {
+            border-color: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .captcha-title {
+            font-size: 12px;
+            margin-bottom: 14px;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        .captcha-image {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 18px;
+            text-align: center;
+            margin-bottom: 14px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 26px;
+            letter-spacing: 10px;
+            color: white;
+            user-select: none;
+            font-weight: 700;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+        }
+
+        .captcha-refresh {
+            display: inline-block;
+            font-size: 11px;
+            color: #FF3B30;
+            cursor: pointer;
+            text-decoration: underline;
+            margin-top: 6px;
+        }
+
+        .captcha-refresh:hover {
+            opacity: 0.8;
+        }
+
+        .modal-submit {
+            width: 100%;
+            padding: 14px 24px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #FFFFFF;
+            background: #FF3B30;
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: -0.01em;
+            margin-top: 10px;
+        }
+
+        .modal-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 59, 48, 0.4);
+        }
+
+        .error-message {
+            color: #FF3B30;
+            font-size: 12px;
+            margin-top: 10px;
+            display: none;
+            padding: 10px;
+            background: rgba(255, 59, 48, 0.1);
+            border-left: 3px solid #FF3B30;
+        }
+
+        .error-message.show {
+            display: block;
         }
 
         /* Profile Section */
@@ -172,6 +458,10 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 32px;
             position: relative;
+        }
+
+        body.light .profile-section {
+            border-color: rgba(0, 0, 0, 0.1);
         }
 
         .profile-header {
@@ -202,6 +492,7 @@
             font-weight: 600;
             margin-bottom: 4px;
             letter-spacing: -0.02em;
+            font-family: 'Sora', sans-serif;
         }
 
         .profile-username {
@@ -247,6 +538,10 @@
             position: relative;
         }
 
+        body.light .post-composer {
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
         .composer-input {
             width: 100%;
             background: transparent;
@@ -260,8 +555,20 @@
             margin-bottom: 16px;
         }
 
+        .composer-input.login-trigger {
+            cursor: pointer;
+        }
+
         .composer-input::placeholder {
             color: rgba(255, 255, 255, 0.3);
+        }
+
+        body.light .composer-input {
+            color: #000000;
+        }
+
+        body.light .composer-input::placeholder {
+            color: rgba(0, 0, 0, 0.3);
         }
 
         .composer-actions {
@@ -322,8 +629,16 @@
             transition: border-color 0.3s;
         }
 
+        body.light .post {
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
         .post:hover {
             border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        body.light .post:hover {
+            border-color: rgba(0, 0, 0, 0.2);
         }
 
         .post-header {
@@ -547,8 +862,25 @@
             </div>
             <nav class="nav">
                 <a href="#" class="nav-item active">Feed</a>
-                <a href="#" class="nav-item">Explore</a>
-                <a href="#" class="nav-item">Profile</a>
+                <a href="#" class="nav-item login-trigger">Explore</a>
+                <a href="#" class="nav-item login-trigger">Profile</a>
+                <div class="theme-switcher">
+                    <button class="theme-btn" id="themeBtn">🌓</button>
+                    <div class="theme-dropdown" id="themeDropdown">
+                        <div class="theme-option" data-theme="auto">
+                            <span>🔄</span>
+                            <span>Auto</span>
+                        </div>
+                        <div class="theme-option" data-theme="dark">
+                            <span>🌙</span>
+                            <span>Dark</span>
+                        </div>
+                        <div class="theme-option" data-theme="light">
+                            <span>☀️</span>
+                            <span>Light</span>
+                        </div>
+                    </div>
+                </div>
             </nav>
         </header>
 
@@ -558,22 +890,22 @@
                 <div class="profile-avatar">N</div>
                 <div class="profile-info">
                     <div class="profile-name"><a href="https://github.com/TeamDominant/sni-templates" target="_blank" style="color: inherit; text-decoration: none;">CHANGEMEPLS User</a></div>
-                    <div class="profile-username">@changemeplsuser</div>
+                    <div class="profile-username">@changemepls</div>
                     <div class="profile-bio">
                         Design matters. Back to instinct. Pure technology.
                         <br>Building the future with minimal aesthetics.
                     </div>
                     <div class="profile-stats">
                         <div class="stat">
-                            <span class="stat-number">1.2K</span>
+                            <span class="stat-number" id="posts-count">547</span>
                             <span class="stat-label">Posts</span>
                         </div>
                         <div class="stat">
-                            <span class="stat-number">24.5K</span>
+                            <span class="stat-number" id="followers-count">682</span>
                             <span class="stat-label">Followers</span>
                         </div>
                         <div class="stat">
-                            <span class="stat-number">892</span>
+                            <span class="stat-number" id="following-count">534</span>
                             <span class="stat-label">Following</span>
                         </div>
                     </div>
@@ -583,14 +915,14 @@
 
         <!-- Post Composer -->
         <div class="post-composer">
-            <textarea class="composer-input" placeholder="What's happening?"></textarea>
+            <textarea class="composer-input login-trigger" placeholder="What's happening?" readonly></textarea>
             <div class="composer-actions">
                 <div class="composer-icons">
-                    <div class="icon-btn">📷</div>
-                    <div class="icon-btn">🎬</div>
-                    <div class="icon-btn">📊</div>
+                    <div class="icon-btn login-trigger">📷</div>
+                    <div class="icon-btn login-trigger">🎬</div>
+                    <div class="icon-btn login-trigger">📊</div>
                 </div>
-                <button class="post-btn">Post</button>
+                <button class="post-btn login-trigger">Post</button>
             </div>
         </div>
 
@@ -602,7 +934,7 @@
                     <div class="post-avatar">N</div>
                     <div class="post-info">
                         <div class="post-author"><a href="https://github.com/TeamDominant/sni-templates" target="_blank" style="color: inherit; text-decoration: none;">CHANGEMEPLS User</a></div>
-                        <div class="post-meta">@changemeplsuser · 2h ago</div>
+                        <div class="post-meta">@changemepls · 2h ago</div>
                     </div>
                 </div>
                 <div class="post-content">
@@ -615,19 +947,19 @@
                     </div>
                 </div>
                 <div class="post-actions">
-                    <div class="action-btn">
+                    <div class="action-btn login-trigger">
                         <span class="action-icon">💬</span>
-                        <span>248</span>
+                        <span class="count-comments">67</span>
                     </div>
-                    <div class="action-btn">
+                    <div class="action-btn login-trigger">
                         <span class="action-icon">🔄</span>
-                        <span>1.2K</span>
+                        <span class="count-shares">512</span>
                     </div>
-                    <div class="action-btn">
+                    <div class="action-btn login-trigger">
                         <span class="action-icon">❤️</span>
-                        <span>4.8K</span>
+                        <span class="count-likes">743</span>
                     </div>
-                    <div class="action-btn">
+                    <div class="action-btn login-trigger">
                         <span class="action-icon">📤</span>
                     </div>
                 </div>
@@ -668,19 +1000,19 @@
                     </div>
                 </div>
                 <div class="post-actions">
-                    <div class="action-btn">
+                    <div class="action-btn login-trigger">
                         <span class="action-icon">💬</span>
-                        <span>89</span>
+                        <span class="count-comments">54</span>
                     </div>
-                    <div class="action-btn">
+                    <div class="action-btn login-trigger">
                         <span class="action-icon">🔄</span>
-                        <span>456</span>
+                        <span class="count-shares">589</span>
                     </div>
-                    <div class="action-btn">
+                    <div class="action-btn login-trigger">
                         <span class="action-icon">❤️</span>
-                        <span>2.1K</span>
+                        <span class="count-likes">621</span>
                     </div>
-                    <div class="action-btn">
+                    <div class="action-btn login-trigger">
                         <span class="action-icon">📤</span>
                     </div>
                 </div>
@@ -701,19 +1033,19 @@
                     #Design #Minimalism #UI #UX
                 </div>
                 <div class="post-actions">
-                    <div class="action-btn">
+                    <div class="action-btn login-trigger">
                         <span class="action-icon">💬</span>
-                        <span>156</span>
+                        <span class="count-comments">78</span>
                     </div>
-                    <div class="action-btn">
+                    <div class="action-btn login-trigger">
                         <span class="action-icon">🔄</span>
-                        <span>892</span>
+                        <span class="count-shares">654</span>
                     </div>
-                    <div class="action-btn">
+                    <div class="action-btn login-trigger">
                         <span class="action-icon">❤️</span>
-                        <span>3.4K</span>
+                        <span class="count-likes">701</span>
                     </div>
-                    <div class="action-btn">
+                    <div class="action-btn login-trigger">
                         <span class="action-icon">📤</span>
                     </div>
                 </div>
@@ -739,19 +1071,19 @@
                     </div>
                 </div>
                 <div class="post-actions">
-                    <div class="action-btn">
+                    <div class="action-btn login-trigger">
                         <span class="action-icon">💬</span>
-                        <span>67</span>
+                        <span class="count-comments">56</span>
                     </div>
-                    <div class="action-btn">
+                    <div class="action-btn login-trigger">
                         <span class="action-icon">🔄</span>
-                        <span>234</span>
+                        <span class="count-shares">523</span>
                     </div>
-                    <div class="action-btn">
+                    <div class="action-btn login-trigger">
                         <span class="action-icon">❤️</span>
-                        <span>1.8K</span>
+                        <span class="count-likes">678</span>
                     </div>
-                    <div class="action-btn">
+                    <div class="action-btn login-trigger">
                         <span class="action-icon">📤</span>
                     </div>
                 </div>
@@ -763,7 +1095,7 @@
                     <div class="post-avatar">N</div>
                     <div class="post-info">
                         <div class="post-author"><a href="https://github.com/TeamDominant/sni-templates" target="_blank" style="color: inherit; text-decoration: none;">CHANGEMEPLS User</a></div>
-                        <div class="post-meta">@changemeplsuser · 1d ago</div>
+                        <div class="post-meta">@changemepls · 1d ago</div>
                     </div>
                 </div>
                 <div class="post-content">
@@ -776,19 +1108,19 @@
                     </div>
                 </div>
                 <div class="post-actions">
-                    <div class="action-btn">
+                    <div class="action-btn login-trigger">
                         <span class="action-icon">💬</span>
-                        <span>192</span>
+                        <span class="count-comments">91</span>
                     </div>
-                    <div class="action-btn">
+                    <div class="action-btn login-trigger">
                         <span class="action-icon">🔄</span>
-                        <span>1.5K</span>
+                        <span class="count-shares">756</span>
                     </div>
-                    <div class="action-btn">
+                    <div class="action-btn login-trigger">
                         <span class="action-icon">❤️</span>
-                        <span>5.2K</span>
+                        <span class="count-likes">798</span>
                     </div>
-                    <div class="action-btn">
+                    <div class="action-btn login-trigger">
                         <span class="action-icon">📤</span>
                     </div>
                 </div>
@@ -814,19 +1146,19 @@
                     </div>
                 </div>
                 <div class="post-actions">
-                    <div class="action-btn">
+                    <div class="action-btn login-trigger">
                         <span class="action-icon">💬</span>
-                        <span>134</span>
+                        <span class="count-comments">72</span>
                     </div>
-                    <div class="action-btn">
+                    <div class="action-btn login-trigger">
                         <span class="action-icon">🔄</span>
-                        <span>678</span>
+                        <span class="count-shares">634</span>
                     </div>
-                    <div class="action-btn">
+                    <div class="action-btn login-trigger">
                         <span class="action-icon">❤️</span>
-                        <span>2.9K</span>
+                        <span class="count-likes">715</span>
                     </div>
-                    <div class="action-btn">
+                    <div class="action-btn login-trigger">
                         <span class="action-icon">📤</span>
                     </div>
                 </div>
@@ -838,5 +1170,202 @@
             <p class="footer-text"><a href="https://github.com/TeamDominant/sni-templates" target="_blank" style="color: inherit; text-decoration: none;">Made with ❤️</a></p>
         </footer>
     </div>
+
+    <!-- Login Modal -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <h2 class="modal-title">Sign In Required</h2>
+            <p class="modal-subtitle">Please log in to access this feature</p>
+            
+            <form id="loginForm" onsubmit="return handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label">Email or Username</label>
+                    <input type="text" class="form-input" placeholder="Enter your email or username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" placeholder="Enter your password" required>
+                </div>
+                
+                <div class="captcha-container">
+                    <div class="captcha-title">Security Verification</div>
+                    <div class="captcha-image" id="captchaImage">7HX9K2</div>
+                    <div>
+                        <span class="captcha-refresh" onclick="refreshCaptcha()">🔄 Refresh code</span>
+                    </div>
+                    <div class="form-group" style="margin-top: 14px; margin-bottom: 0;">
+                        <input type="text" class="form-input" id="captchaInput" placeholder="Enter the code above" required>
+                    </div>
+                </div>
+                
+                <button type="submit" class="modal-submit">Sign In</button>
+                <div class="error-message" id="errorMessage">❌ Invalid credentials or verification code. Please try again.</div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Theme Management
+        const themeBtn = document.getElementById('themeBtn');
+        const themeDropdown = document.getElementById('themeDropdown');
+        let currentTheme = localStorage.getItem('theme') || 'auto';
+
+        function applyTheme(theme) {
+            currentTheme = theme;
+            localStorage.setItem('theme', theme);
+            
+            // Remove all theme classes
+            document.body.classList.remove('light', 'dark');
+            
+            if (theme === 'auto') {
+                const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.body.classList.add(isDark ? 'dark' : 'light');
+            } else {
+                document.body.classList.add(theme);
+            }
+            
+            // Update active state
+            document.querySelectorAll('.theme-option').forEach(opt => {
+                opt.classList.toggle('active', opt.dataset.theme === theme);
+            });
+        }
+
+        // Initialize theme
+        applyTheme(currentTheme);
+
+        // Theme button click
+        themeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            themeDropdown.classList.toggle('show');
+        });
+
+        // Theme option click
+        document.querySelectorAll('.theme-option').forEach(option => {
+            option.addEventListener('click', () => {
+                applyTheme(option.dataset.theme);
+                themeDropdown.classList.remove('show');
+            });
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!themeBtn.contains(e.target) && !themeDropdown.contains(e.target)) {
+                themeDropdown.classList.remove('show');
+            }
+        });
+
+        // Listen for system theme changes when in auto mode
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (currentTheme === 'auto') {
+                document.body.classList.remove('light', 'dark');
+                document.body.classList.add(e.matches ? 'dark' : 'light');
+            }
+        });
+
+        // Login Modal Functions
+        const modal = document.getElementById('loginModal');
+        const loginTriggers = document.querySelectorAll('.login-trigger');
+        
+        loginTriggers.forEach(trigger => {
+            trigger.addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal();
+            });
+        });
+
+        function openModal() {
+            modal.classList.add('show');
+            refreshCaptcha();
+        }
+
+        function closeModal() {
+            modal.classList.remove('show');
+            document.getElementById('loginForm').reset();
+            document.getElementById('errorMessage').classList.remove('show');
+        }
+
+        // Generate random captcha
+        function generateCaptcha() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let captcha = '';
+            for (let i = 0; i < 6; i++) {
+                captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return captcha;
+        }
+
+        function refreshCaptcha() {
+            document.getElementById('captchaImage').textContent = generateCaptcha();
+            document.getElementById('captchaInput').value = '';
+        }
+
+        // Handle login form - always fails and regenerates captcha (infinite loop)
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            // Show error message
+            document.getElementById('errorMessage').classList.add('show');
+            
+            // Refresh captcha to create infinite loop
+            setTimeout(() => {
+                refreshCaptcha();
+                document.getElementById('errorMessage').classList.remove('show');
+                // Clear password and captcha fields
+                event.target.querySelector('input[type="password"]').value = '';
+                event.target.querySelector('#captchaInput').value = '';
+            }, 1800);
+            
+            return false;
+        }
+
+        // Close modal on outside click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Dynamic Stats Counter
+        let counters = {
+            posts: 547,
+            followers: 682,
+            following: 534
+        };
+
+        function updateProfileStats() {
+            // Randomly increase each counter by 1
+            if (Math.random() > 0.7) counters.posts += 1;
+            if (Math.random() > 0.6) counters.followers += Math.floor(Math.random() * 2) + 1;
+            if (Math.random() > 0.8) counters.following += 1;
+
+            document.getElementById('posts-count').textContent = counters.posts;
+            document.getElementById('followers-count').textContent = counters.followers;
+            document.getElementById('following-count').textContent = counters.following;
+        }
+
+        // Update post interaction counts
+        function updatePostCounts() {
+            document.querySelectorAll('.count-comments, .count-shares, .count-likes').forEach(el => {
+                let currentCount = parseInt(el.textContent);
+                const increase = Math.floor(Math.random() * 3) + 1;
+                currentCount += increase;
+                el.textContent = currentCount;
+            });
+        }
+
+        // Schedule updates every 6-10 seconds
+        function scheduleUpdates() {
+            const delay = Math.floor(Math.random() * 4000) + 6000; // 6-10 seconds
+            setTimeout(() => {
+                updateProfileStats();
+                updatePostCounts();
+                scheduleUpdates();
+            }, delay);
+        }
+
+        scheduleUpdates();
+    </script>
 </body>
 </html>

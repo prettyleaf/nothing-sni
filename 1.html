@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CHANGEMEPLS Community Forum</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
 
         * {
             margin: 0;
@@ -14,7 +14,7 @@
         }
 
         body {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'Inter', 'JetBrains Mono', monospace;
             margin: 0;
             padding: 0;
             min-height: 100vh;
@@ -237,6 +237,7 @@
             font-size: 18px;
             font-weight: 600;
             letter-spacing: -0.02em;
+            font-family: 'Space Grotesk', sans-serif;
         }
 
         .red-dot {
@@ -298,6 +299,84 @@
             display: flex;
             gap: 16px;
             align-items: center;
+        }
+
+        /* Theme Switcher */
+        .theme-switcher {
+            position: relative;
+        }
+
+        .theme-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        body.light .theme-btn {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .theme-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        body.light .theme-btn:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .theme-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: rgba(20, 20, 20, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            min-width: 150px;
+            display: none;
+            z-index: 1000;
+        }
+
+        body.light .theme-dropdown {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-dropdown.show {
+            display: block;
+        }
+
+        .theme-option {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .theme-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        body.light .theme-option:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .theme-option.active {
+            background: rgba(255, 59, 48, 0.2);
+            color: #FF3B30;
         }
 
         .search-box {
@@ -417,6 +496,7 @@
             font-size: 18px;
             font-weight: 600;
             margin-bottom: 8px;
+            font-family: 'DM Sans', sans-serif;
         }
 
         .category-desc {
@@ -450,6 +530,7 @@
             letter-spacing: 0.1em;
             margin-bottom: 16px;
             opacity: 0.8;
+            font-family: 'Space Grotesk', sans-serif;
         }
 
         .thread-list {
@@ -558,6 +639,181 @@
             opacity: 0.6;
         }
 
+        /* Login Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #1a1a1a;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 40px;
+            max-width: 450px;
+            width: 90%;
+            position: relative;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body.light .modal-content {
+            background: #ffffff;
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: inherit;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+
+        .modal-close:hover {
+            opacity: 1;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .modal-subtitle {
+            font-size: 14px;
+            opacity: 0.6;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.8;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: transparent;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: inherit;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        body.light .form-input {
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .form-input:focus {
+            border-color: #FF3B30;
+        }
+
+        .captcha-container {
+            margin: 25px 0;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        body.light .captcha-container {
+            border-color: rgba(0, 0, 0, 0.1);
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .captcha-title {
+            font-size: 12px;
+            margin-bottom: 15px;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        .captcha-image {
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 15px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 24px;
+            letter-spacing: 8px;
+            color: white;
+            user-select: none;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .captcha-refresh {
+            display: inline-block;
+            font-size: 11px;
+            color: #FF3B30;
+            cursor: pointer;
+            text-decoration: underline;
+            margin-top: 5px;
+        }
+
+        .captcha-refresh:hover {
+            opacity: 0.8;
+        }
+
+        .modal-submit {
+            width: 100%;
+            padding: 14px 24px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #FFFFFF;
+            background: #FF3B30;
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: -0.01em;
+            margin-top: 10px;
+        }
+
+        .modal-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 59, 48, 0.3);
+        }
+
+        .error-message {
+            color: #FF3B30;
+            font-size: 12px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
@@ -570,11 +826,17 @@
 
             .user-actions {
                 width: 100%;
-                flex-direction: column;
+                flex-direction: row;
+                flex-wrap: wrap;
             }
 
             .search-box {
                 width: 100%;
+                order: 3;
+            }
+
+            .btn {
+                flex: 1;
             }
 
             .thread-item {
@@ -612,34 +874,51 @@
                     <a href="https://github.com/TeamDominant/sni-templates" target="_blank" style="color: inherit; text-decoration: none;">CHANGEMEPLS Community<span class="red-dot"></span></a>
                 </div>
                 <nav class="nav">
-                    <a href="https://github.com/TeamDominant/sni-templates" target="_blank" class="active">Forum</a>
-                    <a href="https://github.com/TeamDominant/sni-templates" target="_blank">Discussions</a>
-                    <a href="https://github.com/TeamDominant/sni-templates" target="_blank">GitHub</a>
-                    <a href="https://github.com/TeamDominant/sni-templates" target="_blank">Support</a>
-                    <a href="https://github.com/TeamDominant/sni-templates" target="_blank">About</a>
+                    <a href="#" class="active login-trigger">Forum</a>
+                    <a href="#" class="login-trigger">Discussions</a>
+                    <a href="#" class="login-trigger">GitHub</a>
+                    <a href="#" class="login-trigger">Support</a>
+                    <a href="#" class="login-trigger">About</a>
                 </nav>
                 <div class="user-actions">
-                    <input type="text" class="search-box" placeholder="Search threads...">
-                    <button class="btn">New Thread</button>
+                    <input type="text" class="search-box login-trigger" placeholder="Search threads..." readonly>
+                    <button class="btn login-trigger">New Thread</button>
+                    <div class="theme-switcher">
+                        <button class="theme-btn" id="themeBtn">🌓</button>
+                        <div class="theme-dropdown" id="themeDropdown">
+                            <div class="theme-option" data-theme="auto">
+                                <span>🔄</span>
+                                <span>Auto</span>
+                            </div>
+                            <div class="theme-option" data-theme="dark">
+                                <span>🌙</span>
+                                <span>Dark</span>
+                            </div>
+                            <div class="theme-option" data-theme="light">
+                                <span>☀️</span>
+                                <span>Light</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </header>
 
         <div class="stats-bar">
             <div class="stat">
-                <div class="stat-value">12.5K</div>
+                <div class="stat-value">847</div>
                 <div class="stat-label">Members</div>
             </div>
             <div class="stat">
-                <div class="stat-value">48.2K</div>
+                <div class="stat-value">1.2K</div>
                 <div class="stat-label">Threads</div>
             </div>
             <div class="stat">
-                <div class="stat-value">324K</div>
+                <div class="stat-value" id="messages-count">8.4K</div>
                 <div class="stat-label">Messages</div>
             </div>
             <div class="stat">
-                <div class="stat-value">1.2K</div>
+                <div class="stat-value" id="online-count">12</div>
                 <div class="stat-label">Online Now</div>
             </div>
         </div>
@@ -656,8 +935,8 @@
                     </div>
                 </div>
                 <div class="category-meta">
-                    <span>15.2K Threads</span>
-                    <span>128K Messages</span>
+                    <span>342 Threads</span>
+                    <span>2.1K Messages</span>
                     <span>Last: 2 min ago</span>
                 </div>
             </div>
@@ -671,8 +950,8 @@
                     </div>
                 </div>
                 <div class="category-meta">
-                    <span>8.4K Threads</span>
-                    <span>92K Messages</span>
+                    <span>218 Threads</span>
+                    <span>1.5K Messages</span>
                     <span>Last: 15 min ago</span>
                 </div>
             </div>
@@ -686,8 +965,8 @@
                     </div>
                 </div>
                 <div class="category-meta">
-                    <span>4.8K Threads</span>
-                    <span>38K Messages</span>
+                    <span>156 Threads</span>
+                    <span>892 Messages</span>
                     <span>Last: 1 hour ago</span>
                 </div>
             </div>
@@ -701,8 +980,8 @@
                     </div>
                 </div>
                 <div class="category-meta">
-                    <span>6.2K Threads</span>
-                    <span>45K Messages</span>
+                    <span>287 Threads</span>
+                    <span>1.8K Messages</span>
                     <span>Last: 30 min ago</span>
                 </div>
             </div>
@@ -723,11 +1002,11 @@
                 </div>
                 <div class="thread-stats">
                     <div class="thread-stat">
-                        <div class="thread-stat-value">247</div>
+                        <div class="thread-stat-value">67</div>
                         <div class="thread-stat-label">Replies</div>
                     </div>
                     <div class="thread-stat">
-                        <div class="thread-stat-value">8.4K</div>
+                        <div class="thread-stat-value">1.2K</div>
                         <div class="thread-stat-label">Views</div>
                     </div>
                 </div>
@@ -745,11 +1024,11 @@
                 </div>
                 <div class="thread-stats">
                     <div class="thread-stat">
-                        <div class="thread-stat-value">182</div>
+                        <div class="thread-stat-value">43</div>
                         <div class="thread-stat-label">Replies</div>
                     </div>
                     <div class="thread-stat">
-                        <div class="thread-stat-value">6.2K</div>
+                        <div class="thread-stat-value">892</div>
                         <div class="thread-stat-label">Views</div>
                     </div>
                 </div>
@@ -766,11 +1045,11 @@
                 </div>
                 <div class="thread-stats">
                     <div class="thread-stat">
-                        <div class="thread-stat-value">156</div>
+                        <div class="thread-stat-value">38</div>
                         <div class="thread-stat-label">Replies</div>
                     </div>
                     <div class="thread-stat">
-                        <div class="thread-stat-value">5.1K</div>
+                        <div class="thread-stat-value">756</div>
                         <div class="thread-stat-label">Views</div>
                     </div>
                 </div>
@@ -788,11 +1067,11 @@
                 </div>
                 <div class="thread-stats">
                     <div class="thread-stat">
-                        <div class="thread-stat-value">329</div>
+                        <div class="thread-stat-value">91</div>
                         <div class="thread-stat-label">Replies</div>
                     </div>
                     <div class="thread-stat">
-                        <div class="thread-stat-value">12.8K</div>
+                        <div class="thread-stat-value">2.1K</div>
                         <div class="thread-stat-label">Views</div>
                     </div>
                 </div>
@@ -809,11 +1088,11 @@
                 </div>
                 <div class="thread-stats">
                     <div class="thread-stat">
-                        <div class="thread-stat-value">421</div>
+                        <div class="thread-stat-value">124</div>
                         <div class="thread-stat-label">Replies</div>
                     </div>
                     <div class="thread-stat">
-                        <div class="thread-stat-value">18.5K</div>
+                        <div class="thread-stat-value">3.4K</div>
                         <div class="thread-stat-label">Views</div>
                     </div>
                 </div>
@@ -831,11 +1110,11 @@
                 </div>
                 <div class="thread-stats">
                     <div class="thread-stat">
-                        <div class="thread-stat-value">156</div>
+                        <div class="thread-stat-value">52</div>
                         <div class="thread-stat-label">Replies</div>
                     </div>
                     <div class="thread-stat">
-                        <div class="thread-stat-value">5.4K</div>
+                        <div class="thread-stat-value">1.1K</div>
                         <div class="thread-stat-label">Views</div>
                     </div>
                 </div>
@@ -853,11 +1132,11 @@
                 </div>
                 <div class="thread-stats">
                     <div class="thread-stat">
-                        <div class="thread-stat-value">892</div>
+                        <div class="thread-stat-value">156</div>
                         <div class="thread-stat-label">Replies</div>
                     </div>
                     <div class="thread-stat">
-                        <div class="thread-stat-value">24.7K</div>
+                        <div class="thread-stat-value">4.2K</div>
                         <div class="thread-stat-label">Views</div>
                     </div>
                 </div>
@@ -874,11 +1153,11 @@
                 </div>
                 <div class="thread-stats">
                     <div class="thread-stat">
-                        <div class="thread-stat-value">78</div>
+                        <div class="thread-stat-value">29</div>
                         <div class="thread-stat-label">Replies</div>
                     </div>
                     <div class="thread-stat">
-                        <div class="thread-stat-value">3.2K</div>
+                        <div class="thread-stat-value">687</div>
                         <div class="thread-stat-label">Views</div>
                     </div>
                 </div>
@@ -890,24 +1169,219 @@
         </footer>
     </div>
 
+    <!-- Login Modal -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <h2 class="modal-title">Sign In Required</h2>
+            <p class="modal-subtitle">Please log in to access this feature</p>
+            
+            <form id="loginForm" onsubmit="return handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-input" placeholder="Enter your username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" placeholder="Enter your password" required>
+                </div>
+                
+                <div class="captcha-container">
+                    <div class="captcha-title">Please verify you're human</div>
+                    <div class="captcha-image" id="captchaImage">AB7K9X</div>
+                    <div>
+                        <span class="captcha-refresh" onclick="refreshCaptcha()">🔄 Generate new code</span>
+                    </div>
+                    <div class="form-group" style="margin-top: 15px;">
+                        <input type="text" class="form-input" id="captchaInput" placeholder="Enter the code above" required>
+                    </div>
+                </div>
+                
+                <button type="submit" class="modal-submit">Sign In</button>
+                <div class="error-message" id="errorMessage">Invalid credentials or verification code. Please try again.</div>
+            </form>
+        </div>
+    </div>
+
     <script>
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.body.classList.add('dark');
-            document.body.classList.remove('light');
-        } else {
-            document.body.classList.add('light');
-            document.body.classList.remove('dark');
+        // Theme Management
+        const themeBtn = document.getElementById('themeBtn');
+        const themeDropdown = document.getElementById('themeDropdown');
+        let currentTheme = localStorage.getItem('theme') || 'auto';
+
+        function applyTheme(theme) {
+            currentTheme = theme;
+            localStorage.setItem('theme', theme);
+            
+            // Remove all theme classes
+            document.body.classList.remove('light', 'dark');
+            
+            if (theme === 'auto') {
+                const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.body.classList.add(isDark ? 'dark' : 'light');
+            } else {
+                document.body.classList.add(theme);
+            }
+            
+            // Update active state
+            document.querySelectorAll('.theme-option').forEach(opt => {
+                opt.classList.toggle('active', opt.dataset.theme === theme);
+            });
         }
 
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-            if (e.matches) {
-                document.body.classList.add('dark');
-                document.body.classList.remove('light');
-            } else {
-                document.body.classList.add('light');
-                document.body.classList.remove('dark');
+        // Initialize theme
+        applyTheme(currentTheme);
+
+        // Theme button click
+        themeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            themeDropdown.classList.toggle('show');
+        });
+
+        // Theme option click
+        document.querySelectorAll('.theme-option').forEach(option => {
+            option.addEventListener('click', () => {
+                applyTheme(option.dataset.theme);
+                themeDropdown.classList.remove('show');
+            });
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!themeBtn.contains(e.target) && !themeDropdown.contains(e.target)) {
+                themeDropdown.classList.remove('show');
             }
         });
+
+        // Listen for system theme changes when in auto mode
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (currentTheme === 'auto') {
+                document.body.classList.remove('light', 'dark');
+                document.body.classList.add(e.matches ? 'dark' : 'light');
+            }
+        });
+
+        // Login Modal Functions
+        const modal = document.getElementById('loginModal');
+        const loginTriggers = document.querySelectorAll('.login-trigger');
+        
+        loginTriggers.forEach(trigger => {
+            trigger.addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal();
+            });
+        });
+
+        function openModal() {
+            modal.classList.add('show');
+            refreshCaptcha();
+        }
+
+        function closeModal() {
+            modal.classList.remove('show');
+            document.getElementById('loginForm').reset();
+            document.getElementById('errorMessage').classList.remove('show');
+        }
+
+        // Generate random captcha
+        function generateCaptcha() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let captcha = '';
+            for (let i = 0; i < 6; i++) {
+                captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return captcha;
+        }
+
+        function refreshCaptcha() {
+            document.getElementById('captchaImage').textContent = generateCaptcha();
+            document.getElementById('captchaInput').value = '';
+        }
+
+        // Handle login form - always fails and regenerates captcha (infinite loop)
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            // Show error message
+            document.getElementById('errorMessage').classList.add('show');
+            
+            // Refresh captcha to create infinite loop
+            setTimeout(() => {
+                refreshCaptcha();
+                document.getElementById('errorMessage').classList.remove('show');
+                // Clear password field
+                event.target.querySelector('input[type="password"]').value = '';
+                event.target.querySelector('#captchaInput').value = '';
+            }, 1500);
+            
+            return false;
+        }
+
+        // Close modal on outside click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Random online users count (5-25)
+        let currentOnlineCount = Math.floor(Math.random() * 21) + 5; // 5-25
+        
+        function updateOnlineCount() {
+            // Randomly increase or decrease by 1-3
+            const change = Math.floor(Math.random() * 3) + 1;
+            const increase = Math.random() > 0.5;
+            
+            if (increase) {
+                currentOnlineCount = Math.min(25, currentOnlineCount + change);
+            } else {
+                currentOnlineCount = Math.max(5, currentOnlineCount - change);
+            }
+            
+            document.getElementById('online-count').textContent = currentOnlineCount;
+        }
+
+        // Update online count every 8-15 seconds randomly
+        function scheduleOnlineUpdate() {
+            const delay = Math.floor(Math.random() * 7000) + 8000; // 8-15 seconds
+            setTimeout(() => {
+                updateOnlineCount();
+                scheduleOnlineUpdate();
+            }, delay);
+        }
+
+        // Initialize online count
+        document.getElementById('online-count').textContent = currentOnlineCount;
+        scheduleOnlineUpdate();
+
+        // Messages count increment
+        let messagesCount = 8400; // Starting at 8.4K
+        
+        function updateMessagesCount() {
+            messagesCount += Math.floor(Math.random() * 3) + 1; // Increase by 1-3
+            
+            // Format the number
+            let displayCount;
+            if (messagesCount >= 1000) {
+                displayCount = (messagesCount / 1000).toFixed(1) + 'K';
+            } else {
+                displayCount = messagesCount.toString();
+            }
+            
+            document.getElementById('messages-count').textContent = displayCount;
+        }
+
+        // Update messages count every 5-10 seconds
+        function scheduleMessagesUpdate() {
+            const delay = Math.floor(Math.random() * 5000) + 5000; // 5-10 seconds
+            setTimeout(() => {
+                updateMessagesCount();
+                scheduleMessagesUpdate();
+            }, delay);
+        }
+
+        scheduleMessagesUpdate();
     </script>
 </body>
 </html>

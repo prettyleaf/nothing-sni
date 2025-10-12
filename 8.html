@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CHANGEMEPLS Bank</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Sora:wght@300;400;500;600;700&display=swap');
 
         * {
             margin: 0;
@@ -14,7 +14,7 @@
         }
 
         body {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'Space Grotesk', 'Inter', 'JetBrains Mono', monospace;
             margin: 0;
             padding: 0;
             min-height: 100vh;
@@ -143,6 +143,7 @@
             font-size: 18px;
             font-weight: 600;
             letter-spacing: -0.02em;
+            font-family: 'Sora', sans-serif;
         }
 
         .red-accent {
@@ -152,6 +153,53 @@
         .header-icons {
             display: flex;
             gap: 16px;
+        }
+
+        .theme-switcher {
+            position: relative;
+        }
+
+        .theme-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: inherit;
+            border: 1px solid;
+            min-width: 120px;
+            display: none;
+            z-index: 1000;
+        }
+
+        body.light .theme-dropdown {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark .theme-dropdown {
+            background: rgba(0, 0, 0, 0.95);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .theme-dropdown.show {
+            display: block;
+        }
+
+        .theme-option {
+            padding: 10px 16px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .theme-option:hover {
+            background: rgba(255, 59, 48, 0.1);
+            color: #FF3B30;
+        }
+
+        .theme-option.active {
+            color: #FF3B30;
         }
 
         .icon-btn {
@@ -220,20 +268,18 @@
 
         .balance-label {
             font-size: 12px;
-            opacity: 0.5;
-            margin-bottom: 8px;
-            letter-spacing: 0.05em;
+            opacity: 0.6;
             text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-family: 'Inter', sans-serif;
         }
 
         .balance-amount {
-            font-size: 42px;
+            font-size: 36px;
             font-weight: 600;
-            letter-spacing: -0.03em;
-            margin-bottom: 16px;
-        }
-
-        .balance-change {
+            letter-spacing: -0.02em;
+            font-family: 'Sora', sans-serif;
+        }        .balance-change {
             font-size: 13px;
             opacity: 0.6;
         }
@@ -798,6 +844,210 @@
             font-weight: 600;
             margin-bottom: 24px;
             padding: 0 20px;
+            font-family: 'Sora', sans-serif;
+        }
+
+        /* Login Modal */
+        .login-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(12px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-modal.show {
+            display: flex;
+        }
+
+        .login-content {
+            background: inherit;
+            border: 1px solid;
+            padding: 40px;
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+        }
+
+        body.light .login-content {
+            background: #FFFFFF;
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark .login-content {
+            background: #000000;
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .login-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-family: 'Sora', sans-serif;
+        }
+
+        .login-subtitle {
+            font-size: 13px;
+            opacity: 0.6;
+            margin-bottom: 32px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-label {
+            font-size: 12px;
+            font-weight: 500;
+            opacity: 0.8;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .form-input {
+            padding: 12px 16px;
+            background: transparent;
+            border: 1px solid;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        body.light .form-input {
+            border-color: rgba(0, 0, 0, 0.15);
+            color: #000000;
+        }
+
+        body.dark .form-input {
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #FFFFFF;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #FF3B30;
+        }
+
+        .captcha-container {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .captcha-display {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.3em;
+            text-align: center;
+            user-select: none;
+        }
+
+        body.light .captcha-display {
+            border-color: rgba(0, 0, 0, 0.15);
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        body.dark .captcha-display {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .captcha-refresh {
+            padding: 12px;
+            background: transparent;
+            border: 1px solid;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        body.light .captcha-refresh {
+            border-color: rgba(0, 0, 0, 0.15);
+        }
+
+        body.dark .captcha-refresh {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .captcha-refresh:hover {
+            border-color: #FF3B30;
+            transform: rotate(180deg);
+        }
+
+        .login-button {
+            padding: 14px;
+            background: #FF3B30;
+            border: none;
+            color: #FFFFFF;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 59, 48, 0.3);
+        }
+
+        .login-error {
+            font-size: 12px;
+            color: #FF3B30;
+            display: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .login-error.show {
+            display: block;
+        }
+
+        .login-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+            background: transparent;
+            border: 1px solid;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        body.light .login-close {
+            border-color: rgba(0, 0, 0, 0.15);
+        }
+
+        body.dark .login-close {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .login-close:hover {
+            border-color: #FF3B30;
+            color: #FF3B30;
+            transform: rotate(90deg);
+        }
+
+        .login-trigger {
+            cursor: pointer;
         }
     </style>
 </head>
@@ -820,9 +1070,14 @@
                     <span>🔔</span>
                     <div class="notification-dot"></div>
                 </button>
-                <button class="icon-btn">
-                    <span>⚙️</span>
-                </button>
+                <div class="theme-switcher">
+                    <button class="icon-btn" id="themeToggle">☀</button>
+                    <div class="theme-dropdown" id="themeDropdown">
+                        <div class="theme-option active" data-theme="auto">Auto</div>
+                        <div class="theme-option" data-theme="light">Light</div>
+                        <div class="theme-option" data-theme="dark">Dark</div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -831,44 +1086,50 @@
             <!-- Balance Card -->
             <div class="balance-card">
             <div class="balance-label">Total Balance</div>
-            <div class="balance-amount">$24,582.50</div>
-            <div class="balance-change positive">+$1,240.00 (5.3%) this month</div>
+            <div class="balance-amount" id="totalBalance">$24,582.50</div>
+            <div class="balance-change positive" id="monthlyChange">+$1,240.00 (5.3%) this month</div>
             <div class="loading-indicator"></div>
         </div>
 
         <!-- Quick Actions -->
+                <!-- Quick Actions -->
         <div class="quick-actions">
-            <button class="action-btn">
-                <div class="action-icon">↗</div>
+            <div class="action-btn login-trigger">
+                <div class="action-icon">💸</div>
                 <div class="action-label">Send</div>
-            </button>
-            <button class="action-btn">
-                <div class="action-icon">↙</div>
+            </div>
+            <div class="action-btn login-trigger">
+                <div class="action-icon">💰</div>
                 <div class="action-label">Request</div>
-            </button>
-            <button class="action-btn">
-                <div class="action-icon">+</div>
-                <div class="action-label">Top Up</div>
-            </button>
+            </div>
+            <div class="action-btn login-trigger">
+                <div class="action-icon">📊</div>
+                <div class="action-label">Invest</div>
+            </div>
+            <div class="action-btn login-trigger">
+                <div class="action-icon">➕</div>
+                <div class="action-label">More</div>
+            </div>
         </div>
 
         <!-- Cards Section -->
+                <!-- Cards Section -->
         <div class="section">
             <div class="section-header">
                 <div class="section-title">My Cards</div>
-                <div class="view-all">View All →</div>
+                <div class="view-all login-trigger">View All →</div>
             </div>
             
-            <div class="card-item">
+            <div class="card-item login-trigger">
                 <div class="card-type">DEBIT</div>
                 <div class="card-number">•••• 4892</div>
-                <div class="card-balance">$18,420.00</div>
+                <div class="card-balance" id="debitCardBalance">$18,420.00</div>
             </div>
 
-            <div class="card-item">
+            <div class="card-item login-trigger">
                 <div class="card-type">CREDIT</div>
-                <div class="card-number">•••• 7634</div>
-                <div class="card-balance">$6,162.50</div>
+                <div class="card-number">•••• 7261</div>
+                <div class="card-balance" id="creditCardBalance">$6,162.50</div>
             </div>
         </div>
 
@@ -881,19 +1142,19 @@
             <div class="stats-grid">
                 <div class="stat-item">
                     <div class="stat-label">Income</div>
-                    <div class="stat-value">$8,240</div>
+                    <div class="stat-value" id="incomeCount">$720</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-label">Expenses</div>
-                    <div class="stat-value">$5,830</div>
+                    <div class="stat-value" id="expensesCount">$540</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-label">Savings</div>
-                    <div class="stat-value">$2,410</div>
+                    <div class="stat-value" id="savingsCount">$650</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-label">Investments</div>
-                    <div class="stat-value">$14,200</div>
+                    <div class="stat-value" id="investmentsCount">$780</div>
                 </div>
             </div>
         </div>
@@ -902,10 +1163,11 @@
         <div class="section">
             <div class="section-header">
                 <div class="section-title">Recent Transactions</div>
-                <div class="view-all">View All →</div>
+                <div class="view-all login-trigger">View All →</div>
             </div>
 
-            <div class="transaction-item">
+            <div id="transactionsContainer">
+            <div class="transaction-item login-trigger">
                 <div class="transaction-info">
                     <div class="transaction-icon">🛒</div>
                     <div class="transaction-details">
@@ -916,7 +1178,7 @@
                 <div class="transaction-amount negative">-$89.99</div>
             </div>
 
-            <div class="transaction-item">
+            <div class="transaction-item login-trigger">
                 <div class="transaction-info">
                     <div class="transaction-icon">💰</div>
                     <div class="transaction-details">
@@ -927,7 +1189,7 @@
                 <div class="transaction-amount positive">+$5,200.00</div>
             </div>
 
-            <div class="transaction-item">
+            <div class="transaction-item login-trigger">
                 <div class="transaction-info">
                     <div class="transaction-icon">☕</div>
                     <div class="transaction-details">
@@ -938,7 +1200,7 @@
                 <div class="transaction-amount negative">-$6.50</div>
             </div>
 
-            <div class="transaction-item">
+            <div class="transaction-item login-trigger">
                 <div class="transaction-info">
                     <div class="transaction-icon">🎵</div>
                     <div class="transaction-details">
@@ -949,7 +1211,7 @@
                 <div class="transaction-amount negative">-$9.99</div>
             </div>
 
-            <div class="transaction-item">
+            <div class="transaction-item login-trigger">
                 <div class="transaction-info">
                     <div class="transaction-icon">🏠</div>
                     <div class="transaction-details">
@@ -960,7 +1222,7 @@
                 <div class="transaction-amount negative">-$1,500.00</div>
             </div>
 
-            <div class="transaction-item">
+            <div class="transaction-item login-trigger">
                 <div class="transaction-info">
                     <div class="transaction-icon">📱</div>
                     <div class="transaction-details">
@@ -969,6 +1231,7 @@
                     </div>
                 </div>
                 <div class="transaction-amount negative">-$45.00</div>
+            </div>
             </div>
             </div>
 
@@ -981,253 +1244,17 @@
 
         <!-- Analytics Page -->
         <div class="page" id="analyticsPage">
-            <div class="page-title">Analytics</div>
-            
-            <div class="analytics-grid">
-                <div class="analytics-card">
-                    <div class="analytics-card-title">Total Income</div>
-                    <div class="analytics-card-value">$12,450</div>
-                    <div class="analytics-card-change positive">+15.3% vs last month</div>
-                </div>
-                
-                <div class="analytics-card">
-                    <div class="analytics-card-title">Total Expenses</div>
-                    <div class="analytics-card-value">$8,210</div>
-                    <div class="analytics-card-change negative">+8.2% vs last month</div>
-                </div>
-                
-                <div class="analytics-card">
-                    <div class="analytics-card-title">Savings Rate</div>
-                    <div class="analytics-card-value">34%</div>
-                    <div class="analytics-card-change positive">+2.1% vs last month</div>
-                </div>
-                
-                <div class="analytics-card">
-                    <div class="analytics-card-title">Investments</div>
-                    <div class="analytics-card-value">$14,200</div>
-                    <div class="analytics-card-change positive">+12.8% vs last month</div>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="section-header">
-                    <div class="section-title">Spending by Category</div>
-                </div>
-                
-                <div class="transaction-item">
-                    <div class="transaction-info">
-                        <div class="transaction-icon">🏠</div>
-                        <div class="transaction-details">
-                            <div class="transaction-name">Housing</div>
-                            <div class="transaction-date">$1,850 this month</div>
-                        </div>
-                    </div>
-                    <div class="transaction-amount">22%</div>
-                </div>
-
-                <div class="transaction-item">
-                    <div class="transaction-info">
-                        <div class="transaction-icon">🛒</div>
-                        <div class="transaction-details">
-                            <div class="transaction-name">Shopping</div>
-                            <div class="transaction-date">$1,240 this month</div>
-                        </div>
-                    </div>
-                    <div class="transaction-amount">15%</div>
-                </div>
-
-                <div class="transaction-item">
-                    <div class="transaction-info">
-                        <div class="transaction-icon">🍕</div>
-                        <div class="transaction-details">
-                            <div class="transaction-name">Food & Dining</div>
-                            <div class="transaction-date">$890 this month</div>
-                        </div>
-                    </div>
-                    <div class="transaction-amount">11%</div>
-                </div>
-
-                <div class="transaction-item">
-                    <div class="transaction-info">
-                        <div class="transaction-icon">🚗</div>
-                        <div class="transaction-details">
-                            <div class="transaction-name">Transportation</div>
-                            <div class="transaction-date">$520 this month</div>
-                        </div>
-                    </div>
-                    <div class="transaction-amount">6%</div>
-                </div>
-
-                <div class="transaction-item">
-                    <div class="transaction-info">
-                        <div class="transaction-icon">🎮</div>
-                        <div class="transaction-details">
-                            <div class="transaction-name">Entertainment</div>
-                            <div class="transaction-date">$380 this month</div>
-                        </div>
-                    </div>
-                    <div class="transaction-amount">5%</div>
-                </div>
-            </div>
-
-            <div class="made-with">
-                <a href="https://github.com/TeamDominant/sni-templates" target="_blank">Made with ❤️</a>
-            </div>
-
-            <div class="bottom-spacer"></div>
+            <!-- Content locked - Login required -->
         </div>
 
         <!-- Cards Page -->
         <div class="page" id="cardsPage">
-            <div class="page-title">My Cards</div>
-            
-            <div class="cards-list">
-                <div class="card-item">
-                    <div class="card-item-header">
-                        <div class="card-type">Debit Card</div>
-                        <div class="card-status">Active</div>
-                    </div>
-                    <div class="card-number">•••• •••• •••• 4829</div>
-                    <div class="card-item-footer">
-                        <div class="card-info-item">
-                            <div class="card-info-label">Balance</div>
-                            <div class="card-info-value">$5,830.00</div>
-                        </div>
-                        <div class="card-info-item">
-                            <div class="card-info-label">Expires</div>
-                            <div class="card-info-value">12/26</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-item">
-                    <div class="card-item-header">
-                        <div class="card-type">Credit Card</div>
-                        <div class="card-status">Active</div>
-                    </div>
-                    <div class="card-number">•••• •••• •••• 7653</div>
-                    <div class="card-item-footer">
-                        <div class="card-info-item">
-                            <div class="card-info-label">Available</div>
-                            <div class="card-info-value">$8,200.00</div>
-                        </div>
-                        <div class="card-info-item">
-                            <div class="card-info-label">Expires</div>
-                            <div class="card-info-value">09/27</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-item">
-                    <div class="card-item-header">
-                        <div class="card-type">Savings Card</div>
-                        <div class="card-status">Active</div>
-                    </div>
-                    <div class="card-number">•••• •••• •••• 2104</div>
-                    <div class="card-item-footer">
-                        <div class="card-info-item">
-                            <div class="card-info-label">Balance</div>
-                            <div class="card-info-value">$2,410.00</div>
-                        </div>
-                        <div class="card-info-item">
-                            <div class="card-info-label">Interest</div>
-                            <div class="card-info-value">2.5% APY</div>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="action-btn" style="width: 100%; margin-top: 16px;">
-                    <div class="action-icon">+</div>
-                    <div class="action-label">Add New Card</div>
-                </button>
-            </div>
-
-            <div class="made-with">
-                <a href="https://github.com/TeamDominant/sni-templates" target="_blank">Made with ❤️</a>
-            </div>
-
-            <div class="bottom-spacer"></div>
+            <!-- Content locked - Login required -->
         </div>
 
         <!-- Profile Page -->
         <div class="page" id="profilePage">
-            <div class="profile-header">
-                <div class="profile-avatar">👤</div>
-                <div class="profile-name">John Doe</div>
-                <div class="profile-email">john.doe@example.com</div>
-            </div>
-
-            <div class="profile-menu">
-                <div class="profile-menu-item">
-                    <div class="profile-menu-label">
-                        <span>👤</span>
-                        <span>Personal Information</span>
-                    </div>
-                    <span>→</span>
-                </div>
-
-                <div class="profile-menu-item">
-                    <div class="profile-menu-label">
-                        <span>🔒</span>
-                        <span>Security & Privacy</span>
-                    </div>
-                    <span>→</span>
-                </div>
-
-                <div class="profile-menu-item">
-                    <div class="profile-menu-label">
-                        <span>🔔</span>
-                        <span>Notifications</span>
-                    </div>
-                    <span>→</span>
-                </div>
-
-                <div class="profile-menu-item">
-                    <div class="profile-menu-label">
-                        <span>💳</span>
-                        <span>Payment Methods</span>
-                    </div>
-                    <span>→</span>
-                </div>
-
-                <div class="profile-menu-item">
-                    <div class="profile-menu-label">
-                        <span>📊</span>
-                        <span>Statements & Reports</span>
-                    </div>
-                    <span>→</span>
-                </div>
-
-                <div class="profile-menu-item">
-                    <div class="profile-menu-label">
-                        <span>❓</span>
-                        <span>Help & Support</span>
-                    </div>
-                    <span>→</span>
-                </div>
-
-                <div class="profile-menu-item">
-                    <div class="profile-menu-label">
-                        <span>⚙️</span>
-                        <span>Settings</span>
-                    </div>
-                    <span>→</span>
-                </div>
-
-                <div class="profile-menu-item" style="color: #FF3B30;">
-                    <div class="profile-menu-label">
-                        <span>🚪</span>
-                        <span>Log Out</span>
-                    </div>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <div class="made-with">
-                <a href="https://github.com/TeamDominant/sni-templates" target="_blank">Made with ❤️</a>
-            </div>
-
-            <div class="bottom-spacer"></div>
+            <!-- Content locked - Login required -->
         </div>
     </div>
 
@@ -1237,33 +1264,343 @@
             <div class="nav-icon">⌂</div>
             <div class="nav-label">Home</div>
         </div>
-        <div class="nav-item" data-page="analyticsPage">
+        <div class="nav-item login-trigger" data-page="analyticsPage">
             <div class="nav-icon">📊</div>
             <div class="nav-label">Analytics</div>
         </div>
-        <div class="nav-item" data-page="cardsPage">
+        <div class="nav-item login-trigger" data-page="cardsPage">
             <div class="nav-icon">💳</div>
             <div class="nav-label">Cards</div>
         </div>
-        <div class="nav-item" data-page="profilePage">
+        <div class="nav-item login-trigger" data-page="profilePage">
             <div class="nav-icon">👤</div>
             <div class="nav-label">Profile</div>
         </div>
     </div>
 
+    <!-- Login Modal -->
+    <div class="login-modal" id="loginModal">
+        <div class="login-content">
+            <button class="login-close" id="closeModal">✕</button>
+            <div class="login-title">Login Required</div>
+            <div class="login-subtitle">Please verify your identity to continue</div>
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-input" placeholder="Enter username" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" placeholder="Enter password" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Security Verification</label>
+                    <div class="captcha-container">
+                        <div class="captcha-display" id="captchaDisplay">AB12CD</div>
+                        <button type="button" class="captcha-refresh" id="refreshCaptcha">↻</button>
+                    </div>
+                    <input type="text" class="form-input" id="captchaInput" placeholder="Enter code above" required>
+                </div>
+                <div class="login-error" id="loginError">Verification failed. Please try again.</div>
+                <button type="submit" class="login-button">Login</button>
+            </form>
+        </div>
+    </div>
+
     <script>
-        // Theme detection
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.body.classList.remove('light');
-            document.body.classList.add('dark');
-        } else {
-            document.body.classList.remove('dark');
-            document.body.classList.add('light');
+        // Theme Management
+        const themeToggle = document.getElementById('themeToggle');
+        const themeDropdown = document.getElementById('themeDropdown');
+        const themeOptions = document.querySelectorAll('.theme-option');
+        const body = document.body;
+
+        // Initialize theme
+        function applyTheme(theme) {
+            localStorage.setItem('theme', theme);
+            
+            if (theme === 'auto') {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                body.classList.toggle('dark', prefersDark);
+                body.classList.toggle('light', !prefersDark);
+            } else if (theme === 'dark') {
+                body.classList.add('dark');
+                body.classList.remove('light');
+            } else {
+                body.classList.add('light');
+                body.classList.remove('dark');
+            }
+
+            themeOptions.forEach(opt => {
+                opt.classList.toggle('active', opt.dataset.theme === theme);
+            });
         }
+
+        // Load saved theme or default to auto
+        const savedTheme = localStorage.getItem('theme') || 'auto';
+        applyTheme(savedTheme);
+
+        // Theme toggle dropdown
+        themeToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            themeDropdown.classList.toggle('show');
+        });
+
+        themeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                applyTheme(option.dataset.theme);
+                themeDropdown.classList.remove('show');
+            });
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', () => {
+            themeDropdown.classList.remove('show');
+        });
+
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+            if (localStorage.getItem('theme') === 'auto') {
+                applyTheme('auto');
+            }
+        });
+
+        // Login Modal System
+        const loginModal = document.getElementById('loginModal');
+        const closeModal = document.getElementById('closeModal');
+        const loginForm = document.getElementById('loginForm');
+        const captchaDisplay = document.getElementById('captchaDisplay');
+        const captchaInput = document.getElementById('captchaInput');
+        const refreshCaptcha = document.getElementById('refreshCaptcha');
+        const loginError = document.getElementById('loginError');
+
+        // Generate random captcha
+        function generateCaptcha() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let captcha = '';
+            for (let i = 0; i < 6; i++) {
+                captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return captcha;
+        }
+
+        // Show login modal
+        function showLoginModal() {
+            loginModal.classList.add('show');
+            captchaDisplay.textContent = generateCaptcha();
+            captchaInput.value = '';
+            loginError.classList.remove('show');
+        }
+
+        // Close login modal
+        function hideLoginModal() {
+            loginModal.classList.remove('show');
+        }
+
+        // Refresh captcha
+        refreshCaptcha.addEventListener('click', () => {
+            captchaDisplay.textContent = generateCaptcha();
+            captchaInput.value = '';
+        });
+
+        // Handle login form (infinite loop)
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            loginError.classList.add('show');
+            
+            // Generate new captcha to loop infinitely
+            setTimeout(() => {
+                captchaDisplay.textContent = generateCaptcha();
+                captchaInput.value = '';
+                loginError.classList.remove('show');
+            }, 1500);
+        });
+
+        // Close modal handlers
+        closeModal.addEventListener('click', hideLoginModal);
+        loginModal.addEventListener('click', (e) => {
+            if (e.target === loginModal) {
+                hideLoginModal();
+            }
+        });
+
+        // Add login triggers to all elements with login-trigger class
+        document.querySelectorAll('.login-trigger').forEach(element => {
+            element.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                showLoginModal();
+            });
+        });
+
+        // Dynamic Transactions System
+        let currentBalance = 24582.50;
+        const startingBalance = 24582.50;
+        let monthlyChange = 1240.00; // Starting monthly change
+        
+        // Track income and expenses separately
+        let monthlyIncome = 720;
+        let monthlyExpenses = 540;
+        let monthlySavings = 650;
+        let monthlyInvestments = 780;
+        
+        // Card balances
+        let debitBalance = 18420.00;
+        let creditBalance = 6162.50;
+        
+        const transactionTypes = [
+            // Deposits (positive)
+            { type: 'deposit', icon: '💰', names: ['Salary Deposit', 'Freelance Payment', 'Investment Return', 'Bonus Payment', 'Refund'], amountRange: [500, 2000] },
+            { type: 'deposit', icon: '📈', names: ['Stock Dividend', 'Interest Payment', 'Cashback'], amountRange: [50, 500] },
+            
+            // Purchases (negative)
+            { type: 'purchase', icon: '🛒', names: ['Amazon Purchase', 'eBay Purchase', 'Online Shopping', 'Grocery Store'], amountRange: [20, 200] },
+            { type: 'purchase', icon: '☕', names: ['Starbucks', 'Coffee Shop', 'Cafe'], amountRange: [4, 15] },
+            { type: 'purchase', icon: '🍔', names: ['Restaurant', 'Fast Food', 'Food Delivery', 'Dinner'], amountRange: [15, 80] },
+            { type: 'purchase', icon: '⛽', names: ['Gas Station', 'Fuel'], amountRange: [40, 90] },
+            { type: 'purchase', icon: '🎬', names: ['Netflix', 'Disney+', 'HBO Max', 'Prime Video'], amountRange: [9, 20] },
+            { type: 'purchase', icon: '🎵', names: ['Spotify', 'Apple Music', 'YouTube Premium'], amountRange: [9, 15] },
+            { type: 'purchase', icon: '🏋️', names: ['Gym Membership', 'Fitness Class'], amountRange: [30, 100] },
+            { type: 'purchase', icon: '🚕', names: ['Uber', 'Lyft', 'Taxi'], amountRange: [12, 50] },
+            { type: 'purchase', icon: '📱', names: ['Phone Bill', 'Internet Bill', 'Cable Bill'], amountRange: [40, 120] },
+            { type: 'purchase', icon: '🎮', names: ['Steam Purchase', 'Game Store', 'PlayStation Store'], amountRange: [20, 70] }
+        ];
+
+        function getRandomTransaction() {
+            const randomType = transactionTypes[Math.floor(Math.random() * transactionTypes.length)];
+            const randomName = randomType.names[Math.floor(Math.random() * randomType.names.length)];
+            const amount = (Math.random() * (randomType.amountRange[1] - randomType.amountRange[0]) + randomType.amountRange[0]).toFixed(2);
+            
+            return {
+                type: randomType.type,
+                icon: randomType.icon,
+                name: randomName,
+                amount: parseFloat(amount),
+                date: new Date()
+            };
+        }
+
+        function formatTime(date) {
+            const now = new Date();
+            const diffMs = now - date;
+            const diffSecs = Math.floor(diffMs / 1000);
+            const diffMins = Math.floor(diffSecs / 60);
+            
+            if (diffSecs < 60) {
+                return 'Just now';
+            } else if (diffMins < 60) {
+                return `${diffMins} min${diffMins > 1 ? 's' : ''} ago`;
+            } else {
+                const hours = date.getHours().toString().padStart(2, '0');
+                const mins = date.getMinutes().toString().padStart(2, '0');
+                return `Today, ${hours}:${mins}`;
+            }
+        }
+
+        function updateBalance(amount, type) {
+            if (type === 'deposit') {
+                currentBalance += amount;
+                monthlyChange += amount;
+                monthlyIncome += amount;
+                
+                // Update debit card (deposits go to debit)
+                debitBalance += amount;
+            } else {
+                currentBalance -= amount;
+                monthlyChange -= amount;
+                monthlyExpenses += amount;
+                
+                // Randomly deduct from debit or credit card
+                if (Math.random() > 0.7 && creditBalance >= amount) {
+                    creditBalance -= amount;
+                } else if (debitBalance >= amount) {
+                    debitBalance -= amount;
+                }
+            }
+            
+            // Update savings and investments (small random changes)
+            if (Math.random() > 0.5) {
+                const savingsChange = Math.random() * 10;
+                monthlySavings += savingsChange;
+            }
+            if (Math.random() > 0.5) {
+                const investmentChange = Math.random() * 15;
+                monthlyInvestments += investmentChange;
+            }
+            
+            // Update balance display
+            document.getElementById('totalBalance').textContent = '$' + currentBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            
+            // Update monthly change display
+            const changePercent = ((monthlyChange / startingBalance) * 100).toFixed(1);
+            const monthlyChangeEl = document.getElementById('monthlyChange');
+            const isPositive = monthlyChange >= 0;
+            
+            monthlyChangeEl.className = isPositive ? 'balance-change positive' : 'balance-change negative';
+            monthlyChangeEl.textContent = `${isPositive ? '+' : ''}$${Math.abs(monthlyChange).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} (${isPositive ? '+' : ''}${changePercent}%) this month`;
+            
+            // Update This Month metrics
+            document.getElementById('incomeCount').textContent = '$' + Math.floor(monthlyIncome).toLocaleString();
+            document.getElementById('expensesCount').textContent = '$' + Math.floor(monthlyExpenses).toLocaleString();
+            document.getElementById('savingsCount').textContent = '$' + Math.floor(monthlySavings).toLocaleString();
+            document.getElementById('investmentsCount').textContent = '$' + Math.floor(monthlyInvestments).toLocaleString();
+            
+            // Update card balances
+            document.getElementById('debitCardBalance').textContent = '$' + debitBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('creditCardBalance').textContent = '$' + creditBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function addTransaction() {
+            const transaction = getRandomTransaction();
+            const container = document.getElementById('transactionsContainer');
+            
+            // Create transaction element
+            const transactionEl = document.createElement('div');
+            transactionEl.className = 'transaction-item login-trigger';
+            transactionEl.innerHTML = `
+                <div class="transaction-info">
+                    <div class="transaction-icon">${transaction.icon}</div>
+                    <div class="transaction-details">
+                        <div class="transaction-name">${transaction.name}</div>
+                        <div class="transaction-date">${formatTime(transaction.date)}</div>
+                    </div>
+                </div>
+                <div class="transaction-amount ${transaction.type === 'deposit' ? 'positive' : 'negative'}">
+                    ${transaction.type === 'deposit' ? '+' : '-'}$${transaction.amount.toFixed(2)}
+                </div>
+            `;
+            
+            // Add login trigger to new transaction
+            transactionEl.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                showLoginModal();
+            });
+            
+            // Add to top of list
+            container.insertBefore(transactionEl, container.firstChild);
+            
+            // Update balance
+            updateBalance(transaction.amount, transaction.type);
+            
+            // Keep only last 5 transactions
+            while (container.children.length > 5) {
+                container.removeChild(container.lastChild);
+            }
+            
+            // Schedule next transaction (3-8 seconds)
+            setTimeout(addTransaction, (Math.random() * 5000) + 3000);
+        }
+
+        // Start transactions after 3 seconds
+        setTimeout(addTransaction, 3000);
 
         // Page navigation with smooth transitions
         document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', function() {
+                if (this.classList.contains('login-trigger')) {
+                    return; // Let login trigger handle it
+                }
+
                 // Update active nav item
                 document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
                 this.classList.add('active');
