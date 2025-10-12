@@ -34,8 +34,5 @@ Made by AI.
 ### [Cloud page](https://prettyleaf.github.io/nothing-sni/7.html)
 ![Cloud](.github/7.png)
 
-### [Bank page](https://prettyleaf.github.io/nothing-sni/8.html)
-
-*this template is not related to any project at all. just a fan remake made with AI.
-
-![Cloud](.github/8.png)
+### [Sign in page](https://prettyleaf.github.io/nothing-sni/8.html)
+![Sign in page](.github/8.png)
