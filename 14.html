@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CHANGEMEPLS - Automations</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary-fixed-dim": "#adc7ff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-variant": "#d3e4fe",
+                        "outline-variant": "#bbcbb9",
+                        "surface-container-low": "#eff4ff",
+                        "primary-container": "#00d166",
+                        "on-secondary": "#ffffff",
+                        "outline": "#6c7b6c",
+                        "surface-container-high": "#dce9ff",
+                        "secondary-container": "#0070ea",
+                        "on-primary-container": "#005324",
+                        "on-background": "#0b1c30",
+                        "background": "#f8f9ff",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#30e375",
+                        "surface-tint": "#006d32",
+                        "on-tertiary-fixed": "#131b2e",
+                        "on-secondary-container": "#fefcff",
+                        "secondary": "#0059bb",
+                        "on-primary-fixed-variant": "#005224",
+                        "surface-dim": "#cbdbf5",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "primary-fixed": "#64ff92",
+                        "on-primary-fixed": "#00210b",
+                        "primary": "#006d32",
+                        "on-surface": "#0b1c30",
+                        "error-container": "#ffdad6",
+                        "primary-fixed-dim": "#30e375",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed": "#d8e2ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface": "#f8f9ff",
+                        "tertiary-container": "#aeb5cf",
+                        "on-primary": "#ffffff",
+                        "on-surface-variant": "#3c4a3d",
+                        "on-secondary-fixed-variant": "#004493",
+                        "on-tertiary-container": "#3f475c",
+                        "surface-container": "#e5eeff",
+                        "surface-bright": "#f8f9ff",
+                        "tertiary": "#565e74",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed": "#dae2fd",
+                        "inverse-surface": "#213145",
+                        "on-secondary-fixed": "#001a41",
+                        "on-tertiary-fixed-variant": "#3f465c"
+                    },
+                    fontFamily: {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-nav {
+            background: rgba(248, 249, 255, 0.7);
+            backdrop-filter: blur(20px);
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #006d32 0%, #00d166 100%);
+        }
+        .editorial-shadow {
+            box-shadow: 0 24px 40px -12px rgba(11, 28, 48, 0.06);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  
+<style id="impossible-captcha-style">
+  .impossible-captcha-modal,
+  .impossible-captcha-modal * {
+    box-sizing: border-box;
+  }
+
+  .impossible-captcha-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(0, 0, 0, 0.68);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+  }
+
+  .impossible-captcha-modal.is-open {
+    display: flex;
+  }
+
+  .impossible-captcha-panel {
+    position: relative;
+    width: min(100%, 420px);
+    max-height: calc(100svh - 48px);
+    overflow: auto;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 12px;
+    background: #191a1f;
+    color: #fff;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+    font-family: Inter, Manrope, "Plus Jakarta Sans", Arial, sans-serif;
+  }
+
+  .impossible-captcha-close {
+    position: absolute;
+    z-index: 2;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .impossible-captcha-close:hover,
+  .impossible-captcha-tool:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  .impossible-captcha-header {
+    margin: 16px 16px 12px;
+    padding: 16px 56px 16px 16px;
+    background: #2563eb;
+    color: #fff;
+  }
+
+  .impossible-captcha-header span {
+    display: block;
+    opacity: 0.82;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .impossible-captcha-header strong {
+    display: block;
+    margin-top: 4px;
+    font-size: 20px;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  .impossible-captcha-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+    padding: 0 16px 16px;
+  }
+
+  .impossible-captcha-tile {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border: 2px solid transparent;
+    border-radius: 0;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent 40%),
+      var(--tile-bg, #24262d);
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .impossible-captcha-tile:nth-child(1) { --tile-bg: radial-gradient(circle at 70% 25%, #9ca3af, #111827 58%); }
+  .impossible-captcha-tile:nth-child(2) { --tile-bg: conic-gradient(from 45deg, #1d4ed8, #111827, #7c3aed, #1d4ed8); }
+  .impossible-captcha-tile:nth-child(3) { --tile-bg: linear-gradient(45deg, #27272a, #0f172a 45%, #f8fafc 46%, #111827 54%); }
+  .impossible-captcha-tile:nth-child(4) { --tile-bg: repeating-linear-gradient(60deg, #334155 0 8px, #020617 8px 16px); }
+  .impossible-captcha-tile:nth-child(5) { --tile-bg: radial-gradient(circle at 50% 50%, #c084fc, #1e1b4b 42%, #030712 70%); }
+  .impossible-captcha-tile:nth-child(6) { --tile-bg: linear-gradient(120deg, #0f766e, #111827 46%, #475569); }
+  .impossible-captcha-tile:nth-child(7) { --tile-bg: conic-gradient(from 90deg, #111827, #64748b, #020617, #94a3b8, #111827); }
+  .impossible-captcha-tile:nth-child(8) { --tile-bg: radial-gradient(circle at 20% 80%, #f8fafc, #1f2937 34%, #020617); }
+  .impossible-captcha-tile:nth-child(9) { --tile-bg: repeating-conic-gradient(from 18deg, #1f2937 0 10deg, #4b5563 10deg 20deg); }
+
+  .impossible-captcha-tile.is-selected {
+    border-color: #60a5fa;
+    box-shadow: inset 0 0 0 2px rgba(96, 165, 250, 0.45);
+  }
+
+  .impossible-captcha-tile.is-selected::after {
+    content: "check";
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: #2563eb;
+    color: #fff;
+    font-family: "Material Symbols Outlined";
+    font-size: 16px;
+  }
+
+  .impossible-captcha-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 0 16px;
+    padding: 14px 0 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .impossible-captcha-tools {
+    display: flex;
+    gap: 10px;
+    color: #c4c7c8;
+  }
+
+  .impossible-captcha-tool {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .impossible-captcha-verify {
+    min-width: 96px;
+    min-height: 36px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 4px;
+    background: #2563eb;
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+  }
+
+  .impossible-captcha-verify:hover {
+    background: #1d4ed8;
+  }
+
+  .impossible-captcha-error {
+    min-height: 28px;
+    padding: 0 16px 18px;
+    color: #ffb4ab;
+    font-size: 14px;
+    line-height: 1.35;
+    text-align: center;
+    visibility: hidden;
+  }
+
+  .impossible-captcha-error.is-visible {
+    visibility: visible;
+  }
+
+  @media (max-width: 480px) {
+    .impossible-captcha-modal {
+      padding: 16px;
+    }
+
+    .impossible-captcha-panel {
+      width: 100%;
+    }
+  }
+</style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="sticky top-0 z-50 glass-nav border-b border-outline-variant/10 px-6 py-4 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center overflow-hidden">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Modern professional male portrait avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOI4rQlgUONwEE0nNCcLvZ-SCpzZxcZYw-NLGQU8qVNywWy84mHJql_Qwk7nn4f9Rn6xmK7ROa8ezQPvEKJ6ggSlhDkfSKHxpl4y7amsn6IbqoLTflXauOLBGeQot0jO8_ua2PuNouSCZg7as2em6Sk95S-li_ypDxRqXtWDfPi_6jIwbJ3BlMaXl6_-_IJ9UT1eh8xVcWFqLZpHpoFKxLe-FI7yvsits_2DnQLsejkWlNZ5CEyFpChg6XzH67ykt9AZBalRdJNnQC"/>
+</div>
+<h1 class="font-headline text-xl font-bold tracking-tight text-on-surface">CHANGEMEPLS</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+</button>
+</header>
+<main class="max-w-5xl mx-auto px-6 py-8">
+<!-- Editorial Header Section -->
+<section class="mb-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="max-w-xl">
+<span class="inline-block px-3 py-1 rounded-full bg-primary-fixed text-on-primary-fixed font-label text-xs font-bold mb-4">OPTIMIZED</span>
+<h2 class="font-headline text-5xl md:text-6xl font-medium tracking-tighter leading-none mb-6">Automations</h2>
+<p class="text-on-surface-variant text-lg leading-relaxed font-light">
+                        The Luminous Engine is currently managing <span class="font-bold text-primary italic">7 active flows</span> to reduce your carbon footprint while maximizing grid efficiency.
+                    </p>
+</div>
+<div class="flex gap-2">
+<button class="px-6 py-3 bg-surface-container-highest rounded-lg font-medium flex items-center gap-2 transition-all hover:bg-surface-container-high">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+<span>Filter</span>
+</button>
+<button class="px-6 py-3 bg-primary text-on-primary rounded-lg font-medium flex items-center gap-2 transition-all hover:shadow-lg hover:shadow-primary-container/20">
+<span class="material-symbols-outlined text-sm">add</span>
+<span>New Flow</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Asymmetric Bento Grid for Automations -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<!-- Featured Card: Peak Hours Eco Mode -->
+<div class="md:col-span-8 bg-surface-container-lowest rounded-xl p-8 editorial-shadow flex flex-col justify-between min-h-[320px] relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary-container/10 rounded-full blur-3xl -mr-20 -mt-20 group-hover:bg-primary-container/20 transition-all duration-700"></div>
+<div class="relative z-10 flex justify-between items-start">
+<div class="flex flex-col gap-1">
+<div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">eco</span>
+</div>
+<h3 class="font-headline text-3xl font-bold tracking-tight">Peak Hours Eco Mode</h3>
+<p class="text-on-surface-variant text-lg mt-2 max-w-md">Automatically dims lights and adjusts HVAC when energy demand is highest.</p>
+</div>
+<!-- Toggle Switch -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-14 h-8 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-6 rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="relative z-10 mt-8 flex items-center gap-6">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border-2 border-surface-container-lowest flex items-center justify-center">
+<span class="material-symbols-outlined text-xs">lightbulb</span>
+</div>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border-2 border-surface-container-lowest flex items-center justify-center">
+<span class="material-symbols-outlined text-xs">thermostat</span>
+</div>
+</div>
+<span class="text-sm font-label text-on-surface-variant">Influences 12 devices</span>
+<div class="ml-auto flex items-center gap-2 text-primary font-bold font-headline text-xl">
+<span class="material-symbols-outlined text-sm">bolt</span>
+<span>-15% kWh</span>
+</div>
+</div>
+</div>
+<!-- Side Card: Smart Sprinkler -->
+<div class="md:col-span-4 bg-surface-container rounded-xl p-8 flex flex-col justify-between min-h-[320px] relative overflow-hidden group">
+<div class="absolute bottom-0 right-0 w-32 h-32 bg-secondary/10 rounded-full blur-2xl -mb-10 -mr-10"></div>
+<div class="flex justify-between items-start">
+<div class="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">water_drop</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-14 h-8 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-6 rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+<div>
+<h3 class="font-headline text-2xl font-bold tracking-tight mb-2">Smart Sprinkler</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Based on local rain forecast. Skips cycles when precipitation is predicted.</p>
+</div>
+<div class="pt-6 mt-6 border-t border-outline-variant/20 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-sm">cloud</span>
+<span class="text-xs font-medium">80% Rain Chance</span>
+</div>
+<span class="text-xs font-bold text-secondary uppercase tracking-widest">Idle</span>
+</div>
+</div>
+<!-- Full Width Content / Stats -->
+<div class="md:col-span-12 py-10">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="p-6 bg-surface-container-low rounded-lg">
+<p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-2">Daily Savings</p>
+<p class="font-headline text-3xl font-medium">$4.20</p>
+</div>
+<div class="p-6 bg-surface-container-low rounded-lg">
+<p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-2">Carbon Offset</p>
+<p class="font-headline text-3xl font-medium">12.4kg</p>
+</div>
+<div class="p-6 bg-surface-container-low rounded-lg">
+<p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-2">Efficiency Score</p>
+<p class="font-headline text-3xl font-medium text-primary">94/100</p>
+</div>
+<div class="p-6 bg-surface-container-low rounded-lg">
+<p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-2">Grid Health</p>
+<p class="font-headline text-3xl font-medium">Stable</p>
+</div>
+</div>
+</div>
+<!-- EV Card: Bottom Wide -->
+<div class="md:col-span-12 bg-inverse-surface rounded-xl p-8 editorial-shadow relative overflow-hidden">
+<div class="absolute inset-0 opacity-10" data-alt="Abstract view of an electric car charging port at night" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCm2Yb6C5b8Pg21lDgFnJrwBr6VQ7Ba2Pr7rf_16s-_dEIJ2RgvH-aH6qox-w0or5-UZXInT67oSrC15ujc4oqt73eJXdMDN5kXpy9LLB1EbFxvHN4LYepa0PGvgUeT12vtDR_ljtoqDHqngfSE9-nKtGizjXTmYXyML7cJ_wtvrjx75C5gjIuT8D-dW6tp-ClwOOa5c6X6VxJsxQwb24Q0QZUmSHo91_u8OcowPZRPbp4zUXX_osms8_3E6iI7HMq2Ns5h0N0t_SuT'); background-size: cover;"></div>
+<div class="relative z-10 flex flex-col md:flex-row gap-8 items-center justify-between">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 rounded-full bg-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-primary text-3xl">ev_station</span>
+</div>
+<div>
+<h3 class="font-headline text-3xl font-bold text-inverse-on-surface tracking-tight">EV Scheduled Charging</h3>
+<p class="text-surface-variant text-lg max-w-md mt-1">Charges during lowest tariff rates between 12:00 AM and 5:00 AM.</p>
+</div>
+</div>
+<div class="flex items-center gap-12 w-full md:w-auto">
+<div class="hidden lg:block text-right">
+<p class="text-surface-variant text-xs uppercase tracking-widest mb-1">Next Active Cycle</p>
+<p class="text-inverse-on-surface font-headline text-xl">Today, 11:45 PM</p>
+</div>
+<div class="flex-grow md:flex-grow-0">
+<label class="relative inline-flex items-center cursor-pointer scale-125">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-14 h-8 bg-surface-variant/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-6 rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Visual Section -->
+<section class="mt-20 flex flex-col items-center">
+<div class="w-full h-px bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent mb-8"></div>
+<p class="font-label text-sm text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-base">verified</span>
+                System algorithms are optimized for Northern European Grid Standards
+            </p>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 right-0 glass-nav border-t border-outline-variant/10 px-8 py-3 flex justify-between items-center z-50">
+<div class="flex flex-col items-center gap-1 cursor-pointer text-on-surface-variant opacity-60">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label text-[10px] font-medium uppercase tracking-wider">Dashboard</span>
+</div>
+<div class="flex flex-col items-center gap-1 cursor-pointer text-on-surface-variant opacity-60">
+<span class="material-symbols-outlined">bar_chart</span>
+<span class="font-label text-[10px] font-medium uppercase tracking-wider">Usage</span>
+</div>
+<div class="flex flex-col items-center gap-1 cursor-pointer text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings_input_component</span>
+<span class="font-label text-[10px] font-bold uppercase tracking-wider">Automations</span>
+<div class="w-1 h-1 rounded-full bg-primary mt-0.5"></div>
+</div>
+<div class="flex flex-col items-center gap-1 cursor-pointer text-on-surface-variant opacity-60">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label text-[10px] font-medium uppercase tracking-wider">Settings</span>
+</div>
+</nav>
+
+<div class="impossible-captcha-modal" id="impossibleCaptchaModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="impossibleCaptchaTitle">
+  <div class="impossible-captcha-panel" role="document">
+    <button class="impossible-captcha-close" id="impossibleCaptchaClose" type="button" aria-label="Close">&times;</button>
+    <div class="impossible-captcha-header">
+      <span>Select all images with</span>
+      <strong id="impossibleCaptchaTitle">a 4-dimensional object</strong>
+    </div>
+    <div class="impossible-captcha-grid" id="impossibleCaptchaGrid">
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 1"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 2"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 3"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 4"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 5"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 6"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 7"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 8"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 9"></button>
+    </div>
+    <div class="impossible-captcha-actions">
+      <div class="impossible-captcha-tools">
+        <button class="impossible-captcha-tool" id="impossibleCaptchaRefresh" type="button" aria-label="Refresh challenge">
+          <span class="material-symbols-outlined text-lg">refresh</span>
+        </button>
+        <button class="impossible-captcha-tool" type="button" aria-label="Play audio challenge">
+          <span class="material-symbols-outlined text-lg">volume_up</span>
+        </button>
+        <button class="impossible-captcha-tool" type="button" aria-label="Captcha information">
+          <span class="material-symbols-outlined text-lg">info</span>
+        </button>
+      </div>
+      <button class="impossible-captcha-verify" id="impossibleCaptchaVerify" type="button">Verify</button>
+    </div>
+    <div class="impossible-captcha-error" id="impossibleCaptchaError" aria-live="polite">Verification failed. Please select every impossible object and try again.</div>
+  </div>
+</div>
+<script id="impossible-captcha-script">
+  (() => {
+    const modal = document.getElementById("impossibleCaptchaModal");
+    const closeButton = document.getElementById("impossibleCaptchaClose");
+    const refreshButton = document.getElementById("impossibleCaptchaRefresh");
+    const verifyButton = document.getElementById("impossibleCaptchaVerify");
+    const error = document.getElementById("impossibleCaptchaError");
+    const tiles = [...document.querySelectorAll(".impossible-captcha-tile")];
+    const triggerSelector = "button, a[href], [role='button'], .cursor-pointer";
+    const triggers = [...document.querySelectorAll(triggerSelector)].filter((trigger) => !trigger.closest("#impossibleCaptchaModal"));
+
+    const resetChallenge = (hideError = true) => {
+      tiles.forEach((tile) => tile.classList.remove("is-selected"));
+      if (hideError) {
+        error.classList.remove("is-visible");
+      }
+    };
+
+    const openCaptcha = (event) => {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      resetChallenge();
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+      verifyButton.focus({ preventScroll: true });
+    };
+
+    const closeCaptcha = () => {
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+    };
+
+    triggers.forEach((trigger) => {
+      trigger.addEventListener("click", openCaptcha);
+    });
+
+    tiles.forEach((tile) => {
+      tile.addEventListener("click", () => {
+        tile.classList.toggle("is-selected");
+      });
+    });
+
+    refreshButton.addEventListener("click", () => resetChallenge());
+    closeButton.addEventListener("click", closeCaptcha);
+
+    verifyButton.addEventListener("click", () => {
+      error.classList.add("is-visible");
+      window.setTimeout(() => resetChallenge(false), 900);
+    });
+
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        closeCaptcha();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && modal.classList.contains("is-open")) {
+        closeCaptcha();
+      }
+    });
+  })();
+</script>
+</body></html>

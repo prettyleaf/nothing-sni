@@ -1,744 +1,577 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHANGEMEPLS.Auth - Sign In</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container": "#eeeeee",
+                        "surface-variant": "#e2e2e2",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "surface-container-low": "#f3f3f3",
+                        "primary-container": "#3b3b3b",
+                        "surface": "#f9f9f9",
+                        "primary-fixed": "#5e5e5e",
+                        "primary-fixed-dim": "#474747",
+                        "surface-bright": "#f9f9f9",
+                        "secondary-fixed": "#c8c6c5",
+                        "on-primary-fixed": "#ffffff",
+                        "on-primary-fixed-variant": "#e2e2e2",
+                        "secondary": "#5f5e5e",
+                        "secondary-fixed-dim": "#adabaa",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#e2e2e2",
+                        "tertiary-fixed-dim": "#474747",
+                        "error-container": "#ffdad6",
+                        "secondary-container": "#d6d4d3",
+                        "surface-dim": "#dadada",
+                        "on-secondary-container": "#1c1b1b",
+                        "inverse-surface": "#303030",
+                        "surface-container-highest": "#e2e2e2",
+                        "outline": "#777777",
+                        "on-secondary-fixed-variant": "#3c3b3b",
+                        "tertiary": "#3b3b3b",
+                        "error": "#ba1a1a",
+                        "on-primary-container": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#c6c6c6",
+                        "on-surface-variant": "#474747",
+                        "on-tertiary-container": "#ffffff",
+                        "on-surface": "#1b1b1b",
+                        "background": "#f9f9f9",
+                        "surface-container-high": "#e8e8e8",
+                        "tertiary-container": "#757474",
+                        "on-background": "#1b1b1b",
+                        "on-tertiary-fixed": "#ffffff",
+                        "primary": "#000000",
+                        "inverse-on-surface": "#f1f1f1",
+                        "surface-tint": "#5e5e5e",
+                        "tertiary-fixed": "#5e5e5e",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#e4e2e2",
+                        "inverse-primary": "#c6c6c6",
+                        "on-tertiary": "#e4e2e2",
+                        "on-error-container": "#410002"
+                    },
+                    fontFamily: {
+                        "headline": ["Noto Serif"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+                },
+            },
         }
-
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
         body {
-            font-family: 'Inter', 'JetBrains Mono', monospace;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            transition: background-color 0.3s, color 0.3s;
-            position: relative;
-        }
-
-        body.light {
-            background: #FFFFFF;
-            color: #000000;
-        }
-
-        body.dark {
-            background: #000000;
-            color: #FFFFFF;
-        }
-
-        /* Dot Matrix Pattern Background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: radial-gradient(circle, rgba(128, 128, 128, 0.1) 1px, transparent 1px);
-            background-size: 24px 24px;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.3;
-        }
-
-        /* Glyph Interface Elements */
-        body::after {
-            content: '';
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 600px;
-            height: 600px;
-            border: 1px solid currentColor;
-            border-radius: 50%;
-            opacity: 0.1;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .bg-structures {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .orbit-ring {
-            position: absolute;
-            border: 1px solid;
-            border-radius: 50%;
-            opacity: 0.15;
-        }
-
-        body.light .orbit-ring {
-            border-color: rgba(0, 0, 0, 0.3);
-        }
-
-        body.dark .orbit-ring {
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-
-        .orbit-1 {
-            width: 400px;
-            height: 400px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: rotate-orbit 40s linear infinite;
-        }
-
-        .orbit-2 {
-            width: 300px;
-            height: 300px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: rotate-orbit 30s linear infinite reverse;
-        }
-
-        .orbit-3 {
-            width: 200px;
-            height: 200px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: rotate-orbit 25s linear infinite;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            opacity: 0.4;
-        }
-
-        body.light .particle {
-            background: rgba(0, 0, 0, 0.4);
-        }
-
-        body.dark .particle {
-            background: rgba(255, 255, 255, 0.4);
-        }
-
-        .particle-1 {
-            top: 20%;
-            left: 15%;
-            animation: float-particle 15s ease-in-out infinite;
-        }
-
-        .particle-2 {
-            top: 70%;
-            right: 20%;
-            animation: float-particle 18s ease-in-out infinite 2s;
-        }
-
-        .particle-3 {
-            bottom: 25%;
-            left: 25%;
-            animation: float-particle 20s ease-in-out infinite 4s;
-        }
-
-        .particle-4 {
-            top: 40%;
-            right: 10%;
-            animation: float-particle 16s ease-in-out infinite 1s;
-        }
-
-        .particle-5 {
-            top: 15%;
-            right: 30%;
-            animation: float-particle 22s ease-in-out infinite 3s;
-        }
-
-        .particle-red {
-            background: #FF3B30 !important;
-            opacity: 0.5;
-            animation: pulse-particle 3s ease-in-out infinite;
-        }
-
-        .particle-red-1 {
-            top: 30%;
-            left: 20%;
-        }
-
-        .particle-red-2 {
-            bottom: 30%;
-            right: 25%;
-            animation-delay: 1.5s;
-        }
-
-        @keyframes rotate-orbit {
-            from {
-                transform: translate(-50%, -50%) rotate(0deg);
-            }
-            to {
-                transform: translate(-50%, -50%) rotate(360deg);
-            }
-        }
-
-        @keyframes float-particle {
-            0%, 100% {
-                transform: translate(0, 0);
-                opacity: 0.4;
-            }
-            25% {
-                transform: translate(30px, -30px);
-                opacity: 0.6;
-            }
-            50% {
-                transform: translate(-20px, 40px);
-                opacity: 0.3;
-            }
-            75% {
-                transform: translate(40px, 20px);
-                opacity: 0.5;
-            }
-        }
-
-        @keyframes pulse-particle {
-            0%, 100% {
-                transform: scale(1);
-                opacity: 0.5;
-            }
-            50% {
-                transform: scale(1.5);
-                opacity: 0.8;
-            }
-        }
-
-        /* Login Container */
-        .login-container {
-            position: relative;
-            z-index: 1;
-            max-width: 480px;
-            width: 90%;
-            padding: 48px 40px;
-            border: 1px solid;
-            background: transparent;
-            backdrop-filter: blur(10px);
-        }
-
-        body.light .login-container {
-            border-color: rgba(0, 0, 0, 0.1);
-            background: rgba(255, 255, 255, 0.5);
-        }
-
-        body.dark .login-container {
-            border-color: rgba(255, 255, 255, 0.15);
-            background: rgba(0, 0, 0, 0.5);
-        }
-
-        .red-dot {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 8px;
-            height: 8px;
-            background: #FF3B30;
-            border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.6;
-                transform: scale(1.2);
-            }
-        }
-
-        .loading-bar {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            height: 2px;
-            background: #FF3B30;
-            width: 0;
-            animation: loadProgress 3s ease-in-out infinite;
-        }
-
-        @keyframes loadProgress {
-            0% {
-                width: 0%;
-            }
-            50% {
-                width: 70%;
-            }
-            100% {
-                width: 100%;
-            }
-        }
-
-        /* Header */
-        .login-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            font-family: 'Space Grotesk', sans-serif;
-            margin-bottom: 12px;
-        }
-
-        .red-accent {
-            color: #FF3B30;
-        }
-
-        .subtitle {
-            font-size: 14px;
-            opacity: 0.6;
-            font-weight: 400;
-        }
-
-        /* Form Styles */
-        .form-group {
-            margin-bottom: 24px;
-        }
-
-        .form-label {
-            display: block;
-            font-size: 12px;
-            font-weight: 500;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            opacity: 0.8;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 14px 16px;
-            border: 1px solid;
-            background: transparent;
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            color: inherit;
-            outline: none;
-            transition: all 0.3s;
-        }
-
-        body.light .form-input {
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        body.dark .form-input {
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .form-input:focus {
-            border-color: #FF3B30;
-        }
-
-        .form-input::placeholder {
-            opacity: 0.4;
-        }
-
-        /* Captcha Container */
-        .captcha-container {
-            margin: 28px 0;
-            padding: 24px;
-            border: 1px solid;
-            position: relative;
-        }
-
-        body.light .captcha-container {
-            border-color: rgba(0, 0, 0, 0.1);
-            background: rgba(0, 0, 0, 0.02);
-        }
-
-        body.dark .captcha-container {
-            border-color: rgba(255, 255, 255, 0.15);
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .captcha-title {
-            font-size: 11px;
-            margin-bottom: 16px;
-            opacity: 0.8;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .captcha-display {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 20px;
-            text-align: center;
-            margin-bottom: 16px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 28px;
-            letter-spacing: 12px;
-            color: white;
-            user-select: none;
-            font-weight: 600;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .captcha-display::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            animation: shimmer 3s infinite;
-        }
-
-        @keyframes shimmer {
-            0% {
-                left: -100%;
-            }
-            100% {
-                left: 100%;
-            }
-        }
-
-        .captcha-refresh {
-            display: inline-block;
-            font-size: 11px;
-            color: #FF3B30;
-            cursor: pointer;
-            text-decoration: none;
-            opacity: 0.8;
-            transition: opacity 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-weight: 500;
-        }
-
-        .captcha-refresh:hover {
-            opacity: 1;
-        }
-
-        /* Submit Button */
-        .submit-btn {
-            width: 100%;
-            padding: 16px 24px;
-            font-size: 14px;
-            font-weight: 500;
-            color: #FFFFFF;
-            background: #FF3B30;
-            border: none;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            letter-spacing: -0.01em;
-            text-transform: uppercase;
-            font-size: 12px;
-            margin-top: 8px;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(255, 59, 48, 0.4);
-        }
-
-        .submit-btn:active {
-            transform: translateY(0);
-        }
-
-        /* Error Message */
-        .error-message {
-            color: #FF3B30;
-            font-size: 12px;
-            margin-top: 16px;
-            text-align: center;
-            opacity: 0;
-            transition: opacity 0.3s;
-            font-weight: 500;
-        }
-
-        .error-message.show {
-            opacity: 1;
-        }
-
-        /* Additional Options */
-        .form-options {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .form-link {
-            font-size: 12px;
-            opacity: 0.6;
-            text-decoration: none;
-            color: inherit;
-            transition: opacity 0.3s;
-        }
-
-        .form-link:hover {
-            opacity: 1;
-            color: #FF3B30;
-        }
-
-        /* Theme Switcher */
-        .theme-switcher {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-        }
-
-        .theme-btn {
-            width: 40px;
-            height: 40px;
-            border: 1px solid;
-            background: transparent;
-            color: inherit;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        body.light .theme-btn {
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        body.dark .theme-btn {
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .theme-btn:hover {
-            border-color: #FF3B30;
-            transform: translateY(-2px);
-        }
-
-        /* Success State */
-        .success-message {
-            color: #34C759;
-            font-size: 12px;
-            margin-top: 16px;
-            text-align: center;
-            opacity: 0;
-            transition: opacity 0.3s;
-            font-weight: 500;
-        }
-
-        .success-message.show {
-            opacity: 1;
-        }
-
-        @media (max-width: 576px) {
-            .login-container {
-                padding: 40px 28px;
-            }
-
-            .logo {
-                font-size: 20px;
-            }
-
-            .captcha-display {
-                font-size: 22px;
-                letter-spacing: 8px;
-            }
+            background-color: #f9f9f9;
+            color: #1b1b1b;
+            -webkit-font-smoothing: antialiased;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
     </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  
+<style id="impossible-captcha-style">
+  .impossible-captcha-modal,
+  .impossible-captcha-modal * {
+    box-sizing: border-box;
+  }
+
+  .impossible-captcha-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(0, 0, 0, 0.68);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+  }
+
+  .impossible-captcha-modal.is-open {
+    display: flex;
+  }
+
+  .impossible-captcha-panel {
+    position: relative;
+    width: min(100%, 420px);
+    max-height: calc(100svh - 48px);
+    overflow: auto;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 12px;
+    background: #191a1f;
+    color: #fff;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+    font-family: Inter, Manrope, "Plus Jakarta Sans", Arial, sans-serif;
+  }
+
+  .impossible-captcha-close {
+    position: absolute;
+    z-index: 2;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .impossible-captcha-close:hover,
+  .impossible-captcha-tool:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  .impossible-captcha-header {
+    margin: 16px 16px 12px;
+    padding: 16px 56px 16px 16px;
+    background: #2563eb;
+    color: #fff;
+  }
+
+  .impossible-captcha-header span {
+    display: block;
+    opacity: 0.82;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .impossible-captcha-header strong {
+    display: block;
+    margin-top: 4px;
+    font-size: 20px;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  .impossible-captcha-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+    padding: 0 16px 16px;
+  }
+
+  .impossible-captcha-tile {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border: 2px solid transparent;
+    border-radius: 0;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent 40%),
+      var(--tile-bg, #24262d);
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .impossible-captcha-tile:nth-child(1) { --tile-bg: radial-gradient(circle at 70% 25%, #9ca3af, #111827 58%); }
+  .impossible-captcha-tile:nth-child(2) { --tile-bg: conic-gradient(from 45deg, #1d4ed8, #111827, #7c3aed, #1d4ed8); }
+  .impossible-captcha-tile:nth-child(3) { --tile-bg: linear-gradient(45deg, #27272a, #0f172a 45%, #f8fafc 46%, #111827 54%); }
+  .impossible-captcha-tile:nth-child(4) { --tile-bg: repeating-linear-gradient(60deg, #334155 0 8px, #020617 8px 16px); }
+  .impossible-captcha-tile:nth-child(5) { --tile-bg: radial-gradient(circle at 50% 50%, #c084fc, #1e1b4b 42%, #030712 70%); }
+  .impossible-captcha-tile:nth-child(6) { --tile-bg: linear-gradient(120deg, #0f766e, #111827 46%, #475569); }
+  .impossible-captcha-tile:nth-child(7) { --tile-bg: conic-gradient(from 90deg, #111827, #64748b, #020617, #94a3b8, #111827); }
+  .impossible-captcha-tile:nth-child(8) { --tile-bg: radial-gradient(circle at 20% 80%, #f8fafc, #1f2937 34%, #020617); }
+  .impossible-captcha-tile:nth-child(9) { --tile-bg: repeating-conic-gradient(from 18deg, #1f2937 0 10deg, #4b5563 10deg 20deg); }
+
+  .impossible-captcha-tile.is-selected {
+    border-color: #60a5fa;
+    box-shadow: inset 0 0 0 2px rgba(96, 165, 250, 0.45);
+  }
+
+  .impossible-captcha-tile.is-selected::after {
+    content: "check";
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: #2563eb;
+    color: #fff;
+    font-family: "Material Symbols Outlined";
+    font-size: 16px;
+  }
+
+  .impossible-captcha-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 0 16px;
+    padding: 14px 0 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .impossible-captcha-tools {
+    display: flex;
+    gap: 10px;
+    color: #c4c7c8;
+  }
+
+  .impossible-captcha-tool {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .impossible-captcha-verify {
+    min-width: 96px;
+    min-height: 36px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 4px;
+    background: #2563eb;
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+  }
+
+  .impossible-captcha-verify:hover {
+    background: #1d4ed8;
+  }
+
+  .impossible-captcha-error {
+    min-height: 28px;
+    padding: 0 16px 18px;
+    color: #ffb4ab;
+    font-size: 14px;
+    line-height: 1.35;
+    text-align: center;
+    visibility: hidden;
+  }
+
+  .impossible-captcha-error.is-visible {
+    visibility: visible;
+  }
+
+  @media (max-width: 480px) {
+    .impossible-captcha-modal {
+      padding: 16px;
+    }
+
+    .impossible-captcha-panel {
+      width: 100%;
+    }
+  }
+</style>
 </head>
-<body class="dark">
-    <!-- Background structures -->
-    <div class="bg-structures">
-        <div class="orbit-ring orbit-1"></div>
-        <div class="orbit-ring orbit-2"></div>
-        <div class="orbit-ring orbit-3"></div>
-        
-        <div class="particle particle-1"></div>
-        <div class="particle particle-2"></div>
-        <div class="particle particle-3"></div>
-        <div class="particle particle-4"></div>
-        <div class="particle particle-5"></div>
-        
-        <div class="particle particle-red particle-red-1"></div>
-        <div class="particle particle-red particle-red-2"></div>
+<body class="font-body selection:bg-primary selection:text-on-primary">
+<!-- TopAppBar -->
+<nav class="fixed top-0 left-0 right-0 z-50 bg-surface/70 backdrop-blur-xl border-none">
+<div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+<div class="flex-1 flex justify-start">
+<button class="p-2">
+<span class="material-symbols-outlined text-on-surface" data-icon="menu">menu</span>
+</button>
+</div>
+<div class="flex-1 flex justify-center">
+<h1 class="font-headline text-2xl tracking-[0.2em] font-light">CHANGEMEPLS</h1>
+</div>
+<div class="flex-1 flex justify-end">
+<button class="p-2">
+<span class="material-symbols-outlined text-on-surface" data-icon="shopping_bag">shopping_bag</span>
+</button>
+</div>
+</div>
+</nav>
+<main class="pt-20 pb-32 max-w-7xl mx-auto px-6">
+<!-- Editorial Layout: Product Detail -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-x-12 gap-y-16">
+<!-- Product Gallery: Asymmetric Grid -->
+<div class="lg:col-span-7 space-y-12">
+<div class="relative aspect-[3/4] overflow-hidden bg-surface-dim">
+<img class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 ease-in-out" data-alt="Elegant long black silk dress editorial shot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPeOLVpYX8AArLWueEhfJVXNpbQaz7kstoCrEOxqvSOtHitciOf7rh0XTkmGBfng81LbBwyNI8nN6Uwjeigmj54y6GXi7lVrideJOLvJooqBZC8YT6oOzO5KfxGa0IlW3mL_sKfrR-lvZwvaiDEJDWDVNxvm-i3u4sTWnARr31MgbskTWV580j6jkuSF4sfoVgHt2w7pyK3gBg5mOwinrDZYriuNtOI3J3N-1_Gnk2qZ3v07OWrSdrGFvceJeL6SPVjAIau24uRzw"/>
+</div>
+<div class="grid grid-cols-2 gap-8">
+<div class="aspect-[4/5] overflow-hidden bg-surface-dim">
+<img class="w-full h-full object-cover" data-alt="Close up of black silk fabric texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpkKP_ZyaC5JOQMv4yCwUSrEzhHCgMG37K30xI8JFAPwYTZD2xxmiLgWlWWrF-NnTx5U9a7eHZz3iGmYO5oO5HnaPUusIXeMD9YaJIfRfvbvzOPzpkiPaoLCYmdsQMpu_oCd_hATlq-NJRg-8PI6-Zhn2eHWo0tXc-hC8Zp4odTW9BEY8RbcH8Rb_VCM0XGctYPk2TLprbi3sa6AWOOCaVa2kXe92kAjtuMyB02Qmgh54vj-Z3D5a6i-a_Fdx4_VCryQ4qeTwqPfM"/>
+</div>
+<div class="aspect-[4/5] overflow-hidden bg-surface-dim mt-12">
+<img class="w-full h-full object-cover" data-alt="Minimalist studio shot of dress back detail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxYlaab3avIwOron6RYsQWyEAQGr6S6m1kFgCw1S2P0PMrPybqeHOa-EnB2WfuZ8AWVax5-XUxx8eVrwMCF9jxlOtuJAm-Bm31FpnR_oXSvxTTfydUKPhAJy6oWql9z2rU1lm3OD-m1ZxTB5g6k3o6tp6A9tagt_Fg4cm-C9iOplDZjyS9KjK8nuUmKIYnyij84f3eua00d1twlHUsUPqOvpibFIIGpkLMDylWIYf8hBjbrRE-2BYxUnbMTTc6AY3rcT-t5XCVkWk"/>
+</div>
+</div>
+<div class="aspect-[16/9] overflow-hidden bg-surface-dim">
+<img class="w-full h-full object-cover" data-alt="Lifestyle editorial shot of a woman in silk dress" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSepdBKduIBWbgmYmBidKet9Ucwyaq0LGkg1x9n-By8WHSM0-aPhg1rwFj_1Y7_NRAFPg1iqnHLUDsQrBO-Z95LPLDNy_foa7M88HL9SGgY3v3DjOe8yKlvMpy8CkMPYXHqnn-rZ3XcZNJ9gsOvCQd4nKrgCnv6fN04w7tqdEATVl5aHKo8mGExaK-9BJFdb5lBF1L9CyJOoQlLmhMV3PF2u-xI9uw8tz7y7g65KFeULrIN9I5PatJNZOXm2toQQzfO60I6wA0Wy8"/>
+</div>
+</div>
+<!-- Product Information -->
+<div class="lg:col-span-5 lg:sticky lg:top-32 self-start flex flex-col space-y-12">
+<div>
+<div class="flex justify-between items-start mb-4">
+<p class="font-label text-xs tracking-[0.2em] text-outline uppercase">Collection № 04</p>
+<button class="text-on-surface hover:text-error transition-colors">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+</div>
+<h2 class="font-headline text-5xl md:text-6xl mb-6 leading-tight">Fluid Silk <br/>Slip Dress</h2>
+<p class="font-label text-xl tracking-tight text-on-surface-variant">$890.00</p>
+</div>
+<div class="space-y-4">
+<p class="font-body text-sm leading-relaxed text-on-surface-variant max-w-md">
+                        A masterclass in minimalist draping. This bias-cut silhouette is crafted from 32mm heavy-weight mulberry silk, designed to trace the contours of the body with a liquid-like finish. Featuring delicate adjustable straps and a raw-edge hem.
+                    </p>
+<div class="pt-4 flex flex-col space-y-2">
+<div class="flex justify-between items-center py-4 border-b border-outline-variant/20">
+<span class="font-label text-[10px] uppercase tracking-[0.15em]">Material</span>
+<span class="font-body text-sm italic">100% Mulberry Silk</span>
+</div>
+<div class="flex justify-between items-center py-4 border-b border-outline-variant/20">
+<span class="font-label text-[10px] uppercase tracking-[0.15em]">Origin</span>
+<span class="font-body text-sm">Milan, Italy</span>
+</div>
+</div>
+</div>
+<!-- Size Selector -->
+<div class="space-y-6">
+<div class="flex justify-between items-end">
+<label class="font-label text-[10px] uppercase tracking-[0.15em]">Select Size</label>
+<button class="font-label text-[10px] underline underline-offset-4 uppercase tracking-[0.1em] text-outline hover:text-primary transition-colors">Size Guide</button>
+</div>
+<div class="grid grid-cols-4 gap-2">
+<button class="py-4 text-xs font-label bg-surface-container-lowest border border-primary/10 hover:border-primary transition-all">XS</button>
+<button class="py-4 text-xs font-label bg-primary text-on-primary border border-primary">S</button>
+<button class="py-4 text-xs font-label bg-surface-container-lowest border border-primary/10 hover:border-primary transition-all">M</button>
+<button class="py-4 text-xs font-label bg-surface-container-lowest border border-primary/10 hover:border-primary transition-all">L</button>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex flex-col space-y-4">
+<button class="w-full bg-primary text-on-primary py-6 px-8 font-label text-xs uppercase tracking-[0.2em] hover:bg-primary-fixed transition-colors">
+                        Add to Bag
+                    </button>
+<p class="text-center font-label text-[10px] text-outline tracking-wider pt-2">
+                        Free express shipping on all curated orders.
+                    </p>
+</div>
+<!-- Secondary Info Accents -->
+<div class="pt-12 space-y-8">
+<details class="group cursor-pointer">
+<summary class="list-none flex justify-between items-center py-4 border-t border-outline-variant/20">
+<span class="font-label text-[10px] uppercase tracking-[0.15em]">Sustainability</span>
+<span class="material-symbols-outlined text-sm transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="pb-6 font-body text-xs text-on-surface-variant leading-relaxed">
+                            Our silk is OEKO-TEX® certified, ensuring no harmful chemicals are used in the production process. We partner with family-owned mills in Lake Como.
+                        </div>
+</details>
+<details class="group cursor-pointer">
+<summary class="list-none flex justify-between items-center py-4 border-t border-outline-variant/20">
+<span class="font-label text-[10px] uppercase tracking-[0.15em]">Care Instructions</span>
+<span class="material-symbols-outlined text-sm transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="pb-6 font-body text-xs text-on-surface-variant leading-relaxed">
+                            Dry clean only. Store on a padded hanger to maintain the bias-cut structure. Do not steam at high temperatures.
+                        </div>
+</details>
+</div>
+</div>
+</div>
+<!-- Editorial Section: Related Items -->
+<section class="mt-40">
+<h3 class="font-headline text-3xl mb-16 text-center">Complete the Look</h3>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+<!-- Related Card 1 -->
+<div class="space-y-4 group cursor-pointer">
+<div class="aspect-[3/4] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" data-alt="Minimalist high heel sandals in black" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUa8Fu2pirc21alV0kkll4JTC40cGCnw0R0lD7k_-HsA2nh2k13E2KyefEiT0Zd_ziUQV9MUizb_5FHh3DB9FNZknNjgBZOaWqzwlbjZqy171-6RR5WPBfoizFR5ieFmMM3fQqEVYQbn5jfNegF4s-OV3aPsgAcPoCyO691SyCdLb4ePWzBOlOR_5VSCq9dfZkI8NK4H4Go-61c2Jcj-H3y3R7A1h858ASGCDQzK8K-R_CLWq2WBVgb0AFiUGZG2pgX_sVFlISjLw"/>
+</div>
+<div class="space-y-1">
+<h4 class="font-label text-[11px] uppercase tracking-wider">Strappy Heel</h4>
+<p class="font-body text-sm text-outline">$420.00</p>
+</div>
+</div>
+<!-- Related Card 2 -->
+<div class="space-y-4 group cursor-pointer mt-12 md:mt-0">
+<div class="aspect-[3/4] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" data-alt="Modern leather luxury handbag" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrWKCDpYrQY5Y7xe2byqE9mqOxrNaH1XtNMSzh_Xi0XARmUiKjkHskAPUjweDZa0UM7yAOouBh1kekBYosEf55vumCopVrk352BLZGvz9eZzsrCLgMwb7zwYEyqq6U5Dec6A5ld5RY27r55Tu_R94pH1YWe4XTNMy6zYvlqlImuh_X0qZ3t_wajzH1UIGWgyjIcAegb73Q8p3uPvlu9IoOwMNj_8vt7QTM0dTbiRI9demAzK2WLy9hK-1tv_mNJK3wxzAIdcFHGp0"/>
+</div>
+<div class="space-y-1">
+<h4 class="font-label text-[11px] uppercase tracking-wider">Vault Clutch</h4>
+<p class="font-body text-sm text-outline">$1,250.00</p>
+</div>
+</div>
+<!-- Related Card 3 -->
+<div class="space-y-4 group cursor-pointer hidden md:block">
+<div class="aspect-[3/4] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" data-alt="Gold minimalist earrings editorial" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrELrCmyNDCC7YEA2Sm9L-Yfore6rKn2vzEnwixIwR8vLXAsInPPl-HaFyZ0FNr2TgqNKdCXT81ok7BXrzjwNE94XVApkZbpWQqjw1AriPkQmFOE_MQ8fYloAHOXsnSGky4IUSnOkFh6tNOmrorkjmsk9296TXAnCh5JY8OZIt2aWfarsaa45VtGj6krcgin_45Jvf39c33Spx7R8lUoh4ZlmRHVg5PRQxxTETeCWa8y697slhXAvS_GodmW-8o-9Tsl-thZ_uWZw"/>
+</div>
+<div class="space-y-1">
+<h4 class="font-label text-[11px] uppercase tracking-wider">Helix Earrings</h4>
+<p class="font-body text-sm text-outline">$310.00</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- FAB -->
+<div class="fixed bottom-28 right-8 z-40">
+<button class="w-14 h-14 bg-primary text-on-primary flex items-center justify-center shadow-2xl hover:bg-primary-fixed transition-colors group">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+</button>
+</div>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 right-0 z-50 bg-surface/70 backdrop-blur-xl border-t border-outline-variant/10">
+<div class="max-w-md mx-auto h-20 flex items-center justify-between px-8">
+<div class="flex flex-col items-center justify-center space-y-1">
+<span class="material-symbols-outlined text-primary" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label text-[9px] uppercase tracking-tighter text-primary">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center space-y-1">
+<span class="material-symbols-outlined text-outline" data-icon="storefront">storefront</span>
+<span class="font-label text-[9px] uppercase tracking-tighter text-outline">Shop</span>
+</div>
+<div class="flex flex-col items-center justify-center space-y-1">
+<span class="material-symbols-outlined text-outline" data-icon="favorite">favorite</span>
+<span class="font-label text-[9px] uppercase tracking-tighter text-outline">Wishlist</span>
+</div>
+<div class="flex flex-col items-center justify-center space-y-1">
+<span class="material-symbols-outlined text-outline" data-icon="person">person</span>
+<span class="font-label text-[9px] uppercase tracking-tighter text-outline">Profile</span>
+</div>
+</div>
+</nav>
+
+<div class="impossible-captcha-modal" id="impossibleCaptchaModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="impossibleCaptchaTitle">
+  <div class="impossible-captcha-panel" role="document">
+    <button class="impossible-captcha-close" id="impossibleCaptchaClose" type="button" aria-label="Close">&times;</button>
+    <div class="impossible-captcha-header">
+      <span>Select all images with</span>
+      <strong id="impossibleCaptchaTitle">a 4-dimensional object</strong>
     </div>
-
-    <!-- Login Container -->
-    <div class="login-container">
-        <div class="red-dot"></div>
-        <div class="loading-bar"></div>
-        
-        <div class="theme-switcher">
-            <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">🌓</button>
-        </div>
-
-        <div class="login-header">
-            <div class="logo">CHANGEMEPLS<span class="red-accent">.</span>Auth</div>
-            <p class="subtitle">Secure authentication portal to your services</p>
-        </div>
-
-        <form id="loginForm" onsubmit="return handleLogin(event)">
-            <div class="form-group">
-                <label class="form-label">Username</label>
-                <input 
-                    type="text" 
-                    class="form-input" 
-                    id="username"
-                    placeholder="Enter your username" 
-                    required
-                    autocomplete="username"
-                >
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Password</label>
-                <input 
-                    type="password" 
-                    class="form-input" 
-                    id="password"
-                    placeholder="Enter your password" 
-                    required
-                    autocomplete="current-password"
-                >
-            </div>
-
-            <div class="captcha-container">
-                <div class="captcha-title">Verification Required</div>
-                <div class="captcha-display" id="captchaDisplay">AB7K9X</div>
-                <div>
-                    <a href="#" class="captcha-refresh" onclick="refreshCaptcha(); return false;">
-                        🔄 Generate New Code
-                    </a>
-                </div>
-                <div class="form-group" style="margin-top: 16px; margin-bottom: 0;">
-                    <input 
-                        type="text" 
-                        class="form-input" 
-                        id="captchaInput" 
-                        placeholder="Enter the code above" 
-                        required
-                        autocomplete="off"
-                    >
-                </div>
-            </div>
-
-            <button type="submit" class="submit-btn">Sign In</button>
-            
-            <div class="error-message" id="errorMessage">
-                Authentication failed. Please try again.
-            </div>
-            
-            <div class="success-message" id="successMessage">
-                Verifying credentials...
-            </div>
-        </form>
+    <div class="impossible-captcha-grid" id="impossibleCaptchaGrid">
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 1"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 2"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 3"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 4"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 5"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 6"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 7"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 8"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 9"></button>
     </div>
+    <div class="impossible-captcha-actions">
+      <div class="impossible-captcha-tools">
+        <button class="impossible-captcha-tool" id="impossibleCaptchaRefresh" type="button" aria-label="Refresh challenge">
+          <span class="material-symbols-outlined text-lg">refresh</span>
+        </button>
+        <button class="impossible-captcha-tool" type="button" aria-label="Play audio challenge">
+          <span class="material-symbols-outlined text-lg">volume_up</span>
+        </button>
+        <button class="impossible-captcha-tool" type="button" aria-label="Captcha information">
+          <span class="material-symbols-outlined text-lg">info</span>
+        </button>
+      </div>
+      <button class="impossible-captcha-verify" id="impossibleCaptchaVerify" type="button">Verify</button>
+    </div>
+    <div class="impossible-captcha-error" id="impossibleCaptchaError" aria-live="polite">Verification failed. Please select every impossible object and try again.</div>
+  </div>
+</div>
+<script id="impossible-captcha-script">
+  (() => {
+    const modal = document.getElementById("impossibleCaptchaModal");
+    const closeButton = document.getElementById("impossibleCaptchaClose");
+    const refreshButton = document.getElementById("impossibleCaptchaRefresh");
+    const verifyButton = document.getElementById("impossibleCaptchaVerify");
+    const error = document.getElementById("impossibleCaptchaError");
+    const tiles = [...document.querySelectorAll(".impossible-captcha-tile")];
+    const triggerSelector = "button, a[href], [role='button'], .cursor-pointer";
+    const triggers = [...document.querySelectorAll(triggerSelector)].filter((trigger) => !trigger.closest("#impossibleCaptchaModal"));
 
-    <script>
-        // Theme Management
-        let currentTheme = localStorage.getItem('theme') || 'dark';
+    const resetChallenge = (hideError = true) => {
+      tiles.forEach((tile) => tile.classList.remove("is-selected"));
+      if (hideError) {
+        error.classList.remove("is-visible");
+      }
+    };
 
-        function applyTheme(theme) {
-            currentTheme = theme;
-            localStorage.setItem('theme', theme);
-            document.body.classList.remove('light', 'dark');
-            
-            if (theme === 'auto') {
-                const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-                document.body.classList.add(isDark ? 'dark' : 'light');
-            } else {
-                document.body.classList.add(theme);
-            }
-        }
+    const openCaptcha = (event) => {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      resetChallenge();
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+      verifyButton.focus({ preventScroll: true });
+    };
 
-        function toggleTheme() {
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            applyTheme(newTheme);
-        }
+    const closeCaptcha = () => {
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+    };
 
-        // Initialize theme
-        applyTheme(currentTheme);
+    triggers.forEach((trigger) => {
+      trigger.addEventListener("click", openCaptcha);
+    });
 
-        // Listen for system theme changes
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-            if (currentTheme === 'auto') {
-                document.body.classList.remove('light', 'dark');
-                document.body.classList.add(e.matches ? 'dark' : 'light');
-            }
-        });
+    tiles.forEach((tile) => {
+      tile.addEventListener("click", () => {
+        tile.classList.toggle("is-selected");
+      });
+    });
 
-        // Generate random captcha
-        function generateCaptcha() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let captcha = '';
-            for (let i = 0; i < 6; i++) {
-                captcha += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return captcha;
-        }
+    refreshButton.addEventListener("click", () => resetChallenge());
+    closeButton.addEventListener("click", closeCaptcha);
 
-        function refreshCaptcha() {
-            document.getElementById('captchaDisplay').textContent = generateCaptcha();
-            document.getElementById('captchaInput').value = '';
-            document.getElementById('errorMessage').classList.remove('show');
-            document.getElementById('successMessage').classList.remove('show');
-        }
+    verifyButton.addEventListener("click", () => {
+      error.classList.add("is-visible");
+      window.setTimeout(() => resetChallenge(false), 900);
+    });
 
-        // Initialize captcha on page load
-        window.addEventListener('DOMContentLoaded', () => {
-            refreshCaptcha();
-        });
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        closeCaptcha();
+      }
+    });
 
-        // Handle login form - always fails and regenerates captcha (infinite loop)
-        function handleLogin(event) {
-            event.preventDefault();
-            
-            const errorMsg = document.getElementById('errorMessage');
-            const successMsg = document.getElementById('successMessage');
-            
-            // Hide error, show success temporarily
-            errorMsg.classList.remove('show');
-            successMsg.classList.add('show');
-            
-            // After delay, show error and refresh captcha (infinite loop)
-            setTimeout(() => {
-                successMsg.classList.remove('show');
-                errorMsg.classList.add('show');
-                
-                // Refresh captcha and clear sensitive fields after another delay
-                setTimeout(() => {
-                    refreshCaptcha();
-                    document.getElementById('password').value = '';
-                    document.getElementById('captchaInput').value = '';
-                    errorMsg.classList.remove('show');
-                }, 2000);
-            }, 1500);
-            
-            return false;
-        }
-
-        // Keyboard accessibility
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                document.getElementById('errorMessage').classList.remove('show');
-                document.getElementById('successMessage').classList.remove('show');
-            }
-        });
-    </script>
-</body>
-</html>
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && modal.classList.contains("is-open")) {
+        closeCaptcha();
+      }
+    });
+  })();
+</script>
+</body></html>

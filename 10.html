@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container": "#eeeeee",
+              "surface-variant": "#e2e2e2",
+              "on-secondary-fixed": "#1c1b1b",
+              "surface-container-low": "#f3f3f3",
+              "primary-container": "#3b3b3b",
+              "surface": "#f9f9f9",
+              "primary-fixed": "#5e5e5e",
+              "primary-fixed-dim": "#474747",
+              "surface-bright": "#f9f9f9",
+              "secondary-fixed": "#c8c6c5",
+              "on-primary-fixed": "#ffffff",
+              "on-primary-fixed-variant": "#e2e2e2",
+              "secondary": "#5f5e5e",
+              "secondary-fixed-dim": "#adabaa",
+              "on-secondary": "#ffffff",
+              "on-primary": "#e2e2e2",
+              "tertiary-fixed-dim": "#474747",
+              "error-container": "#ffdad6",
+              "secondary-container": "#d6d4d3",
+              "surface-dim": "#dadada",
+              "on-secondary-container": "#1c1b1b",
+              "inverse-surface": "#303030",
+              "surface-container-highest": "#e2e2e2",
+              "outline": "#777777",
+              "on-secondary-fixed-variant": "#3c3b3b",
+              "tertiary": "#3b3b3b",
+              "error": "#ba1a1a",
+              "on-primary-container": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "outline-variant": "#c6c6c6",
+              "on-surface-variant": "#474747",
+              "on-tertiary-container": "#ffffff",
+              "on-surface": "#1b1b1b",
+              "background": "#f9f9f9",
+              "surface-container-high": "#e8e8e8",
+              "tertiary-container": "#757474",
+              "on-background": "#1b1b1b",
+              "on-tertiary-fixed": "#ffffff",
+              "primary": "#000000",
+              "inverse-on-surface": "#f1f1f1",
+              "surface-tint": "#5e5e5e",
+              "tertiary-fixed": "#5e5e5e",
+              "on-error": "#ffffff",
+              "on-tertiary-fixed-variant": "#e4e2e2",
+              "inverse-primary": "#c6c6c6",
+              "on-tertiary": "#e4e2e2",
+              "on-error-container": "#410002"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      .glass {
+        background: rgba(238, 238, 238, 0.7);
+        backdrop-filter: blur(20px);
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  
+<style id="impossible-captcha-style">
+  .impossible-captcha-modal,
+  .impossible-captcha-modal * {
+    box-sizing: border-box;
+  }
+
+  .impossible-captcha-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(0, 0, 0, 0.68);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+  }
+
+  .impossible-captcha-modal.is-open {
+    display: flex;
+  }
+
+  .impossible-captcha-panel {
+    position: relative;
+    width: min(100%, 420px);
+    max-height: calc(100svh - 48px);
+    overflow: auto;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 12px;
+    background: #191a1f;
+    color: #fff;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+    font-family: Inter, Manrope, "Plus Jakarta Sans", Arial, sans-serif;
+  }
+
+  .impossible-captcha-close {
+    position: absolute;
+    z-index: 2;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .impossible-captcha-close:hover,
+  .impossible-captcha-tool:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  .impossible-captcha-header {
+    margin: 16px 16px 12px;
+    padding: 16px 56px 16px 16px;
+    background: #2563eb;
+    color: #fff;
+  }
+
+  .impossible-captcha-header span {
+    display: block;
+    opacity: 0.82;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .impossible-captcha-header strong {
+    display: block;
+    margin-top: 4px;
+    font-size: 20px;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  .impossible-captcha-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+    padding: 0 16px 16px;
+  }
+
+  .impossible-captcha-tile {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border: 2px solid transparent;
+    border-radius: 0;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent 40%),
+      var(--tile-bg, #24262d);
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .impossible-captcha-tile:nth-child(1) { --tile-bg: radial-gradient(circle at 70% 25%, #9ca3af, #111827 58%); }
+  .impossible-captcha-tile:nth-child(2) { --tile-bg: conic-gradient(from 45deg, #1d4ed8, #111827, #7c3aed, #1d4ed8); }
+  .impossible-captcha-tile:nth-child(3) { --tile-bg: linear-gradient(45deg, #27272a, #0f172a 45%, #f8fafc 46%, #111827 54%); }
+  .impossible-captcha-tile:nth-child(4) { --tile-bg: repeating-linear-gradient(60deg, #334155 0 8px, #020617 8px 16px); }
+  .impossible-captcha-tile:nth-child(5) { --tile-bg: radial-gradient(circle at 50% 50%, #c084fc, #1e1b4b 42%, #030712 70%); }
+  .impossible-captcha-tile:nth-child(6) { --tile-bg: linear-gradient(120deg, #0f766e, #111827 46%, #475569); }
+  .impossible-captcha-tile:nth-child(7) { --tile-bg: conic-gradient(from 90deg, #111827, #64748b, #020617, #94a3b8, #111827); }
+  .impossible-captcha-tile:nth-child(8) { --tile-bg: radial-gradient(circle at 20% 80%, #f8fafc, #1f2937 34%, #020617); }
+  .impossible-captcha-tile:nth-child(9) { --tile-bg: repeating-conic-gradient(from 18deg, #1f2937 0 10deg, #4b5563 10deg 20deg); }
+
+  .impossible-captcha-tile.is-selected {
+    border-color: #60a5fa;
+    box-shadow: inset 0 0 0 2px rgba(96, 165, 250, 0.45);
+  }
+
+  .impossible-captcha-tile.is-selected::after {
+    content: "check";
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: #2563eb;
+    color: #fff;
+    font-family: "Material Symbols Outlined";
+    font-size: 16px;
+  }
+
+  .impossible-captcha-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 0 16px;
+    padding: 14px 0 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .impossible-captcha-tools {
+    display: flex;
+    gap: 10px;
+    color: #c4c7c8;
+  }
+
+  .impossible-captcha-tool {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .impossible-captcha-verify {
+    min-width: 96px;
+    min-height: 36px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 4px;
+    background: #2563eb;
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+  }
+
+  .impossible-captcha-verify:hover {
+    background: #1d4ed8;
+  }
+
+  .impossible-captcha-error {
+    min-height: 28px;
+    padding: 0 16px 18px;
+    color: #ffb4ab;
+    font-size: 14px;
+    line-height: 1.35;
+    text-align: center;
+    visibility: hidden;
+  }
+
+  .impossible-captcha-error.is-visible {
+    visibility: visible;
+  }
+
+  @media (max-width: 480px) {
+    .impossible-captcha-modal {
+      padding: 16px;
+    }
+
+    .impossible-captcha-panel {
+      width: 100%;
+    }
+  }
+</style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary selection:text-on-primary">
+<!-- TopAppBar -->
+<nav class="fixed top-0 w-full z-50 glass">
+<div class="max-w-screen-xl mx-auto px-6 h-16 flex items-center justify-between">
+<div class="flex items-center">
+<span class="material-symbols-outlined cursor-pointer text-on-surface">menu</span>
+</div>
+<h1 class="font-headline text-2xl tracking-[0.2em] font-bold text-primary">CHANGEMEPLS</h1>
+<div class="flex items-center">
+<span class="material-symbols-outlined cursor-pointer text-on-surface">shopping_bag</span>
+</div>
+</div>
+</nav>
+<main class="pt-24 pb-32 max-w-screen-xl mx-auto px-6">
+<!-- Editorial Header -->
+<section class="mb-16">
+<p class="font-label text-[0.6875rem] uppercase tracking-[0.2rem] text-outline mb-4">Collection 004 / L'Essence</p>
+<h2 class="font-headline text-5xl md:text-7xl max-w-2xl leading-tight">Quiet Elegance in Monochrome.</h2>
+</section>
+<!-- Asymmetrical Product Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-y-24 md:gap-x-12">
+<!-- Item 1: Wide Portrait -->
+<div class="md:col-span-7 group">
+<div class="relative bg-surface-container-lowest overflow-hidden">
+<img alt="Editorial full shot" class="w-full aspect-[4/5] object-cover grayscale transition-transform duration-700 group-hover:scale-105" data-alt="Fashion model in long black coat walking" src="https://lh3.googleusercontent.com/aida-public/AB6AXuApYsvpdRsRuz-CYxlD8bddEP4LDufTAE72JrWLoyMcwX9qz0pmIGHJKxjb4zOio8USQ_HAfaU8tBrxAqI1rdXVhLN1Ac6zZSoyyjTx_ScDvX1IuiGKpKEPewHuDPPi63JxY4U1RgoUEDloXbH9iv6IpdmFUoKruL1--M6NUud8DydhJ15Y8SOwDAaV0BFZZT_tQFxMJIVfil-2ege9S1BUC2pamtu06b7PhYYP4gOTVTIk_f_hQFkRJTxWHNOjNWTnMl6f9Usc8Gk"/>
+<button class="absolute top-6 right-6 w-10 h-10 flex items-center justify-center bg-surface-container-lowest/80 glass">
+<span class="material-symbols-outlined text-primary text-xl">favorite</span>
+</button>
+</div>
+<div class="mt-8 flex justify-between items-start">
+<div>
+<h3 class="font-headline text-2xl">The Archival Trench</h3>
+<p class="font-label text-xs uppercase tracking-widest text-outline mt-1">100% Virgin Wool</p>
+</div>
+<span class="font-body text-lg">$1,240</span>
+</div>
+</div>
+<!-- Item 2: Square Detail -->
+<div class="md:col-span-5 md:mt-32 group">
+<div class="relative bg-surface-container-lowest overflow-hidden">
+<img alt="Fabric detail" class="w-full aspect-square object-cover grayscale transition-transform duration-700 group-hover:scale-105" data-alt="Close-up texture of high quality woven black fabric" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0Oa5NwuxNmtGKYk7WaR0jE8K3b9rTqYrn1yO9TjTsCHOjLPPLuhtmeAx83GWzo-4tQdxQMexMSuwX4TakbQkoWBZSbmyaazwZ0_E7T3cLvpx1U_90Z137oSKwsRiDM_inKTKkh8OJNqypa9XDVzcQopGQ5NBiBGMS_FVheA9Td6k-7uYYFCVHQZdVcSUX5nvlbZk2mO8Z7i7THNzjbZKf1g-7dNl9i6DsGtFE7X0oUiE8HxQvecuCuk4emIU7Cwg0jvfNzaecQ3w"/>
+<button class="absolute top-6 right-6 w-10 h-10 flex items-center justify-center bg-surface-container-lowest/80 glass">
+<span class="material-symbols-outlined text-primary text-xl">favorite</span>
+</button>
+</div>
+<div class="mt-8 flex justify-between items-start">
+<div>
+<h3 class="font-headline text-2xl">Structure Top</h3>
+<p class="font-label text-xs uppercase tracking-widest text-outline mt-1">Sculpted Canvas</p>
+</div>
+<span class="font-body text-lg">$480</span>
+</div>
+</div>
+<!-- Item 3: Tall Vertical -->
+<div class="md:col-span-4 group">
+<div class="relative bg-surface-container-lowest overflow-hidden">
+<img alt="Model pose" class="w-full aspect-[2/3] object-cover grayscale transition-transform duration-700 group-hover:scale-105" data-alt="Portrait of model in minimalist white silk shirt" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDkbqTiGSEkIJBW6ECqef_6Z3OuFgVCC0k7y4Tfvu-hz5mSaCOENt8k_nxOV_AZuRkNk91e2dR-kdci75hV87nQNijLAZk_w4qbJmGZmjwDEi_3n2GmP38uqiGLpHR3ZXnA9daZdTTYBWa2dhOoJHpkEeQ7o9QKzrn0R58T3mSWaHZsZj3zbc8RUv-1Fr0lhL_Cvp6NZtVzWrd6ABZcDJCXrcDycc8pczCrsCMecwBX2ACtv3xSM0s5c-9jO7kCr5i8mtHiYyk5kI"/>
+<button class="absolute top-6 right-6 w-10 h-10 flex items-center justify-center bg-surface-container-lowest/80 glass">
+<span class="material-symbols-outlined text-primary text-xl">favorite</span>
+</button>
+</div>
+<div class="mt-8 flex justify-between items-start">
+<div>
+<h3 class="font-headline text-2xl">Silk Narrative</h3>
+<p class="font-label text-xs uppercase tracking-widest text-outline mt-1">Mulberry Silk</p>
+</div>
+<span class="font-body text-lg">$390</span>
+</div>
+</div>
+<!-- Item 4: Wide Landscape -->
+<div class="md:col-span-8 md:mt-16 group">
+<div class="relative bg-surface-container-lowest overflow-hidden">
+<img alt="Wide lifestyle shot" class="w-full aspect-[16/9] object-cover grayscale transition-transform duration-700 group-hover:scale-105" data-alt="Wide shot of minimalist architectural clothing silhouettes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXlheGTbu06nZmepHQ61V6IxJzgPpd-NXwoRDLeVijIIwZerqhTn5Z5V6VamlDanAWUVap1gkaIouPcglUpzfs5K72ePweUdvNclbQavmb8ui5nJbSp1NKclVawfcDFO0OXqfFREr5p7vLj73hCfgQ-d1K9rCov5Kdw6qAwFREaA0c4sSHvm8OiXbcNFU_IM8b04n4DKfcVuUCY8fPkge10g1jm4Qc1zvx9FK0yDtR8OMIY4I_vMpTRPSzvMfBIQGuyZ61nJ_pnxc"/>
+<button class="absolute top-6 right-6 w-10 h-10 flex items-center justify-center bg-surface-container-lowest/80 glass">
+<span class="material-symbols-outlined text-primary text-xl">favorite</span>
+</button>
+</div>
+<div class="mt-8 flex justify-between items-start">
+<div>
+<h3 class="font-headline text-2xl">The Void Trousers</h3>
+<p class="font-label text-xs uppercase tracking-widest text-outline mt-1">Relaxed Fit Cotton</p>
+</div>
+<span class="font-body text-lg">$550</span>
+</div>
+</div>
+<!-- Item 5: Small Detail -->
+<div class="md:col-span-5 group">
+<div class="relative bg-surface-container-lowest overflow-hidden">
+<img alt="Shoe detail" class="w-full aspect-square object-cover grayscale transition-transform duration-700 group-hover:scale-105" data-alt="Extreme close up of luxury leather texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrVpztCumLNBoAItFeOmuvk3f7I9J7dI2Cux0WS_1EFfYkjVp0UtaExlIar94q8V-FGB6tOgevReYSv3Tw-fWRO30TuLHGiWE3_enU1Wjm5JHhVwN9i9Oj89-NkWYO3mQlYedFWSGhb-IiP7mIOZBk-LwPP7dGN0KKM26wZ5x2wf0bkOONtcbrvcCXfeeBOClKdyr-uJUsd11xSzJiLjW6rLeaU0I1BgtItEI75tP-UCkkHBb5IQaLmhkdDi7Sk34iHShzuhCJ3mU"/>
+<button class="absolute top-6 right-6 w-10 h-10 flex items-center justify-center bg-surface-container-lowest/80 glass">
+<span class="material-symbols-outlined text-primary text-xl">favorite</span>
+</button>
+</div>
+<div class="mt-8 flex justify-between items-start">
+<div>
+<h3 class="font-headline text-2xl">Leather Obscura</h3>
+<p class="font-label text-xs uppercase tracking-widest text-outline mt-1">Calfskin Accessories</p>
+</div>
+<span class="font-body text-lg">$210</span>
+</div>
+</div>
+<!-- Item 6: Editorial Frame -->
+<div class="md:col-span-7 group">
+<div class="relative bg-surface-container-lowest overflow-hidden">
+<img alt="Full length frame" class="w-full aspect-[4/3] object-cover grayscale transition-transform duration-700 group-hover:scale-105" data-alt="Model in monochromatic layered outfit posing against concrete wall" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnqpDt0A4LrUz4DUFet98zPoD70Dy2Rukt5Pw8piXcwEdcie42Vc3gTZvUeO2Ud9GPLeP47DBwvRYjjnsJ2HqrUVBMud2hr038w_TpNfKkN4nrqf6_gQ39gxnBglwAEO_yjeZfIp6UsWm3rcSTwMtuC4jWfivJyQ-hSHWaLmjFTxQl0vAXDyAms-NVeyRhs_IvpKHy2fS3HLxoj2nh_5jFoVMiO62Crw6C-iXTRGGn7Z-CUsMfIVMYPFznHXK0hoESmYFPS9kEaTA"/>
+<button class="absolute top-6 right-6 w-10 h-10 flex items-center justify-center bg-surface-container-lowest/80 glass">
+<span class="material-symbols-outlined text-primary text-xl">favorite</span>
+</button>
+</div>
+<div class="mt-8 flex justify-between items-start">
+<div>
+<h3 class="font-headline text-2xl">Linear Layering</h3>
+<p class="font-label text-xs uppercase tracking-widest text-outline mt-1">Seasonal Set</p>
+</div>
+<span class="font-body text-lg">$890</span>
+</div>
+</div>
+</div>
+<!-- Pagination / Load More -->
+<div class="mt-48 mb-24 flex flex-col items-center">
+<button class="px-12 py-5 bg-primary text-on-primary font-label text-xs uppercase tracking-[0.3em] transition-all hover:bg-primary-container">
+                Discover More
+            </button>
+</div>
+</main>
+<!-- FAB: Filter Trigger -->
+<div class="fixed bottom-24 right-6 z-40">
+<button class="w-14 h-14 bg-primary text-on-primary flex items-center justify-center shadow-xl">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+<!-- Sticky Sleek Filter Menu (Expanding Logic Placeholder) -->
+<div class="fixed bottom-16 left-0 w-full z-40 bg-surface-container-lowest glass border-t border-outline-variant/15 px-6 py-4 flex items-center justify-between overflow-x-auto no-scrollbar">
+<div class="flex items-center space-x-8">
+<div class="flex items-center space-x-2">
+<span class="font-label text-[0.6rem] uppercase tracking-widest text-outline">Size:</span>
+<span class="font-label text-xs font-bold">ALL</span>
+<span class="material-symbols-outlined text-xs">expand_more</span>
+</div>
+<div class="flex items-center space-x-2">
+<span class="font-label text-[0.6rem] uppercase tracking-widest text-outline">Color:</span>
+<span class="w-3 h-3 bg-black"></span>
+<span class="font-label text-xs font-bold">MONO</span>
+<span class="material-symbols-outlined text-xs">expand_more</span>
+</div>
+<div class="flex items-center space-x-2">
+<span class="font-label text-[0.6rem] uppercase tracking-widest text-outline">Fabric:</span>
+<span class="font-label text-xs font-bold">WOOL, SILK</span>
+<span class="material-symbols-outlined text-xs">expand_more</span>
+</div>
+</div>
+<div class="hidden md:block">
+<p class="font-label text-[0.6875rem] uppercase tracking-[0.2rem] text-primary">63 Items Found</p>
+</div>
+</div>
+<!-- BottomNavBar -->
+<footer class="fixed bottom-0 w-full z-50 bg-surface border-t border-outline-variant/15">
+<div class="max-w-screen-xl mx-auto flex justify-around items-center h-16">
+<div class="flex flex-col items-center justify-center space-y-1 text-primary">
+<span class="material-symbols-outlined text-2xl">home</span>
+<span class="text-[0.6rem] font-medium tracking-tighter">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center space-y-1 text-outline">
+<span class="material-symbols-outlined text-2xl">storefront</span>
+<span class="text-[0.6rem] font-medium tracking-tighter">Shop</span>
+</div>
+<div class="flex flex-col items-center justify-center space-y-1 text-outline">
+<span class="material-symbols-outlined text-2xl">favorite</span>
+<span class="text-[0.6rem] font-medium tracking-tighter">Wishlist</span>
+</div>
+<div class="flex flex-col items-center justify-center space-y-1 text-outline">
+<span class="material-symbols-outlined text-2xl">person</span>
+<span class="text-[0.6rem] font-medium tracking-tighter">Profile</span>
+</div>
+</div>
+</footer>
+
+<div class="impossible-captcha-modal" id="impossibleCaptchaModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="impossibleCaptchaTitle">
+  <div class="impossible-captcha-panel" role="document">
+    <button class="impossible-captcha-close" id="impossibleCaptchaClose" type="button" aria-label="Close">&times;</button>
+    <div class="impossible-captcha-header">
+      <span>Select all images with</span>
+      <strong id="impossibleCaptchaTitle">a 4-dimensional object</strong>
+    </div>
+    <div class="impossible-captcha-grid" id="impossibleCaptchaGrid">
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 1"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 2"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 3"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 4"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 5"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 6"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 7"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 8"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 9"></button>
+    </div>
+    <div class="impossible-captcha-actions">
+      <div class="impossible-captcha-tools">
+        <button class="impossible-captcha-tool" id="impossibleCaptchaRefresh" type="button" aria-label="Refresh challenge">
+          <span class="material-symbols-outlined text-lg">refresh</span>
+        </button>
+        <button class="impossible-captcha-tool" type="button" aria-label="Play audio challenge">
+          <span class="material-symbols-outlined text-lg">volume_up</span>
+        </button>
+        <button class="impossible-captcha-tool" type="button" aria-label="Captcha information">
+          <span class="material-symbols-outlined text-lg">info</span>
+        </button>
+      </div>
+      <button class="impossible-captcha-verify" id="impossibleCaptchaVerify" type="button">Verify</button>
+    </div>
+    <div class="impossible-captcha-error" id="impossibleCaptchaError" aria-live="polite">Verification failed. Please select every impossible object and try again.</div>
+  </div>
+</div>
+<script id="impossible-captcha-script">
+  (() => {
+    const modal = document.getElementById("impossibleCaptchaModal");
+    const closeButton = document.getElementById("impossibleCaptchaClose");
+    const refreshButton = document.getElementById("impossibleCaptchaRefresh");
+    const verifyButton = document.getElementById("impossibleCaptchaVerify");
+    const error = document.getElementById("impossibleCaptchaError");
+    const tiles = [...document.querySelectorAll(".impossible-captcha-tile")];
+    const triggerSelector = "button, a[href], [role='button'], .cursor-pointer";
+    const triggers = [...document.querySelectorAll(triggerSelector)].filter((trigger) => !trigger.closest("#impossibleCaptchaModal"));
+
+    const resetChallenge = (hideError = true) => {
+      tiles.forEach((tile) => tile.classList.remove("is-selected"));
+      if (hideError) {
+        error.classList.remove("is-visible");
+      }
+    };
+
+    const openCaptcha = (event) => {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      resetChallenge();
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+      verifyButton.focus({ preventScroll: true });
+    };
+
+    const closeCaptcha = () => {
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+    };
+
+    triggers.forEach((trigger) => {
+      trigger.addEventListener("click", openCaptcha);
+    });
+
+    tiles.forEach((tile) => {
+      tile.addEventListener("click", () => {
+        tile.classList.toggle("is-selected");
+      });
+    });
+
+    refreshButton.addEventListener("click", () => resetChallenge());
+    closeButton.addEventListener("click", closeCaptcha);
+
+    verifyButton.addEventListener("click", () => {
+      error.classList.add("is-visible");
+      window.setTimeout(() => resetChallenge(false), 900);
+    });
+
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        closeCaptcha();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && modal.classList.contains("is-open")) {
+        closeCaptcha();
+      }
+    });
+  })();
+</script>
+</body></html>

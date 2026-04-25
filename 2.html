@@ -1,1373 +1,585 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHANGEMEPLS Media</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Sora:wght@300;400;500;600;700&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', 'JetBrains Mono', monospace;
-            background: #000000;
-            color: #FFFFFF;
-            overflow-x: hidden;
-            position: relative;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        body.light {
-            background: #FFFFFF;
-            color: #000000;
-        }
-
-        body.dark {
-            background: #000000;
-            color: #FFFFFF;
-        }
-
-        body.auto {
-            /* Will be set by JavaScript based on system preference */
-        }
-
-        /* Dot Matrix Background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-            background-size: 24px 24px;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        body.light::before {
-            background-image: radial-gradient(circle, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
-        }
-
-        /* Animated Background Elements */
-        .bg-structures {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .orbit-ring {
-            position: absolute;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            opacity: 0.3;
-        }
-
-        body.light .orbit-ring {
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        .orbit-1 {
-            width: 800px;
-            height: 800px;
-            top: -200px;
-            right: -300px;
-            animation: rotate-orbit 60s linear infinite;
-        }
-
-        .orbit-2 {
-            width: 500px;
-            height: 500px;
-            bottom: -150px;
-            left: -200px;
-            animation: rotate-orbit 45s linear infinite reverse;
-        }
-
-        @keyframes rotate-orbit {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .particle {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            animation: float-particle 20s ease-in-out infinite;
-        }
-
-        .particle-1 { top: 20%; left: 10%; animation-delay: 0s; }
-        .particle-2 { top: 60%; right: 15%; animation-delay: 3s; }
-        .particle-3 { bottom: 30%; left: 20%; animation-delay: 6s; }
-        .particle-red { background: #FF3B30; opacity: 0.6; }
-
-        @keyframes float-particle {
-            0%, 100% { transform: translate(0, 0); }
-            25% { transform: translate(40px, -40px); }
-            50% { transform: translate(-30px, 50px); }
-            75% { transform: translate(50px, 30px); }
-        }
-
-        /* Main Container */
-        .container {
-            position: relative;
-            z-index: 1;
-            max-width: 1600px;
-            margin: 0 auto;
-        }
-
-        /* Header */
-        header {
-            padding: 24px 40px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            backdrop-filter: blur(10px);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(0, 0, 0, 0.8);
-        }
-
-        body.light header {
-            border-bottom-color: rgba(0, 0, 0, 0.1);
-            background: rgba(255, 255, 255, 0.9);
-        }
-
-        .logo {
-            font-size: 20px;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-family: 'Space Grotesk', sans-serif;
-        }
-
-        .logo-dot {
-            width: 8px;
-            height: 8px;
-            background: #FF3B30;
-            border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.6; transform: scale(1.3); }
-        }
-
-        .search-bar {
-            flex: 1;
-            max-width: 600px;
-            margin: 0 40px;
-            position: relative;
-        }
-
-        .search-bar input {
-            width: 100%;
-            padding: 14px 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #FFFFFF;
-            font-family: 'Inter', monospace;
-            font-size: 14px;
-            outline: none;
-            transition: all 0.3s;
-        }
-
-        body.light .search-bar input {
-            background: rgba(0, 0, 0, 0.05);
-            border-color: rgba(0, 0, 0, 0.1);
-            color: #000000;
-        }
-
-        .search-bar input:focus {
-            border-color: #FF3B30;
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .search-bar input::placeholder {
-            color: rgba(255, 255, 255, 0.4);
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 16px;
-            align-items: center;
-        }
-
-        .btn-upload {
-            padding: 12px 28px;
-            background: #FF3B30;
-            color: #FFFFFF;
-            border: none;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
-            letter-spacing: -0.01em;
-        }
-
-        .btn-upload:hover {
-            background: #E63329;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(255, 59, 48, 0.4);
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .user-avatar:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-2px);
-        }
-
-        body.light .user-avatar {
-            background: rgba(0, 0, 0, 0.05);
-            border-color: rgba(0, 0, 0, 0.2);
-        }
-
-        body.light .user-avatar:hover {
-            background: rgba(0, 0, 0, 0.1);
-        }
-
-        /* Theme Switcher */
-        .theme-switcher {
-            position: relative;
-        }
-
-        .theme-btn {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: inherit;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .theme-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        body.light .theme-btn {
-            background: rgba(0, 0, 0, 0.05);
-            border-color: rgba(0, 0, 0, 0.2);
-        }
-
-        body.light .theme-btn:hover {
-            background: rgba(0, 0, 0, 0.1);
-        }
-
-        .theme-dropdown {
-            position: absolute;
-            top: calc(100% + 8px);
-            right: 0;
-            background: rgba(20, 20, 20, 0.95);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            min-width: 150px;
-            display: none;
-            z-index: 1000;
-        }
-
-        body.light .theme-dropdown {
-            background: rgba(255, 255, 255, 0.95);
-            border-color: rgba(0, 0, 0, 0.2);
-        }
-
-        .theme-dropdown.show {
-            display: block;
-        }
-
-        .theme-option {
-            padding: 12px 16px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 14px;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .theme-option:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        body.light .theme-option:hover {
-            background: rgba(0, 0, 0, 0.05);
-        }
-
-        .theme-option.active {
-            background: rgba(255, 59, 48, 0.2);
-            color: #FF3B30;
-        }
-
-        /* Login Modal */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(10px);
-        }
-
-        .modal-overlay.show {
-            display: flex;
-        }
-
-        .modal-content {
-            background: #1a1a1a;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 40px;
-            max-width: 450px;
-            width: 90%;
-            position: relative;
-            font-family: 'Inter', sans-serif;
-        }
-
-        body.light .modal-content {
-            background: #ffffff;
-            border-color: rgba(0, 0, 0, 0.2);
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            font-size: 28px;
-            cursor: pointer;
-            color: inherit;
-            opacity: 0.6;
-            transition: opacity 0.3s;
-            line-height: 1;
-        }
-
-        .modal-close:hover {
-            opacity: 1;
-        }
-
-        .modal-title {
-            font-size: 28px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            font-family: 'Sora', sans-serif;
-        }
-
-        .modal-subtitle {
-            font-size: 14px;
-            opacity: 0.6;
-            margin-bottom: 32px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            display: block;
-            font-size: 13px;
-            font-weight: 500;
-            margin-bottom: 8px;
-            opacity: 0.8;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 14px 16px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.05);
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            color: inherit;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        body.light .form-input {
-            border-color: rgba(0, 0, 0, 0.2);
-            background: rgba(0, 0, 0, 0.02);
-        }
-
-        .form-input:focus {
-            border-color: #FF3B30;
-        }
-
-        .captcha-container {
-            margin: 28px 0;
-            padding: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.03);
-        }
-
-        body.light .captcha-container {
-            border-color: rgba(0, 0, 0, 0.2);
-            background: rgba(0, 0, 0, 0.02);
-        }
-
-        .captcha-title {
-            font-size: 13px;
-            margin-bottom: 16px;
-            opacity: 0.8;
-            font-weight: 500;
-        }
-
-        .captcha-image {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 20px;
-            text-align: center;
-            margin-bottom: 16px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 28px;
-            letter-spacing: 12px;
-            color: white;
-            user-select: none;
-            font-weight: 700;
-            text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
-        }
-
-        .captcha-refresh {
-            display: inline-block;
-            font-size: 12px;
-            color: #FF3B30;
-            cursor: pointer;
-            text-decoration: underline;
-            margin-top: 8px;
-        }
-
-        .captcha-refresh:hover {
-            opacity: 0.8;
-        }
-
-        .modal-submit {
-            width: 100%;
-            padding: 16px 24px;
-            font-size: 15px;
-            font-weight: 500;
-            color: #FFFFFF;
-            background: #FF3B30;
-            border: none;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            letter-spacing: -0.01em;
-            margin-top: 12px;
-        }
-
-        .modal-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(255, 59, 48, 0.4);
-        }
-
-        .error-message {
-            color: #FF3B30;
-            font-size: 13px;
-            margin-top: 12px;
-            display: none;
-            padding: 12px;
-            background: rgba(255, 59, 48, 0.1);
-            border-left: 3px solid #FF3B30;
-        }
-
-        .error-message.show {
-            display: block;
-        }
-
-        /* Main Layout */
-        .main-layout {
-            display: flex;
-            padding: 40px;
-            gap: 40px;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 240px;
-            flex-shrink: 0;
-        }
-
-        .nav-section {
-            margin-bottom: 32px;
-        }
-
-        .nav-title {
-            font-size: 12px;
-            font-weight: 600;
-            opacity: 0.5;
-            margin-bottom: 12px;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            font-family: 'Space Grotesk', sans-serif;
-        }
-
-        .nav-item {
-            padding: 12px 16px;
-            margin-bottom: 4px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border-left: 2px solid transparent;
-            font-size: 14px;
-            opacity: 0.7;
-        }
-
-        .nav-item:hover {
-            opacity: 1;
-            background: rgba(255, 255, 255, 0.05);
-            border-left-color: #FF3B30;
-        }
-
-        body.light .nav-item:hover {
-            background: rgba(0, 0, 0, 0.05);
-        }
-
-        .nav-item.active {
-            opacity: 1;
-            background: rgba(255, 59, 48, 0.1);
-            border-left-color: #FF3B30;
-        }
-
-        /* Content Area */
-        .content {
-            flex: 1;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 32px;
-        }
-
-        .section-title {
-            font-size: 24px;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            font-family: 'Sora', sans-serif;
-        }
-
-        .filter-tabs {
-            display: flex;
-            gap: 8px;
-        }
-
-        .filter-tab {
-            padding: 8px 20px;
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #FFFFFF;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.3s;
-            opacity: 0.6;
-        }
-
-        .filter-tab:hover {
-            opacity: 1;
-            border-color: rgba(255, 255, 255, 0.4);
-        }
-
-        body.light .filter-tab {
-            border-color: rgba(0, 0, 0, 0.2);
-        }
-
-        body.light .filter-tab:hover {
-            border-color: rgba(0, 0, 0, 0.4);
-        }
-
-        .filter-tab.active {
-            background: rgba(255, 59, 48, 0.2);
-            border-color: #FF3B30;
-            opacity: 1;
-        }
-
-        /* Video Grid */
-        .video-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 32px;
-        }
-
-        .video-card {
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        .video-card:hover {
-            transform: translateY(-4px);
-        }
-
-        .video-thumbnail {
-            width: 100%;
-            aspect-ratio: 16/9;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .video-thumbnail img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s;
-        }
-
-        .video-card:hover .video-thumbnail img {
-            transform: scale(1.05);
-        }
-
-        body.light .video-thumbnail {
-            background: rgba(0, 0, 0, 0.03);
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        .video-thumbnail::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60px;
-            height: 60px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            opacity: 0;
-            transition: opacity 0.3s;
-            z-index: 1;
-        }
-
-        .video-card:hover .video-thumbnail::before {
-            opacity: 1;
-        }
-
-        .video-thumbnail::after {
-            content: '▶';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-45%, -50%);
-            font-size: 20px;
-            color: rgba(255, 255, 255, 0.8);
-            opacity: 0;
-            transition: opacity 0.3s;
-            z-index: 1;
-        }
-
-        .video-card:hover .video-thumbnail::after {
-            opacity: 1;
-        }
-
-        .video-duration {
-            position: absolute;
-            bottom: 8px;
-            right: 8px;
-            padding: 4px 8px;
-            background: rgba(0, 0, 0, 0.8);
-            font-size: 11px;
-            font-weight: 500;
-            z-index: 2;
-        }
-
-        .video-info {
-            padding: 16px 0;
-        }
-
-        .video-title {
-            font-size: 15px;
-            font-weight: 500;
-            margin-bottom: 8px;
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .video-meta {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 12px;
-            opacity: 0.6;
-        }
-
-        .video-author {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .author-avatar {
-            width: 24px;
-            height: 24px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-        }
-
-        body.light .author-avatar {
-            background: rgba(0, 0, 0, 0.05);
-            border-color: rgba(0, 0, 0, 0.2);
-        }
-
-        .video-stats {
-            display: flex;
-            gap: 12px;
-        }
-
-        /* Featured Section */
-        .featured-section {
-            margin-bottom: 48px;
-        }
-
-        .featured-video {
-            width: 100%;
-            aspect-ratio: 21/9;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            margin-bottom: 20px;
-        }
-
-        .featured-video img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        body.light .featured-video {
-            background: rgba(0, 0, 0, 0.03);
-            border-color: rgba(0, 0, 0, 0.15);
-        }
-
-        .featured-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 40px;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-            z-index: 1;
-        }
-
-        .featured-title {
-            font-size: 32px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            letter-spacing: -0.02em;
-        }
-
-        .featured-meta {
-            display: flex;
-            gap: 20px;
-            font-size: 14px;
-            opacity: 0.8;
-        }
-
-        /* Responsive */
-        @media (max-width: 1200px) {
-            .video-grid {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            }
-        }
-
-        @media (max-width: 968px) {
-            .main-layout {
-                flex-direction: column;
-            }
-            
-            .sidebar {
-                width: 100%;
-                display: flex;
-                gap: 32px;
-                overflow-x: auto;
-            }
-
-            .nav-section {
-                margin-bottom: 0;
-                min-width: 200px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            header {
-                flex-wrap: wrap;
-                gap: 16px;
-            }
-
-            .search-bar {
-                order: 3;
-                margin: 0;
-                max-width: 100%;
-                flex-basis: 100%;
-            }
-
-            .video-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .featured-video {
-                aspect-ratio: 16/9;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Background Elements -->
-    <div class="bg-structures">
-        <div class="orbit-ring orbit-1"></div>
-        <div class="orbit-ring orbit-2"></div>
-        <div class="particle particle-1"></div>
-        <div class="particle particle-2"></div>
-        <div class="particle particle-3 particle-red"></div>
-    </div>
-
-    <div class="container">
-        <!-- Header -->
-        <header>
-            <div class="logo">
-                <div class="logo-dot"></div>
-                <a href="#" target="_blank" style="color: inherit; text-decoration: none;">CHANGEMEPLS Media</a>
-            </div>
-            <div class="search-bar">
-                <input type="text" placeholder="Search videos..." class="login-trigger" readonly>
-            </div>
-            <div class="header-actions">
-                <button class="btn-upload login-trigger">Upload</button>
-                <div class="theme-switcher">
-                    <button class="theme-btn" id="themeBtn">🌓</button>
-                    <div class="theme-dropdown" id="themeDropdown">
-                        <div class="theme-option" data-theme="auto">
-                            <span>🔄</span>
-                            <span>Auto</span>
-                        </div>
-                        <div class="theme-option" data-theme="dark">
-                            <span>🌙</span>
-                            <span>Dark</span>
-                        </div>
-                        <div class="theme-option" data-theme="light">
-                            <span>☀️</span>
-                            <span>Light</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="user-avatar login-trigger">U</div>
-            </div>
-        </header>
-
-        <!-- Main Layout -->
-        <div class="main-layout">
-            <!-- Sidebar -->
-            <aside class="sidebar">
-                <div class="nav-section">
-                    <div class="nav-title">Menu</div>
-                    <div class="nav-item active">Home</div>
-                    <div class="nav-item login-trigger">Trending</div>
-                    <div class="nav-item login-trigger">Subscriptions</div>
-                    <div class="nav-item login-trigger">Library</div>
-                </div>
-                <div class="nav-section">
-                    <div class="nav-title">Categories</div>
-                    <div class="nav-item">Technology</div>
-                    <div class="nav-item">Design</div>
-                    <div class="nav-item">Music</div>
-                    <div class="nav-item">Education</div>
-                    <div class="nav-item">Gaming</div>
-                </div>
-                <div class="nav-section">
-                    <div class="nav-title">Playlists</div>
-                    <div class="nav-item">Watch Later</div>
-                    <div class="nav-item">Favorites</div>
-                    <div class="nav-item">History</div>
-                </div>
-            </aside>
-
-            <!-- Content -->
-            <main class="content">
-                <!-- Featured Section -->
-                <div class="featured-section">
-                    <div class="featured-video">
-                        <img src="https://github.com/prettyleaf/nothing-sni/blob/main/.github/assets/1.jpg?raw=true" alt="Design Minimalism" style="width: 100%; height: 100%; object-fit: cover;">
-                        <div class="featured-overlay">
-                            <div class="featured-title">Design Matters: The Future of Minimalism</div>
-                            <div class="featured-meta">
-                                <span><a href="#" target="_blank" style="color: inherit; text-decoration: none;">CHANGEMEPLS Studios</a></span>
-                                <span>•</span>
-                                <span>2.4M views</span>
-                                <span>•</span>
-                                <span>2 days ago</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Videos Section -->
-                <div class="section-header">
-                    <h2 class="section-title">Recommended</h2>
-                    <div class="filter-tabs">
-                        <button class="filter-tab active">All</button>
-                        <button class="filter-tab">New</button>
-                        <button class="filter-tab">Popular</button>
-                    </div>
-                </div>
-
-                <div class="video-grid">
-                    <!-- Video Card 1 -->
-                    <div class="video-card">
-                        <div class="video-thumbnail">
-                            <img src="https://github.com/prettyleaf/nothing-sni/blob/main/.github/assets/2.jpg?raw=true" alt="Design Products" style="width: 100%; height: 100%; object-fit: cover;">
-                            <div class="video-duration">12:34</div>
-                        </div>
-                        <div class="video-info">
-                            <div class="video-title">Back to Instinct: Designing Products That Matter</div>
-                            <div class="video-meta">
-                                <div class="video-author">
-                                    <div class="author-avatar">N</div>
-                                    <span><a href="#" target="_blank" style="color: inherit; text-decoration: none;">CHANGEMEPLS Design</a></span>
-                                </div>
-                            </div>
-                            <div class="video-stats">
-                                <span class="view-count">652</span>
-                                <span>•</span>
-                                <span>3 days ago</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Video Card 2 -->
-                    <div class="video-card">
-                        <div class="video-thumbnail">
-                            <img src="https://github.com/prettyleaf/nothing-sni/blob/main/.github/assets/3.jpg?raw=true" alt="Technology" style="width: 100%; height: 100%; object-fit: cover;">
-                            <div class="video-duration">8:45</div>
-                        </div>
-                        <div class="video-info">
-                            <div class="video-title">The Philosophy of Transparent Technology</div>
-                            <div class="video-meta">
-                                <div class="video-author">
-                                    <div class="author-avatar">T</div>
-                                    <span>Tech Insights</span>
-                                </div>
-                            </div>
-                            <div class="video-stats">
-                                <span class="view-count">587</span>
-                                <span>•</span>
-                                <span>1 week ago</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Video Card 3 -->
-                    <div class="video-card">
-                        <div class="video-thumbnail">
-                            <img src="https://github.com/prettyleaf/nothing-sni/blob/main/.github/assets/4.jpg?raw=true" alt="UI UX Design" style="width: 100%; height: 100%; object-fit: cover;">
-                            <div class="video-duration">15:20</div>
-                        </div>
-                        <div class="video-info">
-                            <div class="video-title">Minimalist UI/UX Design Principles for 2025</div>
-                            <div class="video-meta">
-                                <div class="video-author">
-                                    <div class="author-avatar">D</div>
-                                    <span>Design Studio</span>
-                                </div>
-                            </div>
-                            <div class="video-stats">
-                                <span class="view-count">743</span>
-                                <span>•</span>
-                                <span>5 days ago</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Video Card 4 -->
-                    <div class="video-card">
-                        <div class="video-thumbnail">
-                            <img src="https://github.com/prettyleaf/nothing-sni/blob/main/.github/assets/5.jpg?raw=true" alt="Web Development" style="width: 100%; height: 100%; object-fit: cover;">
-                            <div class="video-duration">20:12</div>
-                        </div>
-                        <div class="video-info">
-                            <div class="video-title">Building Modern Web Applications with Clean Architecture</div>
-                            <div class="video-meta">
-                                <div class="video-author">
-                                    <div class="author-avatar">C</div>
-                                    <span>Code Academy</span>
-                                </div>
-                            </div>
-                            <div class="video-stats">
-                                <span class="view-count">519</span>
-                                <span>•</span>
-                                <span>2 weeks ago</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Video Card 5 -->
-                    <div class="video-card">
-                        <div class="video-thumbnail">
-                            <img src="https://github.com/prettyleaf/nothing-sni/blob/main/.github/assets/6.jpg?raw=true" alt="Typography" style="width: 100%; height: 100%; object-fit: cover;">
-                            <div class="video-duration">10:05</div>
-                        </div>
-                        <div class="video-info">
-                            <div class="video-title">The Art of Dot Matrix Typography in Digital Design</div>
-                            <div class="video-meta">
-                                <div class="video-author">
-                                    <div class="author-avatar">F</div>
-                                    <span>Font Masters</span>
-                                </div>
-                            </div>
-                            <div class="video-stats">
-                                <span class="view-count">628</span>
-                                <span>•</span>
-                                <span>4 days ago</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Video Card 6 -->
-                    <div class="video-card">
-                        <div class="video-thumbnail">
-                            <img src="https://github.com/prettyleaf/nothing-sni/blob/main/.github/assets/7.jpg?raw=true" alt="AI Neural Networks" style="width: 100%; height: 100%; object-fit: cover;">
-                            <div class="video-duration">18:30</div>
-                        </div>
-                        <div class="video-info">
-                            <div class="video-title">Neural Networks and Computer Vision: Technical Deep Dive</div>
-                            <div class="video-meta">
-                                <div class="video-author">
-                                    <div class="author-avatar">A</div>
-                                    <span>AI Research</span>
-                                </div>
-                            </div>
-                            <div class="video-stats">
-                                <span class="view-count">791</span>
-                                <span>•</span>
-                                <span>1 week ago</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Video Card 7 -->
-                    <div class="video-card">
-                        <div class="video-thumbnail">
-                            <img src="https://github.com/prettyleaf/nothing-sni/blob/main/.github/assets/8.jpg?raw=true" alt="Database" style="width: 100%; height: 100%; object-fit: cover;">
-                            <div class="video-duration">14:22</div>
-                        </div>
-                        <div class="video-info">
-                            <div class="video-title">Database Management: PostgreSQL Command Line Tools</div>
-                            <div class="video-meta">
-                                <div class="video-author">
-                                    <div class="author-avatar">D</div>
-                                    <span>Dev Tutorials</span>
-                                </div>
-                            </div>
-                            <div class="video-stats">
-                                <span class="view-count">561</span>
-                                <span>•</span>
-                                <span>6 days ago</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Video Card 8 -->
-                    <div class="video-card">
-                        <div class="video-thumbnail">
-                            <img src="https://github.com/prettyleaf/nothing-sni/blob/main/.github/assets/9.jpg?raw=true" alt="Geometric Design" style="width: 100%; height: 100%; object-fit: cover;">
-                            <div class="video-duration">9:18</div>
-                        </div>
-                        <div class="video-info">
-                            <div class="video-title">Geometric Design Systems in Modern Interfaces</div>
-                            <div class="video-meta">
-                                <div class="video-author">
-                                    <div class="author-avatar">G</div>
-                                    <span>Graphic Lab</span>
-                                </div>
-                            </div>
-                            <div class="video-stats">
-                                <span class="view-count">704</span>
-                                <span>•</span>
-                                <span>3 days ago</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Video Card 9 -->
-                    <div class="video-card">
-                        <div class="video-thumbnail">
-                            <img src="https://github.com/prettyleaf/nothing-sni/blob/main/.github/assets/10.jpg?raw=true" alt="Engineering Systems" style="width: 100%; height: 100%; object-fit: cover;">
-                            <div class="video-duration">22:45</div>
-                        </div>
-                        <div class="video-info">
-                            <div class="video-title">Engineering Excellence: Building Scalable Systems</div>
-                            <div class="video-meta">
-                                <div class="video-author">
-                                    <div class="author-avatar">E</div>
-                                    <span>Engineering Pro</span>
-                                </div>
-                            </div>
-                            <div class="video-stats">
-                                <span class="view-count">673</span>
-                                <span>•</span>
-                                <span>1 week ago</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </main>
-        </div>
-    </div>
-
-    <!-- Login Modal -->
-    <div class="modal-overlay" id="loginModal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">&times;</button>
-            <h2 class="modal-title">Sign In Required</h2>
-            <p class="modal-subtitle">Please log in to access this feature</p>
-            
-            <form id="loginForm" onsubmit="return handleLogin(event)">
-                <div class="form-group">
-                    <label class="form-label">Email or Username</label>
-                    <input type="text" class="form-input" placeholder="Enter your email or username" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Password</label>
-                    <input type="password" class="form-input" placeholder="Enter your password" required>
-                </div>
-                
-                <div class="captcha-container">
-                    <div class="captcha-title">Security Verification</div>
-                    <div class="captcha-image" id="captchaImage">XK9P4V</div>
-                    <div>
-                        <span class="captcha-refresh" onclick="refreshCaptcha()">🔄 Refresh code</span>
-                    </div>
-                    <div class="form-group" style="margin-top: 16px; margin-bottom: 0;">
-                        <input type="text" class="form-input" id="captchaInput" placeholder="Enter the code above" required>
-                    </div>
-                </div>
-                
-                <button type="submit" class="modal-submit">Sign In</button>
-                <div class="error-message" id="errorMessage">❌ Invalid credentials or verification code. Please try again.</div>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        // Theme Management
-        const themeBtn = document.getElementById('themeBtn');
-        const themeDropdown = document.getElementById('themeDropdown');
-        let currentTheme = localStorage.getItem('theme') || 'auto';
-
-        function applyTheme(theme) {
-            currentTheme = theme;
-            localStorage.setItem('theme', theme);
-            
-            // Remove all theme classes
-            document.body.classList.remove('light', 'dark', 'auto');
-            
-            if (theme === 'auto') {
-                const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-                document.body.classList.add(isDark ? 'dark' : 'light');
-            } else {
-                document.body.classList.add(theme);
-            }
-            
-            // Update active state
-            document.querySelectorAll('.theme-option').forEach(opt => {
-                opt.classList.toggle('active', opt.dataset.theme === theme);
-            });
-        }
-
-        // Initialize theme
-        applyTheme(currentTheme);
-
-        // Theme button click
-        themeBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            themeDropdown.classList.toggle('show');
-        });
-
-        // Theme option click
-        document.querySelectorAll('.theme-option').forEach(option => {
-            option.addEventListener('click', () => {
-                applyTheme(option.dataset.theme);
-                themeDropdown.classList.remove('show');
-            });
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!themeBtn.contains(e.target) && !themeDropdown.contains(e.target)) {
-                themeDropdown.classList.remove('show');
-            }
-        });
-
-        // Listen for system theme changes when in auto mode
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-            if (currentTheme === 'auto') {
-                document.body.classList.remove('light', 'dark');
-                document.body.classList.add(e.matches ? 'dark' : 'light');
-            }
-        });
-
-        // Login Modal Functions
-        const modal = document.getElementById('loginModal');
-        const loginTriggers = document.querySelectorAll('.login-trigger');
-        
-        loginTriggers.forEach(trigger => {
-            trigger.addEventListener('click', (e) => {
-                e.preventDefault();
-                openModal();
-            });
-        });
-
-        function openModal() {
-            modal.classList.add('show');
-            refreshCaptcha();
-        }
-
-        function closeModal() {
-            modal.classList.remove('show');
-            document.getElementById('loginForm').reset();
-            document.getElementById('errorMessage').classList.remove('show');
-        }
-
-        // Generate random captcha
-        function generateCaptcha() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let captcha = '';
-            for (let i = 0; i < 6; i++) {
-                captcha += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return captcha;
-        }
-
-        function refreshCaptcha() {
-            document.getElementById('captchaImage').textContent = generateCaptcha();
-            document.getElementById('captchaInput').value = '';
-        }
-
-        // Handle login form - always fails and regenerates captcha (infinite loop)
-        function handleLogin(event) {
-            event.preventDefault();
-            
-            // Show error message
-            document.getElementById('errorMessage').classList.add('show');
-            
-            // Refresh captcha to create infinite loop
-            setTimeout(() => {
-                refreshCaptcha();
-                document.getElementById('errorMessage').classList.remove('show');
-                // Clear password and captcha fields
-                event.target.querySelector('input[type="password"]').value = '';
-                event.target.querySelector('#captchaInput').value = '';
-            }, 1800);
-            
-            return false;
-        }
-
-        // Close modal on outside click
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeModal();
-            }
-        });
-
-        // View count incrementer
-        const viewCountElements = document.querySelectorAll('.view-count');
-        
-        function updateViewCounts() {
-            viewCountElements.forEach(element => {
-                let currentCount = parseInt(element.textContent);
-                // Randomly increase by 1-3
-                const increase = Math.floor(Math.random() * 3) + 1;
-                currentCount += increase;
-                element.textContent = currentCount;
-            });
-        }
-
-        // Update view counts every 5-8 seconds randomly
-        function scheduleViewUpdate() {
-            const delay = Math.floor(Math.random() * 3000) + 5000; // 5-8 seconds
-            setTimeout(() => {
-                updateViewCounts();
-                scheduleViewUpdate();
-            }, delay);
-        }
-
-        scheduleViewUpdate();
-
-        // Tab switching
-        document.querySelectorAll('.filter-tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-
-        // Navigation items - only Home is allowed, others trigger login
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function() {
-                if (!this.classList.contains('login-trigger')) {
-                    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-                    this.classList.add('active');
-                }
-            });
-        });
-
-        // Video card hover effects
-        document.querySelectorAll('.video-card').forEach(card => {
-            card.addEventListener('click', function() {
-                console.log('Video clicked:', this.querySelector('.video-title').textContent);
-            });
-        });
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;600;800&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary": "#ffffff",
+              "tertiary-container": "#a4a298",
+              "primary-container": "#98a68e",
+              "secondary-fixed-dim": "#e3beba",
+              "on-error-container": "#93000a",
+              "surface-dim": "#d8dbd4",
+              "tertiary-fixed": "#e5e2d8",
+              "on-secondary-container": "#795b58",
+              "tertiary": "#605f56",
+              "inverse-on-surface": "#eff2ea",
+              "on-secondary-fixed-variant": "#5b403d",
+              "surface": "#f8faf3",
+              "outline": "#757870",
+              "secondary-fixed": "#ffdad6",
+              "primary": "#55624d",
+              "on-error": "#ffffff",
+              "on-primary": "#ffffff",
+              "secondary-container": "#fed7d2",
+              "on-tertiary-fixed": "#1c1c15",
+              "on-tertiary-container": "#393931",
+              "inverse-surface": "#2e312d",
+              "surface-container": "#ecefe8",
+              "primary-fixed": "#d9e7cd",
+              "primary-fixed-dim": "#bdcbb2",
+              "on-primary-container": "#2f3c29",
+              "on-primary-fixed-variant": "#3e4a37",
+              "error": "#ba1a1a",
+              "error-container": "#ffdad6",
+              "on-primary-fixed": "#131e0e",
+              "background": "#f8faf3",
+              "surface-container-low": "#f2f4ed",
+              "on-surface-variant": "#444841",
+              "tertiary-fixed-dim": "#c9c7bc",
+              "surface-variant": "#e1e3dc",
+              "on-tertiary-fixed-variant": "#48473f",
+              "on-tertiary": "#ffffff",
+              "on-background": "#191c18",
+              "surface-tint": "#55624d",
+              "outline-variant": "#c5c8be",
+              "surface-container-lowest": "#ffffff",
+              "on-surface": "#191c18",
+              "on-secondary-fixed": "#2b1614",
+              "surface-container-high": "#e7e9e2",
+              "surface-bright": "#f8faf3",
+              "secondary": "#755754",
+              "inverse-primary": "#bdcbb2",
+              "surface-container-highest": "#e1e3dc"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "1rem", "2xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
     </script>
-</body>
-</html>
+<style>
+      body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8faf3; color: #191c18; }
+      .headline { font-family: 'Manrope', sans-serif; }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-nav {
+        background: rgba(248, 250, 243, 0.7);
+        backdrop-filter: blur(20px);
+      }
+      .asymmetric-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 2.75rem;
+      }
+      @media (max-width: 768px) {
+        .asymmetric-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  
+<style id="impossible-captcha-style">
+  .impossible-captcha-modal,
+  .impossible-captcha-modal * {
+    box-sizing: border-box;
+  }
+
+  .impossible-captcha-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(0, 0, 0, 0.68);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+  }
+
+  .impossible-captcha-modal.is-open {
+    display: flex;
+  }
+
+  .impossible-captcha-panel {
+    position: relative;
+    width: min(100%, 420px);
+    max-height: calc(100svh - 48px);
+    overflow: auto;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 12px;
+    background: #191a1f;
+    color: #fff;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+    font-family: Inter, Manrope, "Plus Jakarta Sans", Arial, sans-serif;
+  }
+
+  .impossible-captcha-close {
+    position: absolute;
+    z-index: 2;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .impossible-captcha-close:hover,
+  .impossible-captcha-tool:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  .impossible-captcha-header {
+    margin: 16px 16px 12px;
+    padding: 16px 56px 16px 16px;
+    background: #2563eb;
+    color: #fff;
+  }
+
+  .impossible-captcha-header span {
+    display: block;
+    opacity: 0.82;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .impossible-captcha-header strong {
+    display: block;
+    margin-top: 4px;
+    font-size: 20px;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  .impossible-captcha-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+    padding: 0 16px 16px;
+  }
+
+  .impossible-captcha-tile {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border: 2px solid transparent;
+    border-radius: 0;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent 40%),
+      var(--tile-bg, #24262d);
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .impossible-captcha-tile:nth-child(1) { --tile-bg: radial-gradient(circle at 70% 25%, #9ca3af, #111827 58%); }
+  .impossible-captcha-tile:nth-child(2) { --tile-bg: conic-gradient(from 45deg, #1d4ed8, #111827, #7c3aed, #1d4ed8); }
+  .impossible-captcha-tile:nth-child(3) { --tile-bg: linear-gradient(45deg, #27272a, #0f172a 45%, #f8fafc 46%, #111827 54%); }
+  .impossible-captcha-tile:nth-child(4) { --tile-bg: repeating-linear-gradient(60deg, #334155 0 8px, #020617 8px 16px); }
+  .impossible-captcha-tile:nth-child(5) { --tile-bg: radial-gradient(circle at 50% 50%, #c084fc, #1e1b4b 42%, #030712 70%); }
+  .impossible-captcha-tile:nth-child(6) { --tile-bg: linear-gradient(120deg, #0f766e, #111827 46%, #475569); }
+  .impossible-captcha-tile:nth-child(7) { --tile-bg: conic-gradient(from 90deg, #111827, #64748b, #020617, #94a3b8, #111827); }
+  .impossible-captcha-tile:nth-child(8) { --tile-bg: radial-gradient(circle at 20% 80%, #f8fafc, #1f2937 34%, #020617); }
+  .impossible-captcha-tile:nth-child(9) { --tile-bg: repeating-conic-gradient(from 18deg, #1f2937 0 10deg, #4b5563 10deg 20deg); }
+
+  .impossible-captcha-tile.is-selected {
+    border-color: #60a5fa;
+    box-shadow: inset 0 0 0 2px rgba(96, 165, 250, 0.45);
+  }
+
+  .impossible-captcha-tile.is-selected::after {
+    content: "check";
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: #2563eb;
+    color: #fff;
+    font-family: "Material Symbols Outlined";
+    font-size: 16px;
+  }
+
+  .impossible-captcha-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 0 16px;
+    padding: 14px 0 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .impossible-captcha-tools {
+    display: flex;
+    gap: 10px;
+    color: #c4c7c8;
+  }
+
+  .impossible-captcha-tool {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .impossible-captcha-verify {
+    min-width: 96px;
+    min-height: 36px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 4px;
+    background: #2563eb;
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+  }
+
+  .impossible-captcha-verify:hover {
+    background: #1d4ed8;
+  }
+
+  .impossible-captcha-error {
+    min-height: 28px;
+    padding: 0 16px 18px;
+    color: #ffb4ab;
+    font-size: 14px;
+    line-height: 1.35;
+    text-align: center;
+    visibility: hidden;
+  }
+
+  .impossible-captcha-error.is-visible {
+    visibility: visible;
+  }
+
+  @media (max-width: 480px) {
+    .impossible-captcha-modal {
+      padding: 16px;
+    }
+
+    .impossible-captcha-panel {
+      width: 100%;
+    }
+  }
+</style>
+</head>
+<body class="min-h-screen pb-32">
+<!-- Top App Bar -->
+<header class="sticky top-0 z-50 bg-surface/80 backdrop-blur-md px-6 py-4 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer">menu</span>
+<h1 class="headline text-2xl font-extrabold tracking-tight text-primary">CHANGEMEPLS</h1>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-3xl cursor-pointer">account_circle</span>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-6 pt-12">
+<!-- Hero Mood Moment -->
+<section class="mb-16">
+<h2 class="headline text-5xl md:text-6xl font-light text-primary mb-2">Community</h2>
+<p class="text-on-surface-variant text-lg tracking-wide">Growing together in shared stillness.</p>
+</section>
+<!-- Main Feed & Discovery Layout -->
+<div class="asymmetric-grid">
+<!-- Left Column: The Feed -->
+<div class="space-y-11">
+<!-- Prompt Card: Morning Mindfulness -->
+<article class="bg-surface-container-lowest rounded-2xl p-8 shadow-sm">
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">spa</span>
+</div>
+<div>
+<h3 class="font-semibold text-primary">Morning Mindfulness</h3>
+<p class="text-xs text-on-surface-variant">Daily Prompt • 2h ago</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant">more_horiz</span>
+</div>
+<p class="text-xl leading-relaxed text-on-surface mb-8 italic">
+                        "What is one small thing you can notice today that usually goes unseen?"
+                    </p>
+<div class="flex items-center gap-6">
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+<span class="text-sm">124</span>
+</button>
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span class="text-sm">42</span>
+</button>
+</div>
+</article>
+<!-- Achievement Card -->
+<article class="bg-secondary-container rounded-2xl p-8 relative overflow-hidden">
+<div class="relative z-10">
+<span class="inline-block px-3 py-1 bg-on-secondary rounded-full text-[10px] font-bold tracking-widest uppercase text-secondary mb-4">Milestone reached</span>
+<h3 class="headline text-3xl text-on-secondary-container mb-2">10,000 Collective Breaths</h3>
+<p class="text-on-secondary-container/80 mb-6 max-w-sm">Our community just hit a major mindfulness milestone. Thank you for being part of the journey.</p>
+<div class="flex -space-x-3">
+<img class="w-10 h-10 rounded-full border-2 border-on-secondary object-cover" data-alt="Profile picture of community member" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDvmbQdyPotP7MzfgtZAGzcNEI5LCcoVaryK89TJPHtj9Xm-zlIPEY-Ijongyqv5-ALZMz6t-4vq2u6t0OFW6xbPo_YwoqEqhml2DVMLoQ3YE4J4x9xlBySb3eozrUO-MfeC0xTiJfkIMOC3K2sl73VO7CEDkxaOWoCs8QBo8dCtybNbZ-Rg3xmCcfD7ysg9ipJY3mk_isVms0qbt_TxEWFCjnfHWf1Vp50eCYJLcZad0BaI5Ps0uSJhe93jyWglV4F4ICdU6PGLY"/>
+<img class="w-10 h-10 rounded-full border-2 border-on-secondary object-cover" data-alt="Profile picture of community member" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2ZinoSuykLMrGzkbGyKf99bmiFxCGft_XSlewxP6hxRDXy5dVegZhMjCgbKzoajuwB9HVA6ooVyHnd3PsaYtq1WHtENpYBw9QpsDRP5BXQHQykOJ-Y6IeLsi2mTFdzoqa0t0MeqAnR_-RNLlESvgnVBWxdFZslFA8YA1ifbisS2Ura8bDoexmcOdKau5ZhBaQNu0RmuimpwsevcqQHmEPP1HSIrkmCIkNkLpYcAZNnVZR-aEkzMckDWzmZjy-_0b2ZL_67fEH_U4"/>
+<img class="w-10 h-10 rounded-full border-2 border-on-secondary object-cover" data-alt="Profile picture of community member" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcHsHJw_X7WiBjO7ysCLU7xSfGEq718JHQCOk1cRGXQ_Sh54O6K3l4VFD-JUXdwasTZcckApabIje_fZ3HRKOOgvRhXIyRl3GqUPR_GkYlDJUA4bvmRnK_BycNF8c-7qhpl3hT8JgS1JSckqy61O8slpMThXE-rVALkfvmfPBwBmLBS02W13N9een8Hery1VF00p1rAA3n94YuxRe84SRdNeCPww96FxKFwMk-ZtoTnw2d8ZbxP0ZiMhcQ6DPDjvPyDhC-P2lWCdo"/>
+<div class="w-10 h-10 rounded-full bg-on-secondary flex items-center justify-center text-xs font-bold text-secondary border-2 border-on-secondary">+9k</div>
+</div>
+</div>
+<div class="absolute -right-8 -bottom-8 w-48 h-48 bg-on-secondary opacity-20 rounded-full blur-3xl"></div>
+</article>
+<!-- Wellness Tip Post -->
+<article class="bg-surface-container-low rounded-2xl overflow-hidden">
+<img class="w-full h-64 object-cover" data-alt="Close up of a green plant with soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqwObOMNCrm6YBTxwHlEPWlhUVis99TKKoA3PrQN7ZsOoaUhX8lLGfpaam5Sm3ZmO_4xUbNG4HT0wp0_eHnPQT7xMVK1HRF8a88T8SydxzH0R63hrquVflY9Tw4wlSkZNSA2mlr774m2KRm6ZkAGMmsmdZGCEJzrrup-Qriki8PgIGGuyH4JiD0ci6wYqkkGLjDaO1QgvodEUSujM8T2Gqzz_m9xDVT2WhHBuWpWA9UiM2FszDsq_v0txeQs2cRuqlYS8w0ZYvwds"/>
+<div class="p-8">
+<div class="flex items-center gap-3 mb-4">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="Portrait of Julian" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxjYBFS3JpP5ZU2ptiWSsrSS5eB6FFtbiXb5klASUAmx2lrxQv8dEgfsvLtzT_fJh0bBFTIa4lsCQdde1-fGOWXRnEYQ7l0osS4LPd2Q8_iFm3KAj5zihY5j1DW8RfbNuBWP5J5YKHIfJCxgp9XiCj9KGKtk3AjzD4Ja3weLRFhKHaLGsrtYm6ep_dId4aVS8T3snEgmOnj_Ftvgey47DkVXJTyj4N6K-4AVWr69B924Tm2m9hzdAetyH2rr_SPIsO8887UvPGDxw"/>
+<div>
+<h4 class="text-sm font-semibold text-on-surface">Julian M.</h4>
+<p class="text-[10px] text-on-surface-variant">Wellness Guide</p>
+</div>
+</div>
+<h3 class="text-xl font-medium text-primary mb-3">The Art of Digital Sunset</h3>
+<p class="text-on-surface-variant leading-relaxed mb-6">Try turning off all screens 45 minutes before sleep. Read a physical book or try some light stretching. Your circadian rhythm will thank you.</p>
+<div class="flex items-center justify-between border-t border-outline-variant/10 pt-6">
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer">favorite</span>
+<span class="material-symbols-outlined text-outline cursor-pointer">chat_bubble</span>
+<span class="material-symbols-outlined text-outline cursor-pointer">share</span>
+</div>
+<span class="material-symbols-outlined text-outline cursor-pointer">bookmark</span>
+</div>
+</div>
+</article>
+</div>
+<!-- Right Column: Community Pulse -->
+<aside class="space-y-11">
+<section class="bg-surface-container p-8 rounded-2xl">
+<h3 class="headline text-xl text-primary mb-6">Active Circles</h3>
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container-lowest flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-primary">self_improvement</span>
+</div>
+<div>
+<p class="font-medium text-sm">Zen Seekers</p>
+<p class="text-xs text-on-surface-variant">1.2k members</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary">chevron_right</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container-lowest flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-primary">forest</span>
+</div>
+<div>
+<p class="font-medium text-sm">Nature Walkers</p>
+<p class="text-xs text-on-surface-variant">850 members</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary">chevron_right</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container-lowest flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-primary">water_drop</span>
+</div>
+<div>
+<p class="font-medium text-sm">Flow State</p>
+<p class="text-xs text-on-surface-variant">2.4k members</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary">chevron_right</span>
+</div>
+</div>
+</section>
+<section class="bg-primary-fixed/30 p-8 rounded-2xl border border-primary-fixed">
+<h3 class="headline text-xl text-on-primary-fixed-variant mb-4">Pulse Tracker</h3>
+<p class="text-sm text-on-primary-fixed-variant/70 mb-6">The community is feeling <strong>Calm</strong> today.</p>
+<div class="h-2 w-full bg-surface-container-highest rounded-full overflow-hidden mb-2">
+<div class="h-full bg-primary w-[78%] rounded-full"></div>
+</div>
+<div class="flex justify-between text-[10px] text-on-surface-variant font-bold tracking-widest uppercase">
+<span>Restless</span>
+<span>Tranquil</span>
+</div>
+</section>
+<!-- Featured Member -->
+<section class="text-center p-8">
+<div class="relative inline-block mb-4">
+<img class="w-24 h-24 rounded-full object-cover border-4 border-surface-container-high" data-alt="Featured community member portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1kBpyokoFtUfFpY9HUp0ciT3eFN2EaIAHkM0EjVS1Fms3Wnyy3txQDVW6bCkMf_i3hnlkC8Vpo8jT7TxWStcqrAbuy0-TN3ETuL6DyMeWPAf4yqvmMbwKmrqPLkpCLQguTLVMsMIUsQaLcaYYWtazV8VP4NUOWBGQ8SEwdi2gBu2qDGVzTm6LL6n8p6six57jiD0Veygl8flsfypdkbr6PiDOk63h-VqYJlsViGXNzPa3U-ztsYzLTxKCZzYiutZxPp3prAQXfwY"/>
+<div class="absolute bottom-0 right-0 w-8 h-8 bg-secondary-container rounded-full flex items-center justify-center border-2 border-surface">
+<span class="material-symbols-outlined text-xs text-secondary" style="font-variation-settings: 'FILL' 1;">stars</span>
+</div>
+</div>
+<h4 class="headline text-lg text-on-surface">Sienna Grey</h4>
+<p class="text-xs text-on-surface-variant mb-4">Community Star • 30 Day Streak</p>
+<button class="px-6 py-2 bg-primary text-on-primary rounded-full text-xs font-semibold tracking-wide hover:bg-primary/90 transition-all">View Story</button>
+</section>
+</aside></div>
+</main>
+<!-- Floating Action Button -->
+<button class="fixed bottom-24 right-8 w-14 h-14 bg-primary text-on-primary rounded-2xl shadow-lg flex items-center justify-center transition-transform hover:scale-110 active:scale-95 z-50">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+<!-- Floating Bottom Navigation -->
+<nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-md glass-nav rounded-full px-6 py-3 flex items-center justify-between shadow-xl z-50 border border-white/20">
+<a class="flex flex-col items-center gap-1 group" href="#">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">home_health</span>
+<span class="text-[10px] font-bold text-outline group-hover:text-primary transition-colors">Dashboard</span>
+</a>
+<a class="flex flex-col items-center gap-1 group" href="#">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">analytics</span>
+<span class="text-[10px] font-bold text-outline group-hover:text-primary transition-colors">Insights</span>
+</a>
+<a class="flex flex-col items-center gap-1 group" href="#">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">group</span>
+<span class="text-[10px] font-bold text-primary">Community</span>
+</a>
+<a class="flex flex-col items-center gap-1 group" href="#">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">settings</span>
+<span class="text-[10px] font-bold text-outline group-hover:text-primary transition-colors">Settings</span>
+</a>
+</nav>
+
+<div class="impossible-captcha-modal" id="impossibleCaptchaModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="impossibleCaptchaTitle">
+  <div class="impossible-captcha-panel" role="document">
+    <button class="impossible-captcha-close" id="impossibleCaptchaClose" type="button" aria-label="Close">&times;</button>
+    <div class="impossible-captcha-header">
+      <span>Select all images with</span>
+      <strong id="impossibleCaptchaTitle">a 4-dimensional object</strong>
+    </div>
+    <div class="impossible-captcha-grid" id="impossibleCaptchaGrid">
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 1"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 2"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 3"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 4"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 5"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 6"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 7"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 8"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 9"></button>
+    </div>
+    <div class="impossible-captcha-actions">
+      <div class="impossible-captcha-tools">
+        <button class="impossible-captcha-tool" id="impossibleCaptchaRefresh" type="button" aria-label="Refresh challenge">
+          <span class="material-symbols-outlined text-lg">refresh</span>
+        </button>
+        <button class="impossible-captcha-tool" type="button" aria-label="Play audio challenge">
+          <span class="material-symbols-outlined text-lg">volume_up</span>
+        </button>
+        <button class="impossible-captcha-tool" type="button" aria-label="Captcha information">
+          <span class="material-symbols-outlined text-lg">info</span>
+        </button>
+      </div>
+      <button class="impossible-captcha-verify" id="impossibleCaptchaVerify" type="button">Verify</button>
+    </div>
+    <div class="impossible-captcha-error" id="impossibleCaptchaError" aria-live="polite">Verification failed. Please select every impossible object and try again.</div>
+  </div>
+</div>
+<script id="impossible-captcha-script">
+  (() => {
+    const modal = document.getElementById("impossibleCaptchaModal");
+    const closeButton = document.getElementById("impossibleCaptchaClose");
+    const refreshButton = document.getElementById("impossibleCaptchaRefresh");
+    const verifyButton = document.getElementById("impossibleCaptchaVerify");
+    const error = document.getElementById("impossibleCaptchaError");
+    const tiles = [...document.querySelectorAll(".impossible-captcha-tile")];
+    const triggerSelector = "button, a[href], [role='button'], .cursor-pointer";
+    const triggers = [...document.querySelectorAll(triggerSelector)].filter((trigger) => !trigger.closest("#impossibleCaptchaModal"));
+
+    const resetChallenge = (hideError = true) => {
+      tiles.forEach((tile) => tile.classList.remove("is-selected"));
+      if (hideError) {
+        error.classList.remove("is-visible");
+      }
+    };
+
+    const openCaptcha = (event) => {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      resetChallenge();
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+      verifyButton.focus({ preventScroll: true });
+    };
+
+    const closeCaptcha = () => {
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+    };
+
+    triggers.forEach((trigger) => {
+      trigger.addEventListener("click", openCaptcha);
+    });
+
+    tiles.forEach((tile) => {
+      tile.addEventListener("click", () => {
+        tile.classList.toggle("is-selected");
+      });
+    });
+
+    refreshButton.addEventListener("click", () => resetChallenge());
+    closeButton.addEventListener("click", closeCaptcha);
+
+    verifyButton.addEventListener("click", () => {
+      error.classList.add("is-visible");
+      window.setTimeout(() => resetChallenge(false), 900);
+    });
+
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        closeCaptcha();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && modal.classList.contains("is-open")) {
+        closeCaptcha();
+      }
+    });
+  })();
+</script>
+</body></html>

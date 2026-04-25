@@ -1,1260 +1,709 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Router Configuration - OpenWrt</title>
-    <style>
-        /* Import Multiple Fonts */
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Sora:wght@300;400;500;600;700&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CHANGEMEPLS | Delivery Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary-container": "#2f1500",
+                        "on-surface-variant": "#444748",
+                        "on-primary-fixed-variant": "#474646",
+                        "secondary-fixed": "#8df9a8",
+                        "surface-variant": "#d3e4fe",
+                        "on-surface": "#0b1c30",
+                        "error-container": "#ffdad6",
+                        "secondary": "#006d35",
+                        "outline-variant": "#c4c7c7",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed": "#00210c",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#e5e2e1",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "on-primary": "#ffffff",
+                        "surface": "#f8f9ff",
+                        "on-tertiary-container": "#c76c00",
+                        "background": "#f8f9ff",
+                        "primary-container": "#1c1b1b",
+                        "surface-container": "#e5eeff",
+                        "on-secondary-container": "#007439",
+                        "inverse-primary": "#c8c6c5",
+                        "tertiary-fixed-dim": "#ffb77d",
+                        "outline": "#747878",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-tint": "#5f5e5e",
+                        "on-tertiary-fixed-variant": "#6e3900",
+                        "on-error-container": "#93000a",
+                        "surface-container-high": "#dce9ff",
+                        "inverse-surface": "#213145",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-primary-container": "#858383",
+                        "secondary-container": "#8df9a8",
+                        "surface-bright": "#f8f9ff",
+                        "on-tertiary-fixed": "#2f1500",
+                        "tertiary": "#000000",
+                        "secondary-fixed-dim": "#71dc8e",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-primary-fixed": "#1c1b1b",
+                        "primary": "#000000",
+                        "surface-dim": "#cbdbf5",
+                        "on-secondary-fixed-variant": "#005226",
+                        "tertiary-fixed": "#ffdcc3",
+                        "surface-container-low": "#eff4ff",
+                        "on-background": "#0b1c30"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
         }
-
-        body {
-            font-family: 'Space Grotesk', 'Inter', 'JetBrains Mono', monospace;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            overflow-x: hidden;
-            transition: background-color 0.3s, color 0.3s;
-            position: relative;
-            padding: 40px 20px;
-        }
-
-        /* Light theme - CHANGEMEPLS Style */
-        body.light {
-            background: #FFFFFF;
-            color: #000000;
-        }
-
-        /* Dark theme - CHANGEMEPLS Style */
-        body.dark {
-            background: #000000;
-            color: #FFFFFF;
-        }
-
-        /* Dot Matrix Pattern Background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: radial-gradient(circle, rgba(128, 128, 128, 0.1) 1px, transparent 1px);
-            background-size: 24px 24px;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.3;
-        }
-
-        /* Glyph Interface Elements */
-        body::after {
-            content: '';
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 600px;
-            height: 600px;
-            border: 1px solid currentColor;
-            border-radius: 50%;
-            opacity: 0.15;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .container {
-            background: transparent;
-            padding: 60px 40px;
-            border: 1px solid;
-            max-width: 1200px;
-            width: 100%;
-            position: relative;
-            z-index: 2;
-            transition: border-color 0.3s;
-        }
-
-        body.light .container {
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        body.dark .container {
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        /* Header */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 48px;
-            padding-bottom: 24px;
-            border-bottom: 1px solid;
-        }
-
-        body.light header {
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        body.dark header {
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        h1 {
-            font-size: 28px;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            font-family: 'Sora', sans-serif;
-        }
-
-        .router-status {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            font-size: 14px;
-            opacity: 0.6;
-        }
-
-        .status-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .live-clock {
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 500;
-        }
-
-        .theme-switcher {
-            position: relative;
-        }
-
-        .theme-toggle {
-            padding: 8px 16px;
-            background: transparent;
-            border: 1px solid;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            letter-spacing: -0.01em;
-        }
-
-        body.light .theme-toggle {
-            border-color: rgba(0, 0, 0, 0.15);
-            color: #000000;
-        }
-
-        body.dark .theme-toggle {
-            border-color: rgba(255, 255, 255, 0.2);
-            color: #FFFFFF;
-        }
-
-        .theme-toggle:hover {
-            border-color: #FF3B30;
-            color: #FF3B30;
-        }
-
-        .theme-dropdown {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            margin-top: 8px;
-            background: inherit;
-            border: 1px solid;
-            min-width: 120px;
-            display: none;
-            z-index: 1000;
-        }
-
-        body.light .theme-dropdown {
-            background: rgba(255, 255, 255, 0.95);
-            border-color: rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(12px);
-        }
-
-        body.dark .theme-dropdown {
-            background: rgba(0, 0, 0, 0.95);
-            border-color: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
-        }
-
-        .theme-dropdown.show {
-            display: block;
-        }
-
-        .theme-option {
-            padding: 10px 16px;
-            cursor: pointer;
-            font-size: 12px;
-            transition: all 0.3s;
-            font-family: 'DM Sans', sans-serif;
-        }
-
-        .theme-option:hover {
-            background: rgba(255, 59, 48, 0.1);
-            color: #FF3B30;
-        }
-
-        .theme-option.active {
-            color: #FF3B30;
-        }
-
-        /* Red accent dot */
-        .red-dot {
-            width: 8px;
-            height: 8px;
-            background: #FF3B30;
-            border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.6;
-                transform: scale(1.2);
-            }
-        }
-
-        /* Navigation Tabs */
-        .tabs {
-            display: flex;
-            gap: 4px;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-        }
-
-        .tab {
-            padding: 12px 24px;
-            font-size: 14px;
-            font-weight: 500;
-            background: transparent;
-            border: 1px solid;
-            cursor: pointer;
-            transition: all 0.3s;
-            letter-spacing: -0.01em;
-            font-family: 'DM Sans', sans-serif;
-        }
-
-        body.light .tab {
-            border-color: rgba(0, 0, 0, 0.1);
-            color: #000000;
-        }
-
-        body.dark .tab {
-            border-color: rgba(255, 255, 255, 0.15);
-            color: #FFFFFF;
-        }
-
-        .tab:hover {
-            border-color: #FF3B30;
-        }
-
-        .tab.active {
-            background: #FF3B30;
-            color: #FFFFFF;
-            border-color: #FF3B30;
-        }
-
-        /* Content Sections */
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Form Groups */
-        .form-group {
-            margin-bottom: 32px;
-        }
-
-        .form-section {
-            margin-bottom: 48px;
-        }
-
-        .form-section-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 24px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid;
-            letter-spacing: -0.02em;
-        }
-
-        body.light .form-section-title {
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        body.dark .form-section-title {
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        label {
-            display: block;
-            font-size: 13px;
-            font-weight: 500;
-            margin-bottom: 8px;
-            opacity: 0.8;
-        }
-
-        input[type="text"],
-        input[type="password"],
-        input[type="number"],
-        select,
-        textarea {
-            width: 100%;
-            padding: 12px 16px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 14px;
-            background: transparent;
-            border: 1px solid;
-            transition: all 0.3s;
-            letter-spacing: -0.01em;
-        }
-
-        body.light input,
-        body.light select,
-        body.light textarea {
-            border-color: rgba(0, 0, 0, 0.1);
-            color: #000000;
-        }
-
-        body.dark input,
-        body.dark select,
-        body.dark textarea {
-            border-color: rgba(255, 255, 255, 0.15);
-            color: #FFFFFF;
-        }
-
-        input:focus,
-        select:focus,
-        textarea:focus {
-            outline: none;
-            border-color: #FF3B30;
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        /* Checkbox and Radio */
-        .checkbox-group,
-        .radio-group {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        input[type="checkbox"],
-        input[type="radio"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            accent-color: #FF3B30;
-        }
-
-        /* Grid Layout */
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-        }
-
-        /* Buttons */
-        .button {
-            display: inline-block;
-            padding: 14px 32px;
-            font-size: 14px;
-            font-weight: 500;
-            font-family: 'JetBrains Mono', monospace;
-            text-decoration: none;
-            color: #FFFFFF;
-            background: #FF3B30;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            letter-spacing: -0.01em;
-        }
-
-        .button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.1);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .button:hover::before {
-            opacity: 1;
-        }
-
-        .button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(255, 59, 48, 0.3);
-        }
-
-        .button:active {
-            transform: translateY(0);
-        }
-
-        .button-group {
-            display: flex;
-            gap: 12px;
-            margin-top: 32px;
-        }
-
-        .button-secondary {
-            background: transparent;
-            color: currentColor;
-            border: 1px solid;
-        }
-
-        body.light .button-secondary {
-            border-color: rgba(0, 0, 0, 0.2);
-        }
-
-        body.dark .button-secondary {
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .button-secondary:hover {
-            border-color: #FF3B30;
-            color: #FF3B30;
-            background: transparent;
-            box-shadow: none;
-        }
-
-        /* Info Box */
-        .info-box {
-            padding: 16px 20px;
-            border: 1px solid;
-            margin-bottom: 24px;
-            font-size: 13px;
-            line-height: 1.6;
-        }
-
-        body.light .info-box {
-            border-color: rgba(0, 0, 0, 0.1);
-            background: rgba(0, 0, 0, 0.02);
-        }
-
-        body.dark .info-box {
-            border-color: rgba(255, 255, 255, 0.15);
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .info-box.warning {
-            border-color: #FF9500;
-            background: rgba(255, 149, 0, 0.05);
-        }
-
-        /* Moving geometric structures */
-        .bg-structures {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        /* Orbital rings */
-        .orbit-ring {
-            position: absolute;
-            border: 1px solid;
-            border-radius: 50%;
-            opacity: 0.1;
-        }
-
-        body.light .orbit-ring {
-            border-color: rgba(0, 0, 0, 0.3);
-        }
-
-        body.dark .orbit-ring {
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-
-        .orbit-1 {
-            width: 400px;
-            height: 400px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: rotate-orbit 40s linear infinite;
-        }
-
-        .orbit-2 {
-            width: 300px;
-            height: 300px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: rotate-orbit 30s linear infinite reverse;
-        }
-
-        .orbit-3 {
-            width: 200px;
-            height: 200px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: rotate-orbit 25s linear infinite;
-        }
-
-        @keyframes rotate-orbit {
-            from {
-                transform: translate(-50%, -50%) rotate(0deg);
-            }
-            to {
-                transform: translate(-50%, -50%) rotate(360deg);
-            }
-        }
-
-        /* Floating particles/dots */
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            opacity: 0.3;
-        }
-
-        body.light .particle {
-            background: rgba(0, 0, 0, 0.4);
-        }
-
-        body.dark .particle {
-            background: rgba(255, 255, 255, 0.4);
-        }
-
-        .particle-1 {
-            top: 20%;
-            left: 15%;
-            animation: float-particle 15s ease-in-out infinite;
-        }
-
-        .particle-2 {
-            top: 70%;
-            right: 20%;
-            animation: float-particle 18s ease-in-out infinite 2s;
-        }
-
-        .particle-3 {
-            bottom: 25%;
-            left: 25%;
-            animation: float-particle 20s ease-in-out infinite 4s;
-        }
-
-        .particle-4 {
-            top: 40%;
-            right: 10%;
-            animation: float-particle 16s ease-in-out infinite 1s;
-        }
-
-        .particle-5 {
-            top: 15%;
-            right: 30%;
-            animation: float-particle 22s ease-in-out infinite 3s;
-        }
-
-        /* Red accent particles */
-        .particle-red {
-            background: #FF3B30 !important;
-            opacity: 0.4;
-        }
-
-        .particle-red-1 {
-            top: 30%;
-            left: 20%;
-            animation: float-particle 17s ease-in-out infinite;
-        }
-
-        .particle-red-2 {
-            bottom: 30%;
-            right: 25%;
-            animation: float-particle 19s ease-in-out infinite 1.5s;
-        }
-
-        @keyframes float-particle {
-            0%, 100% {
-                transform: translate(0, 0);
-                opacity: 0.3;
-            }
-            25% {
-                transform: translate(30px, -30px);
-                opacity: 0.5;
-            }
-            50% {
-                transform: translate(-20px, 40px);
-                opacity: 0.2;
-            }
-            75% {
-                transform: translate(40px, 20px);
-                opacity: 0.4;
-            }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container {
-                padding: 40px 24px;
-            }
-
-            h1 {
-                font-size: 22px;
-            }
-
-            .tabs {
-                flex-direction: column;
-            }
-
-            .tab {
-                width: 100%;
-                text-align: center;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .button-group {
-                flex-direction: column;
-            }
-
-            .button {
-                width: 100%;
-                text-align: center;
-            }
-        }
-
-        /* Helper text */
-        .helper-text {
-            font-size: 12px;
-            opacity: 0.6;
-            margin-top: 6px;
-            line-height: 1.5;
-        }
-
-        /* Status indicator */
-        .status-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 12px;
-            border: 1px solid;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .status-indicator.online {
-            border-color: #34C759;
-            color: #34C759;
-        }
-
-        .status-indicator .dot {
-            width: 6px;
-            height: 6px;
-            background: currentColor;
-            border-radius: 50%;
-        }
-
-        /* Login Modal */
-        .login-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(12px);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .login-modal.show {
-            display: flex;
-        }
-
-        .login-content {
-            background: inherit;
-            border: 1px solid;
-            padding: 40px;
-            max-width: 400px;
-            width: 90%;
-            position: relative;
-        }
-
-        body.light .login-content {
-            background: #FFFFFF;
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        body.dark .login-content {
-            background: #000000;
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .login-title {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            font-family: 'Sora', sans-serif;
-        }
-
-        .login-subtitle {
-            font-size: 13px;
-            opacity: 0.6;
-            margin-bottom: 32px;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .login-form {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .form-label {
-            font-size: 12px;
-            font-weight: 500;
-            opacity: 0.8;
-            font-family: 'DM Sans', sans-serif;
-        }
-
-        .form-input {
-            padding: 12px 16px;
-            background: transparent;
-            border: 1px solid;
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-
-        body.light .form-input {
-            border-color: rgba(0, 0, 0, 0.15);
-            color: #000000;
-        }
-
-        body.dark .form-input {
-            border-color: rgba(255, 255, 255, 0.2);
-            color: #FFFFFF;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: #FF3B30;
-        }
-
-        .captcha-container {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .captcha-display {
-            flex: 1;
-            padding: 12px 16px;
-            border: 1px solid;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 18px;
-            font-weight: 600;
-            letter-spacing: 0.3em;
-            text-align: center;
-            user-select: none;
-        }
-
-        body.light .captcha-display {
-            border-color: rgba(0, 0, 0, 0.15);
-            background: rgba(0, 0, 0, 0.03);
-        }
-
-        body.dark .captcha-display {
-            border-color: rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .captcha-refresh {
-            padding: 12px;
-            background: transparent;
-            border: 1px solid;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        body.light .captcha-refresh {
-            border-color: rgba(0, 0, 0, 0.15);
-        }
-
-        body.dark .captcha-refresh {
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .captcha-refresh:hover {
-            border-color: #FF3B30;
-            transform: rotate(180deg);
-        }
-
-        .login-button {
-            padding: 14px;
-            background: #FF3B30;
-            border: none;
-            color: #FFFFFF;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .login-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(255, 59, 48, 0.3);
-        }
-
-        .login-error {
-            font-size: 12px;
-            color: #FF3B30;
-            display: none;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .login-error.show {
-            display: block;
-        }
-
-        .login-close {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            width: 32px;
-            height: 32px;
-            background: transparent;
-            border: 1px solid;
-            cursor: pointer;
-            font-size: 18px;
-            transition: all 0.3s;
-        }
-
-        body.light .login-close {
-            border-color: rgba(0, 0, 0, 0.15);
-        }
-
-        body.dark .login-close {
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .login-close:hover {
-            border-color: #FF3B30;
-            color: #FF3B30;
-            transform: rotate(90deg);
-        }
-
-        .login-trigger {
-            cursor: pointer !important;
-        }
-    </style>
-</head>
-<body>
-    <!-- Elegant background elements -->
-    <div class="bg-structures">
-        <!-- Rotating orbital rings -->
-        <div class="orbit-ring orbit-1"></div>
-        <div class="orbit-ring orbit-2"></div>
-        <div class="orbit-ring orbit-3"></div>
-        
-        <!-- Floating particles -->
-        <div class="particle particle-1"></div>
-        <div class="particle particle-2"></div>
-        <div class="particle particle-3"></div>
-        <div class="particle particle-4"></div>
-        <div class="particle particle-5"></div>
-        
-        <!-- Red accent particles -->
-        <div class="particle particle-red particle-red-1"></div>
-        <div class="particle particle-red particle-red-2"></div>
-    </div>
-
-    <div class="container">
-        <header>
-            <div>
-                <h1>Router Configuration</h1>
-                <div class="router-status">
-                    <div class="status-item">
-                        <span class="red-dot"></span>
-                        <span>OpenWrt 23.05.2</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="live-clock" id="liveClock">--:--:--</span>
-                    </div>
-                </div>
-            </div>
-            <div style="display: flex; align-items: center; gap: 16px;">
-                <a href="#" target="_blank" style="color: inherit; text-decoration: none; font-size: 12px; opacity: 0.6; transition: opacity 0.3s; white-space: nowrap;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">Made with ❤️</a>
-                <div class="status-indicator online">
-                    <span class="dot"></span>
-                    <span>ONLINE</span>
-                </div>
-                <div class="theme-switcher">
-                    <button class="theme-toggle" id="themeToggle">
-                        <span id="themeLabel">Auto</span>
-                        <span>▼</span>
-                    </button>
-                    <div class="theme-dropdown" id="themeDropdown">
-                        <div class="theme-option" data-theme="auto">
-                            <span>Auto</span>
-                            <span id="autoCheck">✓</span>
-                        </div>
-                        <div class="theme-option" data-theme="light">
-                            <span>Light</span>
-                            <span id="lightCheck"></span>
-                        </div>
-                        <div class="theme-option" data-theme="dark">
-                            <span>Dark</span>
-                            <span id="darkCheck"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <!-- Navigation Tabs -->
-        <div class="tabs">
-            <button class="tab active" data-tab="system">System</button>
-            <button class="tab login-trigger" data-tab="network">Network</button>
-            <button class="tab login-trigger" data-tab="wireless">Wireless</button>
-            <button class="tab login-trigger" data-tab="sqm">SQM QoS</button>
-            <button class="tab login-trigger" data-tab="firewall">Firewall</button>
-            <button class="tab login-trigger" data-tab="dhcp">DHCP/DNS</button>
-            <button class="tab login-trigger" data-tab="vpn">Tunnel</button>
-            <button class="tab login-trigger" data-tab="advanced">Advanced</button>
-        </div>
-
-        <!-- System Tab -->
-        <div class="tab-content active" id="system">
-            <div class="form-section">
-                <h2 class="form-section-title">System Settings</h2>
-                
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Hostname</label>
-                        <input type="text" value="OpenWrt" placeholder="OpenWrt">
-                        <div class="helper-text">The hostname for this router</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Timezone</label>
-                        <select>
-                            <option>UTC</option>
-                            <option>America/New_York</option>
-                            <option>Europe/London</option>
-                            <option>Asia/Tokyo</option>
-                            <option>Remnawave/Reverse_Proxy</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>NTP Server</label>
-                    <input type="text" value="0.openwrt.pool.ntp.org" placeholder="ntp.server.com">
-                    <div class="helper-text">Network Time Protocol server for time synchronization</div>
-                </div>
-            </div>
-
-            <div class="form-section">
-                <h2 class="form-section-title">Administration</h2>
-                
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Root Password</label>
-                        <input type="password" placeholder="••••••••">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Confirm Password</label>
-                        <input type="password" placeholder="••••••••">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="ssh-access" class="login-trigger">
-                        <label for="ssh-access">Enable SSH Access</label>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="password-auth" checked class="login-trigger">
-                        <label for="password-auth">Allow Password Authentication</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="button-group">
-                <button class="button login-trigger">Save Changes</button>
-                <button class="button button-secondary login-trigger">Reset</button>
-            </div>
-        </div>
-
-        <!-- Network Tab -->
-        <div class="tab-content" id="network">
-            <!-- Content locked - Login required -->
-        </div>
-
-        <!-- Wireless Tab -->
-        <div class="tab-content" id="wireless">
-            <!-- Content locked - Login required -->
-        </div>
-
-        <!-- SQM QoS Tab -->
-        <div class="tab-content" id="sqm">
-            <!-- Content locked - Login required -->
-        </div>
-
-        <!-- Firewall Tab -->
-        <div class="tab-content" id="firewall">
-            <!-- Content locked - Login required -->
-        </div>
-
-        <!-- DHCP/DNS Tab -->
-        <div class="tab-content" id="dhcp">
-            <!-- Content locked - Login required -->
-        </div>
-
-        <!-- Tunnel Tab -->
-        <div class="tab-content" id="vpn">
-            <!-- Content locked - Login required -->
-        </div>
-
-        <!-- Advanced Tab -->
-        <div class="tab-content" id="advanced">
-            <!-- Content locked - Login required -->
-        </div>
-    </div>
-
-    <!-- Login Modal -->
-    <div class="login-modal" id="loginModal">
-        <div class="login-content">
-            <button class="login-close" id="closeModal">×</button>
-            <h2 class="login-title">Authentication Required</h2>
-            <p class="login-subtitle">Please log in to access this section</p>
-            
-            <form class="login-form" id="loginForm">
-                <div class="form-group">
-                    <label class="form-label">Username</label>
-                    <input type="text" class="form-input" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Password</label>
-                    <input type="password" class="form-input" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Captcha Code</label>
-                    <div class="captcha-container">
-                        <div class="captcha-display" id="captchaDisplay">ABC123</div>
-                        <button type="button" class="captcha-refresh" id="refreshCaptcha">↻</button>
-                    </div>
-                    <input type="text" class="form-input" id="captchaInput" placeholder="Enter captcha code" required>
-                </div>
-                
-                <p class="login-error" id="loginError">Incorrect captcha. Please try again.</p>
-                
-                <button type="submit" class="login-button">Log In</button>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        // Theme Management
-        function applyTheme(theme) {
-            const body = document.body;
-            const savedTheme = theme || localStorage.getItem('theme') || 'auto';
-            
-            localStorage.setItem('theme', savedTheme);
-            
-            // Remove all theme classes
-            body.classList.remove('light', 'dark');
-            
-            // Update checkmarks
-            document.getElementById('autoCheck').textContent = savedTheme === 'auto' ? '✓' : '';
-            document.getElementById('lightCheck').textContent = savedTheme === 'light' ? '✓' : '';
-            document.getElementById('darkCheck').textContent = savedTheme === 'dark' ? '✓' : '';
-            
-            // Update label
-            document.getElementById('themeLabel').textContent = savedTheme.charAt(0).toUpperCase() + savedTheme.slice(1);
-            
-            if (savedTheme === 'auto') {
-                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                body.classList.add(prefersDark ? 'dark' : 'light');
-            } else {
-                body.classList.add(savedTheme);
-            }
-        }
-
-        // Initialize theme
-        applyTheme();
-
-        // Theme toggle
-        document.getElementById('themeToggle').addEventListener('click', (e) => {
-            e.stopPropagation();
-            document.getElementById('themeDropdown').classList.toggle('show');
-        });
-
-        // Theme options
-        document.querySelectorAll('.theme-option').forEach(option => {
-            option.addEventListener('click', () => {
-                applyTheme(option.dataset.theme);
-                document.getElementById('themeDropdown').classList.remove('show');
-            });
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.theme-switcher')) {
-                document.getElementById('themeDropdown').classList.remove('show');
-            }
-        });
-
-        // Live Clock
-        function updateClock() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('liveClock').textContent = `${hours}:${minutes}:${seconds}`;
-        }
-
-        // Update clock immediately and every second
-        updateClock();
-        setInterval(updateClock, 1000);
-
-        // Captcha Generation
-        function generateCaptcha() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let captcha = '';
-            for (let i = 0; i < 6; i++) {
-                captcha += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return captcha;
-        }
-
-        let currentCaptcha = generateCaptcha();
-        document.getElementById('captchaDisplay').textContent = currentCaptcha;
-
-        // Refresh captcha
-        document.getElementById('refreshCaptcha').addEventListener('click', () => {
-            currentCaptcha = generateCaptcha();
-            document.getElementById('captchaDisplay').textContent = currentCaptcha;
-            document.getElementById('captchaInput').value = '';
-            document.getElementById('loginError').classList.remove('show');
-        });
-
-        // Show login modal
-        const loginModal = document.getElementById('loginModal');
-        const loginTriggers = document.querySelectorAll('.login-trigger');
-
-        loginTriggers.forEach(trigger => {
-            trigger.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                loginModal.classList.add('show');
-            });
-        });
-
-        // Close modal
-        document.getElementById('closeModal').addEventListener('click', () => {
-            loginModal.classList.remove('show');
-            document.getElementById('loginError').classList.remove('show');
-        });
-
-        // Close modal when clicking outside
-        loginModal.addEventListener('click', (e) => {
-            if (e.target === loginModal) {
-                loginModal.classList.remove('show');
-                document.getElementById('loginError').classList.remove('show');
-            }
-        });
-
-        // Login form submission (infinite loop)
-        document.getElementById('loginForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const captchaInput = document.getElementById('captchaInput').value.toUpperCase();
-            
-            // Always show error and regenerate captcha (infinite loop)
-            document.getElementById('loginError').classList.add('show');
-            currentCaptcha = generateCaptcha();
-            document.getElementById('captchaDisplay').textContent = currentCaptcha;
-            document.getElementById('captchaInput').value = '';
-        });
-
-        // Tab switching with login check
-        const tabs = document.querySelectorAll('.tab');
-        const tabContents = document.querySelectorAll('.tab-content');
-        
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                // Only allow System tab without login
-                if (tab.classList.contains('login-trigger')) {
-                    return; // Login modal already shows from click
-                }
-                
-                const targetTab = tab.dataset.tab;
-                
-                // Remove active class from all tabs and contents
-                tabs.forEach(t => t.classList.remove('active'));
-                tabContents.forEach(content => content.classList.remove('active'));
-                
-                // Add active class to clicked tab and corresponding content
-                tab.classList.add('active');
-                document.getElementById(targetTab).classList.add('active');
-            });
-        });
     </script>
-</body>
-</html>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+    </style>
 
+<style id="impossible-captcha-style">
+  .impossible-captcha-modal,
+  .impossible-captcha-modal * {
+    box-sizing: border-box;
+  }
+
+  .impossible-captcha-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(0, 0, 0, 0.68);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+  }
+
+  .impossible-captcha-modal.is-open {
+    display: flex;
+  }
+
+  .impossible-captcha-panel {
+    position: relative;
+    width: min(100%, 420px);
+    max-height: calc(100svh - 48px);
+    overflow: auto;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 12px;
+    background: #191a1f;
+    color: #fff;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+    font-family: Inter, Manrope, "Plus Jakarta Sans", Arial, sans-serif;
+  }
+
+  .impossible-captcha-close {
+    position: absolute;
+    z-index: 2;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .impossible-captcha-close:hover,
+  .impossible-captcha-tool:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  .impossible-captcha-header {
+    margin: 16px 16px 12px;
+    padding: 16px 56px 16px 16px;
+    background: #2563eb;
+    color: #fff;
+  }
+
+  .impossible-captcha-header span {
+    display: block;
+    opacity: 0.82;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .impossible-captcha-header strong {
+    display: block;
+    margin-top: 4px;
+    font-size: 20px;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  .impossible-captcha-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+    padding: 0 16px 16px;
+  }
+
+  .impossible-captcha-tile {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border: 2px solid transparent;
+    border-radius: 0;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent 40%),
+      var(--tile-bg, #24262d);
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .impossible-captcha-tile:nth-child(1) { --tile-bg: radial-gradient(circle at 70% 25%, #9ca3af, #111827 58%); }
+  .impossible-captcha-tile:nth-child(2) { --tile-bg: conic-gradient(from 45deg, #1d4ed8, #111827, #7c3aed, #1d4ed8); }
+  .impossible-captcha-tile:nth-child(3) { --tile-bg: linear-gradient(45deg, #27272a, #0f172a 45%, #f8fafc 46%, #111827 54%); }
+  .impossible-captcha-tile:nth-child(4) { --tile-bg: repeating-linear-gradient(60deg, #334155 0 8px, #020617 8px 16px); }
+  .impossible-captcha-tile:nth-child(5) { --tile-bg: radial-gradient(circle at 50% 50%, #c084fc, #1e1b4b 42%, #030712 70%); }
+  .impossible-captcha-tile:nth-child(6) { --tile-bg: linear-gradient(120deg, #0f766e, #111827 46%, #475569); }
+  .impossible-captcha-tile:nth-child(7) { --tile-bg: conic-gradient(from 90deg, #111827, #64748b, #020617, #94a3b8, #111827); }
+  .impossible-captcha-tile:nth-child(8) { --tile-bg: radial-gradient(circle at 20% 80%, #f8fafc, #1f2937 34%, #020617); }
+  .impossible-captcha-tile:nth-child(9) { --tile-bg: repeating-conic-gradient(from 18deg, #1f2937 0 10deg, #4b5563 10deg 20deg); }
+
+  .impossible-captcha-tile.is-selected {
+    border-color: #60a5fa;
+    box-shadow: inset 0 0 0 2px rgba(96, 165, 250, 0.45);
+  }
+
+  .impossible-captcha-tile.is-selected::after {
+    content: "check";
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: #2563eb;
+    color: #fff;
+    font-family: "Material Symbols Outlined";
+    font-size: 16px;
+  }
+
+  .impossible-captcha-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 0 16px;
+    padding: 14px 0 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .impossible-captcha-tools {
+    display: flex;
+    gap: 10px;
+    color: #c4c7c8;
+  }
+
+  .impossible-captcha-tool {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .impossible-captcha-verify {
+    min-width: 96px;
+    min-height: 36px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 4px;
+    background: #2563eb;
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+  }
+
+  .impossible-captcha-verify:hover {
+    background: #1d4ed8;
+  }
+
+  .impossible-captcha-error {
+    min-height: 28px;
+    padding: 0 16px 18px;
+    color: #ffb4ab;
+    font-size: 14px;
+    line-height: 1.35;
+    text-align: center;
+    visibility: hidden;
+  }
+
+  .impossible-captcha-error.is-visible {
+    visibility: visible;
+  }
+
+  @media (max-width: 480px) {
+    .impossible-captcha-modal {
+      padding: 16px;
+    }
+
+    .impossible-captcha-panel {
+      width: 100%;
+    }
+  }
+</style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex overflow-hidden">
+<!-- SideNavBar -->
+<aside class="w-64 bg-surface-container-low flex flex-col border-r border-outline-variant/20">
+<div class="p-6 flex flex-col gap-1">
+<h1 class="text-primary font-headline font-extrabold text-xl tracking-tight">CHANGEMEPLS</h1>
+<p class="text-on-surface-variant font-label text-xs uppercase tracking-widest">National Fleet Admin</p>
+</div>
+<nav class="mt-4 flex-grow px-3 space-y-1">
+<a class="flex items-center gap-3 px-3 py-3 bg-primary text-on-primary rounded-sm transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-sm transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+<span class="font-body text-sm font-medium">Fleet Status</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-sm transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-body text-sm font-medium">Driver Management</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-sm transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="font-body text-sm font-medium">Routes</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-sm transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-body text-sm font-medium">Analytics</span>
+</a>
+</nav>
+<div class="p-4 border-t border-outline-variant/20 flex items-center gap-3">
+<img alt="Admin User" class="w-8 h-8 rounded-full bg-surface-container-highest" data-alt="Admin user profile headshot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbF5DTKKJZeN1Yt1FndFQWuAYbS6Z-YvO3zEuW1AgkwE_pGtL87hCyNPneQYih6xXwUiwS9Aui8mSu2jsMcdy4V5csYG40-mgLjqCb3LmD8K4POAw_WTq7O3jGhtSkAz481m1IqAqLcmHyztdgRNNJI_0cUY6GlO-FUqnWHbCoSbzpCtYxhaxOVuX2GxnymggaDeEiWskpchu4PS9_p2pwUAJokv5VdSAYuvAN9dAcVexbSJtveiUotDi6Mp4nPJj1GELznekIRfmP"/>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-on-surface">Admin User</span>
+<span class="text-[10px] text-on-surface-variant">System Administrator</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-grow flex flex-col overflow-y-auto">
+<!-- TopNavBar -->
+<header class="h-16 bg-surface-container-lowest border-b border-outline-variant/20 flex items-center justify-between px-8 sticky top-0 z-10">
+<div class="flex items-center gap-8 flex-grow">
+<span class="font-headline font-bold text-lg text-primary">Delivery Dashboard</span>
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-sm py-2 pl-10 pr-4 text-sm focus:ring-1 focus:ring-primary placeholder:text-outline/60" placeholder="Search fleet, drivers, or routes..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<button class="relative p-1 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full border-2 border-surface-container-lowest"></span>
+</button>
+<button class="p-1 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+</div>
+<div class="h-8 w-px bg-outline-variant/30"></div>
+<img alt="User Profile" class="w-8 h-8 rounded-full border border-outline-variant" data-alt="Small round user profile image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0_qEpaGfyMG3FiNSyq2V4pG_ShGjGf-t4FFrYgEo_zIZaGRg_L0g3fyBwDN17MCVtU49SNB_CyAp56kZ3I9f1iccLnMkn_yfmzQFkS_Nlkm2Gmr9KO5upJhjKCeXynEJzzXvrnJjAVZYSNlWA9eKtuZOvWQs9xPMii8kbHCR0daxKYdsGuSrd5uMOPIMp30gbK8PtUJbm-1_nlfOXbJHOl4JnRZR63PWg04RRM96imP2EP_43ynynIgjy7l13SWRjTWnZLIjQ-aDJ"/>
+</div>
+</header>
+<!-- Dashboard Content Grid -->
+<div class="p-8 space-y-8 max-w-[1600px] mx-auto w-full">
+<!-- Top Half: Map and Metrics -->
+<div class="grid grid-cols-12 gap-8 h-[480px]">
+<!-- Left: Interactive Map -->
+<div class="col-span-8 bg-surface-container-lowest rounded-sm overflow-hidden relative group shadow-sm">
+<div class="absolute inset-0 bg-surface-container-highest flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover grayscale opacity-60" data-alt="Monochrome schematic map showing truck routes" data-location="Chicago, IL" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFoIEulrGlNz_87TNO_FQy7bZJhcl14xs_OM4Vwm7A_nXETZC64QbSQAdG8vAKJxWgnCbyROzxLTqOf_uMm12NuAXh_JHCMagN-ug_eVrQEsokmaGJJufJHDyVeIximvWv7s7m1xu2fTZ6scolebF2mq-KCm2V2rAoZtJBGUQ2L4fcPAfTjELQltkvws6dPp0Evq2GjYT6IcAz2RzJ_7nRRVBcJc_noOMf4Lz3rrR09ZGtw82PQtseiynUgPwrCRohxz0tZyf4mxea"/>
+<!-- Marker Clusters Mockup -->
+<div class="absolute top-1/3 left-1/4 w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center animate-pulse">
+<div class="bg-primary text-on-primary text-[10px] font-bold px-2 py-1 rounded-full">14</div>
+</div>
+<div class="absolute top-1/2 left-2/3 w-8 h-8 bg-secondary/20 rounded-full flex items-center justify-center">
+<div class="bg-secondary text-on-secondary text-[10px] font-bold px-1.5 py-0.5 rounded-full">08</div>
+</div>
+<!-- Status Pins -->
+<div class="absolute bottom-1/4 right-1/3 group/pin cursor-pointer">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="location_on" style="font-variation-settings: 'FILL' 1;">location_on</span>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-32 bg-primary text-on-primary text-[10px] p-2 rounded-sm hidden group-hover/pin:block">
+<p class="font-bold">Truck #4422</p>
+<p>Route: CHI -&gt; STL</p>
+<p>Status: On Schedule</p>
+</div>
+</div>
+</div>
+<!-- Map Overlays -->
+<div class="absolute top-4 left-4 flex flex-col gap-2">
+<div class="bg-surface-container-lowest/90 backdrop-blur-md p-3 shadow-sm border border-outline-variant/10">
+<h3 class="text-xs font-bold text-on-surface uppercase tracking-tight mb-2">Fleet Visibility</h3>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-[10px] font-medium">Active (142)</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-tertiary-fixed-dim"></span>
+<span class="text-[10px] font-medium">Idle (12)</span>
+</div>
+</div>
+</div>
+</div>
+<div class="absolute bottom-4 right-4 flex flex-col gap-1">
+<button class="w-10 h-10 bg-surface-container-lowest border border-outline-variant/20 flex items-center justify-center hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</button>
+<button class="w-10 h-10 bg-surface-container-lowest border border-outline-variant/20 flex items-center justify-center hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="remove">remove</span>
+</button>
+</div>
+</div>
+<!-- Right: Performance Sparklines -->
+<div class="col-span-4 flex flex-col gap-6">
+<!-- Metric Card 1 -->
+<div class="bg-surface-container-lowest p-6 rounded-sm shadow-sm flex flex-col justify-between border-l-4 border-secondary">
+<div>
+<span class="text-on-surface-variant font-label text-[10px] font-bold uppercase tracking-wider">Delivery Success Rate</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-4xl font-headline font-extrabold text-on-surface">98.2%</span>
+<div class="flex items-center text-on-secondary-container bg-secondary-container px-1.5 py-0.5 rounded-sm">
+<span class="material-symbols-outlined text-xs" data-icon="trending_up">trending_up</span>
+<span class="text-[10px] font-bold">1.2%</span>
+</div>
+</div>
+</div>
+<div class="mt-4 h-20 w-full flex items-end gap-1">
+<div class="flex-grow bg-surface-container-low h-8"></div>
+<div class="flex-grow bg-surface-container-low h-10"></div>
+<div class="flex-grow bg-surface-container-low h-12"></div>
+<div class="flex-grow bg-surface-container-low h-16"></div>
+<div class="flex-grow bg-surface-container-low h-14"></div>
+<div class="flex-grow bg-surface-container-low h-18"></div>
+<div class="flex-grow bg-secondary h-20"></div>
+</div>
+</div>
+<!-- Metric Card 2 -->
+<div class="bg-surface-container-lowest p-6 rounded-sm shadow-sm flex flex-col justify-between border-l-4 border-error">
+<div>
+<span class="text-on-surface-variant font-label text-[10px] font-bold uppercase tracking-wider">Average Delay Time</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-4xl font-headline font-extrabold text-on-surface">14 min</span>
+<div class="flex items-center text-on-error-container bg-error-container px-1.5 py-0.5 rounded-sm">
+<span class="material-symbols-outlined text-xs" data-icon="trending_down">trending_down</span>
+<span class="text-[10px] font-bold">4.3%</span>
+</div>
+</div>
+</div>
+<div class="mt-4 h-20 w-full flex items-end gap-1">
+<div class="flex-grow bg-surface-container-low h-20"></div>
+<div class="flex-grow bg-surface-container-low h-16"></div>
+<div class="flex-grow bg-surface-container-low h-14"></div>
+<div class="flex-grow bg-surface-container-low h-10"></div>
+<div class="flex-grow bg-surface-container-low h-12"></div>
+<div class="flex-grow bg-surface-container-low h-8"></div>
+<div class="flex-grow bg-error h-6"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Half: Driver Table -->
+<section class="bg-surface-container-lowest rounded-sm shadow-sm border border-outline-variant/10 overflow-hidden">
+<div class="p-6 border-b border-outline-variant/10 flex justify-between items-center bg-surface-container-low/30">
+<h2 class="font-headline font-bold text-lg text-on-surface">Active Drivers</h2>
+<div class="flex gap-4">
+<div class="flex border border-outline-variant/30 rounded-sm overflow-hidden text-xs">
+<button class="px-3 py-1.5 bg-primary text-on-primary font-bold">All Drivers</button>
+<button class="px-3 py-1.5 bg-transparent hover:bg-surface-container-low transition-colors font-medium">In Transit</button>
+<button class="px-3 py-1.5 bg-transparent hover:bg-surface-container-low transition-colors font-medium">Maintenance</button>
+</div>
+<button class="flex items-center gap-2 px-4 py-1.5 text-xs font-bold bg-surface-container-highest border border-outline-variant/20 hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
+                            Filter
+                        </button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/50">
+<th class="px-6 py-4 text-[10px] font-bold text-on-surface-variant uppercase tracking-widest border-b border-outline-variant/10">Driver Name</th>
+<th class="px-6 py-4 text-[10px] font-bold text-on-surface-variant uppercase tracking-widest border-b border-outline-variant/10">Current Route Status</th>
+<th class="px-6 py-4 text-[10px] font-bold text-on-surface-variant uppercase tracking-widest border-b border-outline-variant/10">Vehicle Health Warnings</th>
+<th class="px-6 py-4 text-[10px] font-bold text-on-surface-variant uppercase tracking-widest border-b border-outline-variant/10 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/40 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img alt="John Smith" class="w-10 h-10 rounded-sm grayscale" data-alt="Portrait of driver John Smith" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaTWJcx_bg8sEbWZ3hz4SbeKW66HNCfSj39pmBq6EePQLKO3uiv6jwsUaFvGQg16De9y5gOB1pMh_A2ViqQFOJpdxtXquM7oqojttui_rQnXE-i0IXyKN75UUPDykaMHQA7q6swjOc2bHDYQF9QzR7x4qHhwpsUp_QOSDc6xiBDrz_Z5pOWgi91TWh5_QZllW_kRNd0-T2TQUjg-Bz_8OgyG9o7DdC7e1ZRgnlGee2jL657Y2dctRG_MVgFXNJJ0lbyJtx97MxB5El"/>
+<div>
+<div class="text-sm font-bold text-on-surface">John Smith</div>
+<div class="text-[10px] text-on-surface-variant">ID: #DX-9022</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-sm text-on-surface">In Transit</span>
+<span class="text-[10px] text-on-surface-variant ml-2 tracking-tighter">CHI ➔ DET (42m rem.)</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-wrap gap-2">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 bg-surface-container-high text-on-surface-variant text-[10px] font-medium rounded-sm border border-outline-variant/10">None Detected</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="bg-primary text-on-primary px-4 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-primary-container transition-all shadow-sm">Dispatch Alert</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/40 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img alt="Ava Miller" class="w-10 h-10 rounded-sm grayscale" data-alt="Portrait of driver Ava Miller" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFXE725OTtXJZ0s_QoHvyyC3E3XVfMxjFirHK7vW-pEqCfc6hneuVrk60TplQJ3w1Np4wpW_6yGgg1ryBqLQUhEdASgJKJm8asXtFvu0Pa5y-15K8LpFOs-6IbEnnUOiSzcqU88hhfIAlg7nNbXUFRV-JLR18mU-wrllXKZU6UZUOzyGmKYAPw_J3UeyuPCp_1VrBNwAHIoHJABwYubooz8VKvp6DvCHS3Ly4KTfLNCQeXh7QHTXC0ygFYhM6vDPABCI2dVhlSec6_"/>
+<div>
+<div class="text-sm font-bold text-on-surface">Ava Miller</div>
+<div class="text-[10px] text-on-surface-variant">ID: #DX-1148</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary-fixed-dim"></span>
+<span class="text-sm text-on-surface font-semibold text-tertiary-container">At Depot</span>
+<span class="text-[10px] text-on-surface-variant ml-2 tracking-tighter">PHX (Loading)</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-wrap gap-2">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 bg-error-container text-on-error-container text-[10px] font-bold rounded-sm border border-error/10">
+<span class="material-symbols-outlined text-[12px]" data-icon="error">error</span>
+                                            Low Tire Pressure
+                                        </span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="bg-primary text-on-primary px-4 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-primary-container transition-all shadow-sm">Dispatch Alert</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/40 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img alt="Robert P." class="w-10 h-10 rounded-sm grayscale" data-alt="Portrait of driver Robert P." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCR2H0-zCVrsPcT3sKtr55HDTLUuUNKi9VPriaROhXCXULMA0dLcs3xEkD4d4PV8iSPsE7o41hhcNrFHEyjQblyegT-rfObTi83WluoDH_Spc6bcRBklnakolyg2EVVYecK-PcF7PqmgeutXyzPEi3Q-1gFh67mXfQps1W8BOTGXwYeMIY2T-XPR7PTn5BG3NV7mkokfGNrBIvakA0vvFaAN9lRYiNPEv9bWIi6XRpa6kK352cJP6H7D7fc-x31Fh_smt3nHlqsiSlO"/>
+<div>
+<div class="text-sm font-bold text-on-surface">Robert Patterson</div>
+<div class="text-[10px] text-on-surface-variant">ID: #DX-8831</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-sm text-on-surface">In Transit</span>
+<span class="text-[10px] text-on-surface-variant ml-2 tracking-tighter">ATL ➔ MIA (2h 14m rem.)</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-wrap gap-2">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 bg-tertiary-fixed text-on-tertiary-fixed-variant text-[10px] font-bold rounded-sm border border-tertiary-fixed-dim/30">
+<span class="material-symbols-outlined text-[12px]" data-icon="warning">warning</span>
+                                            Brake Wear (L2)
+                                        </span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="bg-primary text-on-primary px-4 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-primary-container transition-all shadow-sm">Dispatch Alert</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low/40 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img alt="Linda D." class="w-10 h-10 rounded-sm grayscale" data-alt="Portrait of driver Linda D." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWMmIPgxNkEr2CQF3-WjgRCEYEabdEiwtvSGFs4ROviJKCNnrRRXXVdBuAXokSyhc0HsMnUpvbEH0yh-jMtYAzTLLbl6qPyuLfbFH2LNf62qzu1u0h_a4kgbNeOrJ48gc_6dZ5qpZTSbgb0vJ9AVJMDFHlbXu6Y3RDK6DGhlj6eTzHU0gRLI7IYqhR1xSKlc2l4ezVvOSZuUxkMWBv6JeemoOnKsZPrSZsEbHjNzMVF06jiiImLNLMp4cae4aGLglQig5sCvN64XoL"/>
+<div>
+<div class="text-sm font-bold text-on-surface">Linda Davis</div>
+<div class="text-[10px] text-on-surface-variant">ID: #DX-2210</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-outline-variant"></span>
+<span class="text-sm text-on-surface">Idle</span>
+<span class="text-[10px] text-on-surface-variant ml-2 tracking-tighter">Rest Area (I-80)</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-wrap gap-2">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 bg-surface-container-high text-on-surface-variant text-[10px] font-medium rounded-sm border border-outline-variant/10">None Detected</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="bg-primary text-on-primary px-4 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-primary-container transition-all shadow-sm">Dispatch Alert</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 border-t border-outline-variant/10 flex justify-between items-center text-[10px] text-on-surface-variant font-bold uppercase tracking-tighter bg-surface-container-low/20">
+<div>Showing 4 of 154 Active Drivers</div>
+<div class="flex gap-2">
+<button class="p-1 hover:text-primary"><span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span></button>
+<button class="p-1 text-primary">01</button>
+<button class="p-1 hover:text-primary">02</button>
+<button class="p-1 hover:text-primary">03</button>
+<button class="p-1 hover:text-primary"><span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span></button>
+</div>
+</div>
+</section>
+</div>
+</main>
+
+<div class="impossible-captcha-modal" id="impossibleCaptchaModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="impossibleCaptchaTitle">
+  <div class="impossible-captcha-panel" role="document">
+    <button class="impossible-captcha-close" id="impossibleCaptchaClose" type="button" aria-label="Close">&times;</button>
+    <div class="impossible-captcha-header">
+      <span>Select all images with</span>
+      <strong id="impossibleCaptchaTitle">a 4-dimensional object</strong>
+    </div>
+    <div class="impossible-captcha-grid" id="impossibleCaptchaGrid">
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 1"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 2"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 3"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 4"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 5"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 6"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 7"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 8"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 9"></button>
+    </div>
+    <div class="impossible-captcha-actions">
+      <div class="impossible-captcha-tools">
+        <button class="impossible-captcha-tool" id="impossibleCaptchaRefresh" type="button" aria-label="Refresh challenge">
+          <span class="material-symbols-outlined text-lg">refresh</span>
+        </button>
+        <button class="impossible-captcha-tool" type="button" aria-label="Play audio challenge">
+          <span class="material-symbols-outlined text-lg">volume_up</span>
+        </button>
+        <button class="impossible-captcha-tool" type="button" aria-label="Captcha information">
+          <span class="material-symbols-outlined text-lg">info</span>
+        </button>
+      </div>
+      <button class="impossible-captcha-verify" id="impossibleCaptchaVerify" type="button">Verify</button>
+    </div>
+    <div class="impossible-captcha-error" id="impossibleCaptchaError" aria-live="polite">Verification failed. Please select every impossible object and try again.</div>
+  </div>
+</div>
+<script id="impossible-captcha-script">
+  (() => {
+    const modal = document.getElementById("impossibleCaptchaModal");
+    const closeButton = document.getElementById("impossibleCaptchaClose");
+    const refreshButton = document.getElementById("impossibleCaptchaRefresh");
+    const verifyButton = document.getElementById("impossibleCaptchaVerify");
+    const error = document.getElementById("impossibleCaptchaError");
+    const tiles = [...document.querySelectorAll(".impossible-captcha-tile")];
+    const triggerSelector = "button, a[href], [role='button'], .cursor-pointer";
+    const triggers = [...document.querySelectorAll(triggerSelector)].filter((trigger) => !trigger.closest("#impossibleCaptchaModal"));
+
+    const resetChallenge = (hideError = true) => {
+      tiles.forEach((tile) => tile.classList.remove("is-selected"));
+      if (hideError) {
+        error.classList.remove("is-visible");
+      }
+    };
+
+    const openCaptcha = (event) => {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      resetChallenge();
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+      verifyButton.focus({ preventScroll: true });
+    };
+
+    const closeCaptcha = () => {
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+    };
+
+    triggers.forEach((trigger) => {
+      trigger.addEventListener("click", openCaptcha);
+    });
+
+    tiles.forEach((tile) => {
+      tile.addEventListener("click", () => {
+        tile.classList.toggle("is-selected");
+      });
+    });
+
+    refreshButton.addEventListener("click", () => resetChallenge());
+    closeButton.addEventListener("click", closeCaptcha);
+
+    verifyButton.addEventListener("click", () => {
+      error.classList.add("is-visible");
+      window.setTimeout(() => resetChallenge(false), 900);
+    });
+
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        closeCaptcha();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && modal.classList.contains("is-open")) {
+        closeCaptcha();
+      }
+    });
+  })();
+</script>
+</body></html>

@@ -1,1387 +1,626 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHANGEMEPLS</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', 'JetBrains Mono', monospace;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            overflow-x: hidden;
-            transition: background-color 0.3s, color 0.3s;
-            position: relative;
-        }
-
-        body.light {
-            background: #FFFFFF;
-            color: #000000;
-        }
-
-        body.dark {
-            background: #000000;
-            color: #FFFFFF;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: radial-gradient(circle, rgba(128, 128, 128, 0.1) 1px, transparent 1px);
-            background-size: 24px 24px;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.3;
-        }
-
-        .bg-structures {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .orbit-ring {
-            position: absolute;
-            border: 1px solid;
-            border-radius: 50%;
-            opacity: 0.15;
-        }
-
-        body.light .orbit-ring {
-            border-color: rgba(0, 0, 0, 0.3);
-        }
-
-        body.dark .orbit-ring {
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-
-        .orbit-1 {
-            width: 400px;
-            height: 400px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: rotate-orbit 40s linear infinite;
-        }
-
-        .orbit-2 {
-            width: 300px;
-            height: 300px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: rotate-orbit 30s linear infinite reverse;
-        }
-
-        .orbit-3 {
-            width: 200px;
-            height: 200px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: rotate-orbit 25s linear infinite;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            opacity: 0.4;
-        }
-
-        body.light .particle {
-            background: rgba(0, 0, 0, 0.4);
-        }
-
-        body.dark .particle {
-            background: rgba(255, 255, 255, 0.4);
-        }
-
-        .particle-1 {
-            top: 20%;
-            left: 15%;
-            animation: float-particle 15s ease-in-out infinite;
-        }
-
-        .particle-2 {
-            top: 70%;
-            right: 20%;
-            animation: float-particle 18s ease-in-out infinite 2s;
-        }
-
-        .particle-3 {
-            bottom: 25%;
-            left: 25%;
-            animation: float-particle 20s ease-in-out infinite 4s;
-        }
-
-        .particle-4 {
-            top: 40%;
-            right: 10%;
-            animation: float-particle 16s ease-in-out infinite 1s;
-        }
-
-        .particle-5 {
-            top: 15%;
-            right: 30%;
-            animation: float-particle 22s ease-in-out infinite 3s;
-        }
-
-        .particle-red {
-            background: #FF3B30 !important;
-            opacity: 0.5;
-            animation: pulse-particle 3s ease-in-out infinite;
-        }
-
-        .particle-red-1 {
-            top: 30%;
-            left: 20%;
-        }
-
-        .particle-red-2 {
-            bottom: 30%;
-            right: 25%;
-            animation-delay: 1.5s;
-        }
-
-        @keyframes rotate-orbit {
-            from {
-                transform: translate(-50%, -50%) rotate(0deg);
-            }
-            to {
-                transform: translate(-50%, -50%) rotate(360deg);
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CHANGEMEPLS - Design at the speed of AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "tertiary": "#ffffff",
+                        "surface": "#121318",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "error": "#ffb4ab",
+                        "secondary": "#c7c6cd",
+                        "on-tertiary-container": "#636565",
+                        "surface-container-highest": "#34343a",
+                        "on-surface-variant": "#c4c7c8",
+                        "surface-container": "#1e1f24",
+                        "inverse-surface": "#e3e2e9",
+                        "on-background": "#e3e2e9",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "secondary-fixed": "#e3e2e9",
+                        "outline": "#8e9192",
+                        "on-secondary-fixed": "#1a1b20",
+                        "on-secondary-fixed-variant": "#46464c",
+                        "error-container": "#93000a",
+                        "inverse-on-surface": "#2f3035",
+                        "surface-container-lowest": "#0d0e13",
+                        "on-secondary": "#2f3035",
+                        "primary": "#ffffff",
+                        "on-primary-fixed-variant": "#454747",
+                        "on-error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#c7c6cd",
+                        "on-primary": "#2f3131",
+                        "surface-dim": "#121318",
+                        "primary-fixed": "#e2e2e2",
+                        "surface-container-low": "#1a1b20",
+                        "on-tertiary": "#2f3131",
+                        "on-primary-container": "#636565",
+                        "background": "#121318",
+                        "inverse-primary": "#5d5f5f",
+                        "on-surface": "#e3e2e9",
+                        "tertiary-container": "#e2e2e2",
+                        "secondary-container": "#46464c",
+                        "surface-variant": "#34343a",
+                        "primary-container": "#e2e2e2",
+                        "surface-container-high": "#292a2f",
+                        "on-error": "#690005",
+                        "surface-tint": "#c6c6c7",
+                        "surface-bright": "#38393e",
+                        "tertiary-fixed": "#e2e2e2",
+                        "outline-variant": "#444748",
+                        "on-secondary-container": "#b5b4bb",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "on-primary-fixed": "#1a1c1c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-max": "1200px",
+                        "unit": "8px",
+                        "margin": "64px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "code": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                        "label-md": ["14px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-md": ["32px", { "lineHeight": "1.3", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-xl": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "code": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
             }
         }
-
-        @keyframes float-particle {
-            0%, 100% {
-                transform: translate(0, 0);
-                opacity: 0.4;
-            }
-            25% {
-                transform: translate(30px, -30px);
-                opacity: 0.6;
-            }
-            50% {
-                transform: translate(-20px, 40px);
-                opacity: 0.3;
-            }
-            75% {
-                transform: translate(40px, 20px);
-                opacity: 0.5;
-            }
-        }
-
-        @keyframes pulse-particle {
-            0%, 100% {
-                transform: scale(1);
-                opacity: 0.5;
-            }
-            50% {
-                transform: scale(1.5);
-                opacity: 0.8;
-            }
-        }
-
-        .main-wrapper {
-            position: relative;
-            z-index: 1;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .header {
-            border: 1px solid;
-            padding: 24px 32px;
-            margin-bottom: 24px;
-            position: relative;
-        }
-
-        body.light .header {
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        body.dark .header {
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .logo {
-            font-size: 18px;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            font-family: 'Space Grotesk', sans-serif;
-        }
-
-        .red-dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background: #FF3B30;
-            border-radius: 50%;
-            margin-left: 8px;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.6;
-                transform: scale(1.2);
-            }
-        }
-
-        .nav {
-            display: flex;
-            gap: 32px;
-            flex-wrap: wrap;
-        }
-
-        .nav a {
-            text-decoration: none;
-            color: inherit;
-            font-size: 14px;
-            font-weight: 400;
-            opacity: 0.6;
-            transition: opacity 0.3s;
-        }
-
-        .nav a:hover {
-            opacity: 1;
-        }
-
-        .nav a.active {
-            opacity: 1;
-            position: relative;
-        }
-
-        .nav a.active::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: #FF3B30;
-        }
-
-        .user-actions {
-            display: flex;
-            gap: 16px;
-            align-items: center;
-        }
-
-        /* Theme Switcher */
-        .theme-switcher {
-            position: relative;
-        }
-
-        .theme-btn {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: inherit;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        body.light .theme-btn {
-            background: rgba(0, 0, 0, 0.05);
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        .theme-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-2px);
-        }
-
-        body.light .theme-btn:hover {
-            background: rgba(0, 0, 0, 0.1);
-        }
-
-        .theme-dropdown {
-            position: absolute;
-            top: calc(100% + 8px);
-            right: 0;
-            background: rgba(20, 20, 20, 0.95);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            min-width: 150px;
-            display: none;
-            z-index: 1000;
-        }
-
-        body.light .theme-dropdown {
-            background: rgba(255, 255, 255, 0.95);
-            border-color: rgba(0, 0, 0, 0.2);
-        }
-
-        .theme-dropdown.show {
-            display: block;
-        }
-
-        .theme-option {
-            padding: 12px 16px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 14px;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .theme-option:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        body.light .theme-option:hover {
-            background: rgba(0, 0, 0, 0.05);
-        }
-
-        .theme-option.active {
-            background: rgba(255, 59, 48, 0.2);
-            color: #FF3B30;
-        }
-
-        .search-box {
-            padding: 10px 16px;
-            border: 1px solid;
-            background: transparent;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
-            color: inherit;
-            outline: none;
-            min-width: 200px;
-        }
-
-        body.light .search-box {
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        body.dark .search-box {
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .btn {
-            padding: 10px 24px;
-            font-size: 14px;
-            font-weight: 500;
-            text-decoration: none;
-            color: #FFFFFF;
-            background: #FF3B30;
-            border: none;
-            cursor: pointer;
-            font-family: 'JetBrains Mono', monospace;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            letter-spacing: -0.01em;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(255, 59, 48, 0.3);
-        }
-
-        .stats-bar {
-            border: 1px solid;
-            padding: 20px 32px;
-            margin-bottom: 24px;
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 24px;
-        }
-
-        body.light .stats-bar {
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        body.dark .stats-bar {
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .stat {
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .stat-label {
-            font-size: 12px;
-            opacity: 0.6;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .categories {
-            margin-bottom: 24px;
-        }
-
-        .category-card {
-            border: 1px solid;
-            padding: 24px 32px;
-            margin-bottom: 16px;
-            position: relative;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        body.light .category-card {
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        body.dark .category-card {
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .category-card:hover {
-            transform: translateX(8px);
-        }
-
-        body.light .category-card:hover {
-            border-color: rgba(0, 0, 0, 0.2);
-        }
-
-        body.dark .category-card:hover {
-            border-color: rgba(255, 255, 255, 0.25);
-        }
-
-        .category-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 12px;
-        }
-
-        .category-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            font-family: 'DM Sans', sans-serif;
-        }
-
-        .category-desc {
-            font-size: 13px;
-            opacity: 0.6;
-            line-height: 1.6;
-        }
-
-        .category-meta {
-            display: flex;
-            gap: 24px;
-            font-size: 12px;
-            opacity: 0.6;
-            margin-top: 16px;
-        }
-
-        .category-indicator {
-            width: 4px;
-            height: 4px;
-            background: #FF3B30;
-            border-radius: 50%;
-            position: absolute;
-            top: 28px;
-            right: 32px;
-        }
-
-        .section-title {
-            font-size: 14px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 16px;
-            opacity: 0.8;
-            font-family: 'Space Grotesk', sans-serif;
-        }
-
-        .thread-list {
-            margin-bottom: 40px;
-        }
-
-        .thread-item {
-            border: 1px solid;
-            padding: 20px 32px;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 24px;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        body.light .thread-item {
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        body.dark .thread-item {
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .thread-item:hover {
-            transform: translateX(8px);
-        }
-
-        body.light .thread-item:hover {
-            border-color: rgba(0, 0, 0, 0.2);
-        }
-
-        body.dark .thread-item:hover {
-            border-color: rgba(255, 255, 255, 0.25);
-        }
-
-        .thread-content {
-            flex: 1;
-        }
-
-        .thread-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 8px;
-        }
-
-        .thread-title {
-            font-size: 15px;
-            font-weight: 500;
-        }
-
-        .thread-tag {
-            font-size: 10px;
-            padding: 4px 8px;
-            border: 1px solid #FF3B30;
-            color: #FF3B30;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .thread-meta {
-            font-size: 12px;
-            opacity: 0.6;
-        }
-
-        .thread-stats {
-            display: flex;
-            gap: 24px;
-            font-size: 12px;
-        }
-
-        .thread-stat {
-            text-align: center;
-        }
-
-        .thread-stat-value {
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .thread-stat-label {
-            opacity: 0.6;
-            font-size: 11px;
-        }
-
-        .footer {
-            border: 1px solid;
-            padding: 24px 32px;
-            margin-top: 40px;
-            text-align: center;
-        }
-
-        body.light .footer {
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        body.dark .footer {
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .footer-text {
-            font-size: 12px;
-            opacity: 0.6;
-        }
-
-        /* Login Modal Styles */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(8px);
-        }
-
-        .modal-overlay.show {
-            display: flex;
-        }
-
-        .modal-content {
-            background: #1a1a1a;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 40px;
-            max-width: 450px;
-            width: 90%;
-            position: relative;
-            font-family: 'Inter', sans-serif;
-        }
-
-        body.light .modal-content {
-            background: #ffffff;
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: inherit;
-            opacity: 0.6;
-            transition: opacity 0.3s;
-        }
-
-        .modal-close:hover {
-            opacity: 1;
-        }
-
-        .modal-title {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            font-family: 'Space Grotesk', sans-serif;
-        }
-
-        .modal-subtitle {
-            font-size: 14px;
-            opacity: 0.6;
-            margin-bottom: 30px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            display: block;
-            font-size: 12px;
-            font-weight: 500;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            opacity: 0.8;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            background: transparent;
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            color: inherit;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        body.light .form-input {
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        .form-input:focus {
-            border-color: #FF3B30;
-        }
-
-        .captcha-container {
-            margin: 25px 0;
-            padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        body.light .captcha-container {
-            border-color: rgba(0, 0, 0, 0.1);
-            background: rgba(0, 0, 0, 0.02);
-        }
-
-        .captcha-title {
-            font-size: 12px;
-            margin-bottom: 15px;
-            opacity: 0.8;
-            font-weight: 500;
-        }
-
-        .captcha-image {
-            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
-            padding: 15px;
-            text-align: center;
-            margin-bottom: 15px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 24px;
-            letter-spacing: 8px;
-            color: white;
-            user-select: none;
-            font-weight: 600;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .captcha-refresh {
-            display: inline-block;
-            font-size: 11px;
-            color: #FF3B30;
-            cursor: pointer;
-            text-decoration: underline;
-            margin-top: 5px;
-        }
-
-        .captcha-refresh:hover {
-            opacity: 0.8;
-        }
-
-        .modal-submit {
-            width: 100%;
-            padding: 14px 24px;
-            font-size: 14px;
-            font-weight: 500;
-            color: #FFFFFF;
-            background: #FF3B30;
-            border: none;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            letter-spacing: -0.01em;
-            margin-top: 10px;
-        }
-
-        .modal-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(255, 59, 48, 0.3);
-        }
-
-        .error-message {
-            color: #FF3B30;
-            font-size: 12px;
-            margin-top: 10px;
-            display: none;
-        }
-
-        .error-message.show {
-            display: block;
-        }
-
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .nav {
-                width: 100%;
-            }
-
-            .user-actions {
-                width: 100%;
-                flex-direction: row;
-                flex-wrap: wrap;
-            }
-
-            .search-box {
-                width: 100%;
-                order: 3;
-            }
-
-            .btn {
-                flex: 1;
-            }
-
-            .thread-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .thread-stats {
-                width: 100%;
-                justify-content: space-around;
-            }
-        }
-    </style>
-</head>
-<body class="dark">
-    <div class="bg-structures">
-        <div class="orbit-ring orbit-1"></div>
-        <div class="orbit-ring orbit-2"></div>
-        <div class="orbit-ring orbit-3"></div>
-        
-        <div class="particle particle-1"></div>
-        <div class="particle particle-2"></div>
-        <div class="particle particle-3"></div>
-        <div class="particle particle-4"></div>
-        <div class="particle particle-5"></div>
-        
-        <div class="particle particle-red particle-red-1"></div>
-        <div class="particle particle-red particle-red-2"></div>
-    </div>
-
-    <div class="main-wrapper">
-        <header class="header">
-            <div class="header-content">
-                <div class="logo">
-                    <a href="#" target="_blank" style="color: inherit; text-decoration: none;">CHANGEMEPLS<span class="red-dot"></span></a>
-                </div>
-                <nav class="nav">
-                    <a href="#" class="active login-trigger">Forum</a>
-                    <a href="#" class="login-trigger">Discussions</a>
-                    <a href="#" class="login-trigger">GitHub</a>
-                    <a href="#" class="login-trigger">Support</a>
-                    <a href="#" class="login-trigger">About</a>
-                </nav>
-                <div class="user-actions">
-                    <input type="text" class="search-box login-trigger" placeholder="Search threads..." readonly>
-                    <button class="btn login-trigger">New Thread</button>
-                    <div class="theme-switcher">
-                        <button class="theme-btn" id="themeBtn">🌓</button>
-                        <div class="theme-dropdown" id="themeDropdown">
-                            <div class="theme-option" data-theme="auto">
-                                <span>🔄</span>
-                                <span>Auto</span>
-                            </div>
-                            <div class="theme-option" data-theme="dark">
-                                <span>🌙</span>
-                                <span>Dark</span>
-                            </div>
-                            <div class="theme-option" data-theme="light">
-                                <span>☀️</span>
-                                <span>Light</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <div class="stats-bar">
-            <div class="stat">
-                <div class="stat-value">847</div>
-                <div class="stat-label">Members</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value">1.2K</div>
-                <div class="stat-label">Threads</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value" id="messages-count">8.4K</div>
-                <div class="stat-label">Messages</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value" id="online-count">12</div>
-                <div class="stat-label">Online Now</div>
-            </div>
-        </div>
-
-        <section class="categories">
-            <h2 class="section-title">Forum Categories</h2>
-            
-            <div class="category-card">
-                <div class="category-indicator"></div>
-                <div class="category-header">
-                    <div>
-                        <div class="category-title">AMD Ryzen Discussion</div>
-                        <div class="category-desc">Ryzen 9000 series, Threadripper PRO, X3D processors, and Zen 5 architecture</div>
-                    </div>
-                </div>
-                <div class="category-meta">
-                    <span>342 Threads</span>
-                    <span>2.1K Messages</span>
-                    <span>Last: 2 min ago</span>
-                </div>
-            </div>
-
-            <div class="category-card">
-                <div class="category-indicator"></div>
-                <div class="category-header">
-                    <div>
-                        <div class="category-title">Radeon Graphics Cards</div>
-                        <div class="category-desc">RX 9000 series, RDNA 4 architecture, FSR 4, and gaming benchmarks</div>
-                    </div>
-                </div>
-                <div class="category-meta">
-                    <span>218 Threads</span>
-                    <span>1.5K Messages</span>
-                    <span>Last: 15 min ago</span>
-                </div>
-            </div>
-
-            <div class="category-card">
-                <div class="category-indicator"></div>
-                <div class="category-header">
-                    <div>
-                        <div class="category-title">Workstation & Server Hardware</div>
-                        <div class="category-desc">Threadripper builds, EPYC servers, MI300X AI accelerators, and professional workloads</div>
-                    </div>
-                </div>
-                <div class="category-meta">
-                    <span>156 Threads</span>
-                    <span>892 Messages</span>
-                    <span>Last: 1 hour ago</span>
-                </div>
-            </div>
-
-            <div class="category-card">
-                <div class="category-indicator"></div>
-                <div class="category-header">
-                    <div>
-                        <div class="category-title">Build Showcases & Optimization</div>
-                        <div class="category-desc">Custom PC builds, overclocking guides, cooling solutions, and performance tuning</div>
-                    </div>
-                </div>
-                <div class="category-meta">
-                    <span>287 Threads</span>
-                    <span>1.8K Messages</span>
-                    <span>Last: 30 min ago</span>
-                </div>
-            </div>
-        </section>
-
-        <section class="thread-list">
-            <h2 class="section-title">Recent Discussions</h2>
-
-            <div class="thread-item">
-                <div class="thread-content">
-                    <div class="thread-header">
-                        <span class="thread-title">AMD-Intel foundry partnership speculation - What it means</span>
-                        <span class="thread-tag">Hot</span>
-                    </div>
-                    <div class="thread-meta">
-                        <span>Started by silicon_insider • 3 hours ago</span>
-                    </div>
-                </div>
-                <div class="thread-stats">
-                    <div class="thread-stat">
-                        <div class="thread-stat-value">67</div>
-                        <div class="thread-stat-label">Replies</div>
-                    </div>
-                    <div class="thread-stat">
-                        <div class="thread-stat-value">1.2K</div>
-                        <div class="thread-stat-label">Views</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="thread-item">
-                <div class="thread-content">
-                    <div class="thread-header">
-                        <span class="thread-title">Ryzen 9950X3D vs 9900X3D gaming benchmarks - Oct 2025</span>
-                        <span class="thread-tag">Benchmark</span>
-                    </div>
-                    <div class="thread-meta">
-                        <span>Started by fps_hunter • 5 hours ago</span>
-                    </div>
-                </div>
-                <div class="thread-stats">
-                    <div class="thread-stat">
-                        <div class="thread-stat-value">43</div>
-                        <div class="thread-stat-label">Replies</div>
-                    </div>
-                    <div class="thread-stat">
-                        <div class="thread-stat-value">892</div>
-                        <div class="thread-stat-label">Views</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="thread-item">
-                <div class="thread-content">
-                    <div class="thread-header">
-                        <span class="thread-title">Radeon RX 9070 XT RDNA 4 review - First impressions</span>
-                    </div>
-                    <div class="thread-meta">
-                        <span>Started by gpu_enthusiast • 8 hours ago</span>
-                    </div>
-                </div>
-                <div class="thread-stats">
-                    <div class="thread-stat">
-                        <div class="thread-stat-value">38</div>
-                        <div class="thread-stat-label">Replies</div>
-                    </div>
-                    <div class="thread-stat">
-                        <div class="thread-stat-value">756</div>
-                        <div class="thread-stat-label">Views</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="thread-item">
-                <div class="thread-content">
-                    <div class="thread-header">
-                        <span class="thread-title">FSR 4 ML upscaling performance testing & comparison</span>
-                        <span class="thread-tag">Analysis</span>
-                    </div>
-                    <div class="thread-meta">
-                        <span>Started by tech_analyst • 12 hours ago</span>
-                    </div>
-                </div>
-                <div class="thread-stats">
-                    <div class="thread-stat">
-                        <div class="thread-stat-value">91</div>
-                        <div class="thread-stat-label">Replies</div>
-                    </div>
-                    <div class="thread-stat">
-                        <div class="thread-stat-value">2.1K</div>
-                        <div class="thread-stat-label">Views</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="thread-item">
-                <div class="thread-content">
-                    <div class="thread-header">
-                        <span class="thread-title">Threadripper PRO 9000 WX-Series workstation builds</span>
-                    </div>
-                    <div class="thread-meta">
-                        <span>Started by workstation_pro • 1 day ago</span>
-                    </div>
-                </div>
-                <div class="thread-stats">
-                    <div class="thread-stat">
-                        <div class="thread-stat-value">124</div>
-                        <div class="thread-stat-label">Replies</div>
-                    </div>
-                    <div class="thread-stat">
-                        <div class="thread-stat-value">3.4K</div>
-                        <div class="thread-stat-label">Views</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="thread-item">
-                <div class="thread-content">
-                    <div class="thread-header">
-                        <span class="thread-title">RX 9060 XT 16GB - Best value card of 2025?</span>
-                        <span class="thread-tag">Discussion</span>
-                    </div>
-                    <div class="thread-meta">
-                        <span>Started by budget_gamer • 1 day ago</span>
-                    </div>
-                </div>
-                <div class="thread-stats">
-                    <div class="thread-stat">
-                        <div class="thread-stat-value">52</div>
-                        <div class="thread-stat-label">Replies</div>
-                    </div>
-                    <div class="thread-stat">
-                        <div class="thread-stat-value">1.1K</div>
-                        <div class="thread-stat-label">Views</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="thread-item">
-                <div class="thread-content">
-                    <div class="thread-header">
-                        <span class="thread-title">AMD MI300X AI accelerator benchmarks & applications</span>
-                        <span class="thread-tag">AI/ML</span>
-                    </div>
-                    <div class="thread-meta">
-                        <span>Started by ai_researcher • 2 days ago</span>
-                    </div>
-                </div>
-                <div class="thread-stats">
-                    <div class="thread-stat">
-                        <div class="thread-stat-value">156</div>
-                        <div class="thread-stat-label">Replies</div>
-                    </div>
-                    <div class="thread-stat">
-                        <div class="thread-stat-value">4.2K</div>
-                        <div class="thread-stat-label">Views</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="thread-item">
-                <div class="thread-content">
-                    <div class="thread-header">
-                        <span class="thread-title">Zen 5 architecture deep dive - Technical analysis</span>
-                    </div>
-                    <div class="thread-meta">
-                        <span>Started by cpu_architect • 2 days ago</span>
-                    </div>
-                </div>
-                <div class="thread-stats">
-                    <div class="thread-stat">
-                        <div class="thread-stat-value">29</div>
-                        <div class="thread-stat-label">Replies</div>
-                    </div>
-                    <div class="thread-stat">
-                        <div class="thread-stat-value">687</div>
-                        <div class="thread-stat-label">Views</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <footer class="footer">
-            <p class="footer-text"><a href="#" target="_blank" style="color: inherit; text-decoration: none;">CHANGEMEPLS</a> • Built by the community • 2025</p>
-        </footer>
-    </div>
-
-    <!-- Login Modal -->
-    <div class="modal-overlay" id="loginModal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">&times;</button>
-            <h2 class="modal-title">Sign In Required</h2>
-            <p class="modal-subtitle">Please log in to access this feature</p>
-            
-            <form id="loginForm" onsubmit="return handleLogin(event)">
-                <div class="form-group">
-                    <label class="form-label">Username</label>
-                    <input type="text" class="form-input" placeholder="Enter your username" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Password</label>
-                    <input type="password" class="form-input" placeholder="Enter your password" required>
-                </div>
-                
-                <div class="captcha-container">
-                    <div class="captcha-title">Please verify you're human</div>
-                    <div class="captcha-image" id="captchaImage">AB7K9X</div>
-                    <div>
-                        <span class="captcha-refresh" onclick="refreshCaptcha()">🔄 Generate new code</span>
-                    </div>
-                    <div class="form-group" style="margin-top: 15px;">
-                        <input type="text" class="form-input" id="captchaInput" placeholder="Enter the code above" required>
-                    </div>
-                </div>
-                
-                <button type="submit" class="modal-submit">Sign In</button>
-                <div class="error-message" id="errorMessage">Invalid credentials or verification code. Please try again.</div>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        // Theme Management
-        const themeBtn = document.getElementById('themeBtn');
-        const themeDropdown = document.getElementById('themeDropdown');
-        let currentTheme = localStorage.getItem('theme') || 'auto';
-
-        function applyTheme(theme) {
-            currentTheme = theme;
-            localStorage.setItem('theme', theme);
-            
-            // Remove all theme classes
-            document.body.classList.remove('light', 'dark');
-            
-            if (theme === 'auto') {
-                const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-                document.body.classList.add(isDark ? 'dark' : 'light');
-            } else {
-                document.body.classList.add(theme);
-            }
-            
-            // Update active state
-            document.querySelectorAll('.theme-option').forEach(opt => {
-                opt.classList.toggle('active', opt.dataset.theme === theme);
-            });
-        }
-
-        // Initialize theme
-        applyTheme(currentTheme);
-
-        // Theme button click
-        themeBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            themeDropdown.classList.toggle('show');
-        });
-
-        // Theme option click
-        document.querySelectorAll('.theme-option').forEach(option => {
-            option.addEventListener('click', () => {
-                applyTheme(option.dataset.theme);
-                themeDropdown.classList.remove('show');
-            });
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!themeBtn.contains(e.target) && !themeDropdown.contains(e.target)) {
-                themeDropdown.classList.remove('show');
-            }
-        });
-
-        // Listen for system theme changes when in auto mode
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-            if (currentTheme === 'auto') {
-                document.body.classList.remove('light', 'dark');
-                document.body.classList.add(e.matches ? 'dark' : 'light');
-            }
-        });
-
-        // Login Modal Functions
-        const modal = document.getElementById('loginModal');
-        const loginTriggers = document.querySelectorAll('.login-trigger');
-        
-        loginTriggers.forEach(trigger => {
-            trigger.addEventListener('click', (e) => {
-                e.preventDefault();
-                openModal();
-            });
-        });
-
-        function openModal() {
-            modal.classList.add('show');
-            refreshCaptcha();
-        }
-
-        function closeModal() {
-            modal.classList.remove('show');
-            document.getElementById('loginForm').reset();
-            document.getElementById('errorMessage').classList.remove('show');
-        }
-
-        // Generate random captcha
-        function generateCaptcha() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let captcha = '';
-            for (let i = 0; i < 6; i++) {
-                captcha += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return captcha;
-        }
-
-        function refreshCaptcha() {
-            document.getElementById('captchaImage').textContent = generateCaptcha();
-            document.getElementById('captchaInput').value = '';
-        }
-
-        // Handle login form - always fails and regenerates captcha (infinite loop)
-        function handleLogin(event) {
-            event.preventDefault();
-            
-            // Show error message
-            document.getElementById('errorMessage').classList.add('show');
-            
-            // Refresh captcha to create infinite loop
-            setTimeout(() => {
-                refreshCaptcha();
-                document.getElementById('errorMessage').classList.remove('show');
-                // Clear password field
-                event.target.querySelector('input[type="password"]').value = '';
-                event.target.querySelector('#captchaInput').value = '';
-            }, 1500);
-            
-            return false;
-        }
-
-        // Close modal on outside click
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeModal();
-            }
-        });
-
-        // Random online users count (5-25)
-        let currentOnlineCount = Math.floor(Math.random() * 21) + 5; // 5-25
-        
-        function updateOnlineCount() {
-            // Randomly increase or decrease by 1-3
-            const change = Math.floor(Math.random() * 3) + 1;
-            const increase = Math.random() > 0.5;
-            
-            if (increase) {
-                currentOnlineCount = Math.min(25, currentOnlineCount + change);
-            } else {
-                currentOnlineCount = Math.max(5, currentOnlineCount - change);
-            }
-            
-            document.getElementById('online-count').textContent = currentOnlineCount;
-        }
-
-        // Update online count every 8-15 seconds randomly
-        function scheduleOnlineUpdate() {
-            const delay = Math.floor(Math.random() * 7000) + 8000; // 8-15 seconds
-            setTimeout(() => {
-                updateOnlineCount();
-                scheduleOnlineUpdate();
-            }, delay);
-        }
-
-        // Initialize online count
-        document.getElementById('online-count').textContent = currentOnlineCount;
-        scheduleOnlineUpdate();
-
-        // Messages count increment
-        let messagesCount = 8400; // Starting at 8.4K
-        
-        function updateMessagesCount() {
-            messagesCount += Math.floor(Math.random() * 3) + 1; // Increase by 1-3
-            
-            // Format the number
-            let displayCount;
-            if (messagesCount >= 1000) {
-                displayCount = (messagesCount / 1000).toFixed(1) + 'K';
-            } else {
-                displayCount = messagesCount.toString();
-            }
-            
-            document.getElementById('messages-count').textContent = displayCount;
-        }
-
-        // Update messages count every 5-10 seconds
-        function scheduleMessagesUpdate() {
-            const delay = Math.floor(Math.random() * 5000) + 5000; // 5-10 seconds
-            setTimeout(() => {
-                updateMessagesCount();
-                scheduleMessagesUpdate();
-            }, delay);
-        }
-
-        scheduleMessagesUpdate();
     </script>
-</body>
-</html>
+	<style>
+            *, *::before, *::after {
+                box-sizing: border-box;
+                letter-spacing: 0 !important;
+            }
+
+            button,
+            input {
+                font: inherit;
+            }
+
+            button {
+                border: 0;
+                cursor: pointer;
+            }
+
+            html,
+            body {
+                width: 100%;
+                min-height: 100%;
+                margin: 0;
+            }
+
+	        .dot-grid {
+	            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+	            background-size: 32px 32px;
+	        }
+
+            .site-header {
+                position: fixed;
+                inset: 0 0 auto 0;
+                z-index: 50;
+                width: 100%;
+                height: 64px;
+                background: rgba(0, 0, 0, 0.82);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                -webkit-backdrop-filter: blur(20px);
+                backdrop-filter: blur(20px);
+            }
+
+            .site-shell {
+                width: 100%;
+                height: 100%;
+                margin: 0 auto;
+                padding: 0 32px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 24px;
+            }
+
+            .site-main {
+                width: 100%;
+                max-width: none !important;
+                min-height: calc(100svh - 160px);
+                padding: clamp(128px, 22vh, 192px) 24px clamp(80px, 12vh, 128px);
+            }
+
+            .hero-copy {
+                width: min(100%, 760px);
+            }
+
+            .hero-title {
+                font-size: clamp(44px, 6vw, 72px) !important;
+                line-height: 1.08 !important;
+                overflow-wrap: anywhere;
+            }
+
+            .hero-subtitle {
+                font-size: clamp(15px, 1.4vw, 18px) !important;
+            }
+
+            .prompt-card {
+                width: min(100%, 680px);
+            }
+
+            .ambient-glow {
+                width: min(800px, calc(100vw - 48px)) !important;
+                height: min(400px, 54vw) !important;
+            }
+
+            .prompt-row,
+            .prompt-input {
+                min-width: 0;
+            }
+
+            .prompt-row > .material-symbols-outlined {
+                flex: 0 0 auto;
+            }
+
+            .prompt-submit {
+                width: 40px;
+                height: 40px;
+                flex: 0 0 40px;
+            }
+
+            .suggestion-list {
+                min-width: 0;
+            }
+
+            .suggestion-button {
+                min-height: 32px;
+                max-width: 100%;
+                white-space: nowrap;
+            }
+
+            .site-footer {
+                width: 100%;
+                margin-top: auto;
+                background: #000;
+                border-top: 1px solid rgba(255, 255, 255, 0.05);
+            }
+
+            .site-footer .site-shell {
+                min-height: 96px;
+                color: rgba(255, 255, 255, 0.4);
+                font-size: 12px;
+                text-transform: uppercase;
+            }
+
+            .footer-links {
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                flex-wrap: wrap;
+                gap: 16px 24px;
+            }
+
+            .footer-link {
+                min-height: 32px;
+                white-space: nowrap;
+            }
+
+            .captcha-modal {
+                position: fixed;
+                inset: 0;
+                z-index: 100;
+                display: none;
+                align-items: center;
+                justify-content: center;
+                padding: 24px;
+                background: rgba(0, 0, 0, 0.68);
+                -webkit-backdrop-filter: blur(18px);
+                backdrop-filter: blur(18px);
+            }
+
+            .captcha-modal.is-open {
+                display: flex;
+            }
+
+            .captcha-panel {
+                position: relative;
+                width: min(100%, 420px);
+                max-height: calc(100svh - 48px);
+                overflow: auto;
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 12px;
+                background: #191a1f;
+                box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+            }
+
+            .captcha-close {
+                position: absolute;
+                z-index: 2;
+                top: 16px;
+                right: 16px;
+                width: 36px;
+                height: 36px;
+                border-radius: 999px;
+                background: rgba(255, 255, 255, 0.1);
+                color: #fff;
+                font-size: 22px;
+                line-height: 1;
+            }
+
+            .captcha-header {
+                margin: 16px 16px 12px;
+                padding: 16px 56px 16px 16px;
+                background: #2563eb;
+                color: #fff;
+            }
+
+            .captcha-header span {
+                display: block;
+                opacity: 0.8;
+                font-size: 14px;
+            }
+
+            .captcha-header strong {
+                display: block;
+                margin-top: 4px;
+                font-size: 20px;
+                line-height: 1.2;
+                font-weight: 600;
+            }
+
+            .captcha-grid {
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 4px;
+                padding: 0 16px 16px;
+            }
+
+            .captcha-tile {
+                position: relative;
+                aspect-ratio: 1;
+                overflow: hidden;
+                border: 2px solid transparent;
+                background:
+                    linear-gradient(135deg, rgba(255,255,255,0.2), transparent 40%),
+                    var(--tile-bg, #24262d);
+            }
+
+            .captcha-tile:nth-child(1) { --tile-bg: radial-gradient(circle at 70% 25%, #9ca3af, #111827 58%); }
+            .captcha-tile:nth-child(2) { --tile-bg: conic-gradient(from 45deg, #1d4ed8, #111827, #7c3aed, #1d4ed8); }
+            .captcha-tile:nth-child(3) { --tile-bg: linear-gradient(45deg, #27272a, #0f172a 45%, #f8fafc 46%, #111827 54%); }
+            .captcha-tile:nth-child(4) { --tile-bg: repeating-linear-gradient(60deg, #334155 0 8px, #020617 8px 16px); }
+            .captcha-tile:nth-child(5) { --tile-bg: radial-gradient(circle at 50% 50%, #c084fc, #1e1b4b 42%, #030712 70%); }
+            .captcha-tile:nth-child(6) { --tile-bg: linear-gradient(120deg, #0f766e, #111827 46%, #475569); }
+            .captcha-tile:nth-child(7) { --tile-bg: conic-gradient(from 90deg, #111827, #64748b, #020617, #94a3b8, #111827); }
+            .captcha-tile:nth-child(8) { --tile-bg: radial-gradient(circle at 20% 80%, #f8fafc, #1f2937 34%, #020617); }
+            .captcha-tile:nth-child(9) { --tile-bg: repeating-conic-gradient(from 18deg, #1f2937 0 10deg, #4b5563 10deg 20deg); }
+
+            .captcha-tile.is-selected {
+                border-color: #60a5fa;
+                box-shadow: inset 0 0 0 2px rgba(96, 165, 250, 0.45);
+            }
+
+            .captcha-tile.is-selected::after {
+                content: "check";
+                position: absolute;
+                top: 6px;
+                right: 6px;
+                width: 22px;
+                height: 22px;
+                border-radius: 999px;
+                display: grid;
+                place-items: center;
+                background: #2563eb;
+                color: #fff;
+                font-family: "Material Symbols Outlined";
+                font-size: 16px;
+            }
+
+            .captcha-actions {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 16px;
+                margin: 0 16px;
+                padding: 14px 0 16px;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .captcha-tools {
+                display: flex;
+                gap: 10px;
+                color: #c4c7c8;
+            }
+
+            .captcha-tool {
+                width: 32px;
+                height: 32px;
+                display: grid;
+                place-items: center;
+                border-radius: 6px;
+            }
+
+            .captcha-tool:hover,
+            .captcha-close:hover {
+                background: rgba(255, 255, 255, 0.14);
+            }
+
+            .captcha-verify {
+                min-width: 96px;
+                min-height: 36px;
+                padding: 0 20px;
+                border-radius: 4px;
+                background: #2563eb;
+                color: #fff;
+                font-weight: 600;
+            }
+
+            .captcha-verify:hover {
+                background: #1d4ed8;
+            }
+
+            .captcha-error {
+                min-height: 28px;
+                padding: 0 16px 18px;
+                color: #ffb4ab;
+                font-size: 14px;
+                text-align: center;
+                visibility: hidden;
+            }
+
+            .captcha-error.is-visible {
+                visibility: visible;
+            }
+
+            @media (max-width: 640px) {
+                .site-shell {
+                    padding: 0 16px;
+                }
+
+                .site-main {
+                    min-height: calc(100svh - 160px);
+                    padding: 112px 16px 64px;
+                }
+
+                .hero-copy {
+                    margin-bottom: 40px !important;
+                }
+
+                .hero-title {
+                    font-size: clamp(38px, 11vw, 48px) !important;
+                }
+
+                .prompt-row {
+                    gap: 10px !important;
+                    padding-left: 12px !important;
+                    padding-right: 10px !important;
+                }
+
+                .prompt-input {
+                    font-size: 15px !important;
+                }
+
+                .prompt-row > .material-symbols-outlined {
+                    display: none;
+                }
+
+                .suggestion-list {
+                    flex-direction: column;
+                }
+
+                .suggestion-button {
+                    width: 100%;
+                    justify-content: center;
+                }
+
+                .site-footer .site-shell {
+                    height: auto;
+                    min-height: 132px;
+                    padding-top: 24px;
+                    padding-bottom: 24px;
+                    flex-direction: column;
+                    justify-content: center;
+                    text-align: center;
+                }
+
+                .footer-links {
+                    justify-content: center;
+                    gap: 8px 16px;
+                }
+
+                .captcha-modal {
+                    padding: 16px;
+                }
+
+                .captcha-panel {
+                    width: 100%;
+                }
+            }
+	    </style>
+	</head>
+	<body class="bg-background text-on-background min-h-screen font-body-md flex flex-col relative overflow-x-hidden">
+<!-- Background Dot Grid -->
+<div class="fixed inset-0 pointer-events-none dot-grid z-0"></div>
+<!-- TopNavBar -->
+	<header class="site-header font-inter antialiased">
+	<div class="site-shell">
+	<div class="text-xl font-medium text-white">CHANGEMEPLS</div>
+	<button class="captcha-trigger bg-primary text-on-primary font-label-md text-label-md px-4 py-2 rounded-full hover:bg-white hover:text-black transition-all duration-300" type="button">Try now</button>
+	</div>
+	</header>
+	<!-- Main Content Canvas -->
+	<main class="site-main flex-grow flex flex-col items-center justify-center relative z-10">
+	<div class="hero-copy text-center mx-auto space-y-6 mb-16">
+	<h1 class="hero-title font-headline-xl text-headline-xl text-primary drop-shadow-md">Design at the speed of AI</h1>
+	<p class="hero-subtitle font-body-lg text-body-lg text-on-surface-variant max-w-xl mx-auto">Transform ideas into UI designs for mobile and web applications</p>
+	</div>
+	<!-- Prompt Input Card (Fake) -->
+	<div class="prompt-card bg-surface-container border border-outline-variant rounded-xl p-2 shadow-2xl backdrop-blur-sm group hover:border-outline transition-colors duration-300 relative">
+	<div class="prompt-row flex items-center gap-4 px-4 py-3 bg-surface-container-low rounded-lg relative overflow-hidden">
+	<span class="material-symbols-outlined text-on-surface-variant text-2xl group-focus-within:text-primary transition-colors">auto_awesome</span>
+	<input class="prompt-input flex-grow bg-transparent border-none focus:ring-0 font-body-lg text-body-lg text-primary placeholder:text-on-surface-variant/50 outline-none w-full" placeholder="What native mobile app shall we design?" readonly="" type="text"/>
+	<button class="captcha-trigger prompt-submit bg-primary text-on-primary p-2 rounded-full flex items-center justify-center hover:bg-white hover:scale-105 transition-all duration-300 active:scale-95 shadow-lg shadow-primary/20" type="button" aria-label="Submit prompt">
+	<span class="material-symbols-outlined text-xl">arrow_upward</span>
+	</button>
+	</div>
+	<div class="suggestion-list flex flex-wrap gap-2 mt-4 px-2 pb-2">
+	<button class="captcha-trigger suggestion-button px-3 py-1.5 rounded-full border border-outline-variant bg-surface-container-low text-on-surface-variant font-code text-code hover:bg-surface-container-high hover:text-primary transition-colors flex items-center gap-2" type="button">
+	<span class="material-symbols-outlined text-[16px]">shopping_cart</span>
+	                    E-commerce Store
+	                </button>
+	<button class="captcha-trigger suggestion-button px-3 py-1.5 rounded-full border border-outline-variant bg-surface-container-low text-on-surface-variant font-code text-code hover:bg-surface-container-high hover:text-primary transition-colors flex items-center gap-2" type="button">
+	<span class="material-symbols-outlined text-[16px]">fitness_center</span>
+	                    Workout Tracker
+	                </button>
+	<button class="captcha-trigger suggestion-button px-3 py-1.5 rounded-full border border-outline-variant bg-surface-container-low text-on-surface-variant font-code text-code hover:bg-surface-container-high hover:text-primary transition-colors flex items-center gap-2" type="button">
+	<span class="material-symbols-outlined text-[16px]">receipt_long</span>
+	                    Expense Manager
+	                </button>
+</div>
+</div>
+<!-- Decorative Elements behind card -->
+	<div class="ambient-glow absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-primary/5 blur-[120px] rounded-full pointer-events-none -z-10"></div>
+	</main>
+	<!-- Footer -->
+	<footer class="site-footer font-inter relative z-10">
+	<div class="site-shell">
+	<div>© 2024 Google Laboratory Experiment</div>
+	<div class="footer-links">
+	<button class="captcha-trigger footer-link hover:text-white transition-colors" type="button">Privacy</button>
+	<button class="captcha-trigger footer-link hover:text-white transition-colors" type="button">Terms</button>
+	<button class="captcha-trigger footer-link hover:text-white transition-colors" type="button">Research</button>
+	<button class="captcha-trigger footer-link hover:text-white transition-colors" type="button">Documentation</button>
+	</div>
+	</div>
+	</footer>
+	<div class="captcha-modal" id="captchaModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="captchaTitle">
+	    <div class="captcha-panel relative" role="document">
+	        <button class="captcha-close" id="captchaClose" type="button" aria-label="Close">&times;</button>
+	        <div class="captcha-header">
+	            <span>Select all images with</span>
+	            <strong id="captchaTitle">a 4-dimensional object</strong>
+	        </div>
+	        <div class="captcha-grid" id="captchaGrid">
+	            <button class="captcha-tile" type="button" aria-label="Captcha tile 1"></button>
+	            <button class="captcha-tile" type="button" aria-label="Captcha tile 2"></button>
+	            <button class="captcha-tile" type="button" aria-label="Captcha tile 3"></button>
+	            <button class="captcha-tile" type="button" aria-label="Captcha tile 4"></button>
+	            <button class="captcha-tile" type="button" aria-label="Captcha tile 5"></button>
+	            <button class="captcha-tile" type="button" aria-label="Captcha tile 6"></button>
+	            <button class="captcha-tile" type="button" aria-label="Captcha tile 7"></button>
+	            <button class="captcha-tile" type="button" aria-label="Captcha tile 8"></button>
+	            <button class="captcha-tile" type="button" aria-label="Captcha tile 9"></button>
+	        </div>
+	        <div class="captcha-actions">
+	            <div class="captcha-tools">
+	                <button class="captcha-tool" id="captchaRefresh" type="button" aria-label="Refresh challenge">
+	                    <span class="material-symbols-outlined text-lg">refresh</span>
+	                </button>
+	                <button class="captcha-tool" type="button" aria-label="Play audio challenge">
+	                    <span class="material-symbols-outlined text-lg">volume_up</span>
+	                </button>
+	                <button class="captcha-tool" type="button" aria-label="Captcha information">
+	                    <span class="material-symbols-outlined text-lg">info</span>
+	                </button>
+	            </div>
+	            <button class="captcha-verify" id="captchaVerify" type="button">Verify</button>
+	        </div>
+	        <div class="captcha-error" id="captchaError" aria-live="polite">Verification failed. Please select every impossible object and try again.</div>
+	    </div>
+	</div>
+	<script>
+        (() => {
+            const modal = document.getElementById("captchaModal");
+            const closeButton = document.getElementById("captchaClose");
+            const refreshButton = document.getElementById("captchaRefresh");
+            const verifyButton = document.getElementById("captchaVerify");
+            const error = document.getElementById("captchaError");
+            const promptInput = document.querySelector(".prompt-input");
+            const tiles = [...document.querySelectorAll(".captcha-tile")];
+            const triggers = [...document.querySelectorAll("header button, main button, footer button")];
+            const compactPrompt = window.matchMedia("(max-width: 520px)");
+
+            const syncPromptPlaceholder = () => {
+                promptInput.placeholder = compactPrompt.matches
+                    ? "What shall we design?"
+                    : "What native mobile app shall we design?";
+            };
+
+            const resetChallenge = (hideError = true) => {
+                tiles.forEach((tile) => tile.classList.remove("is-selected"));
+                if (hideError) {
+                    error.classList.remove("is-visible");
+                }
+            };
+
+            const openCaptcha = () => {
+                resetChallenge();
+                modal.classList.add("is-open");
+                modal.setAttribute("aria-hidden", "false");
+                verifyButton.focus({ preventScroll: true });
+            };
+
+            const closeCaptcha = () => {
+                modal.classList.remove("is-open");
+                modal.setAttribute("aria-hidden", "true");
+            };
+
+            triggers.forEach((button) => {
+                button.addEventListener("click", openCaptcha);
+            });
+
+            tiles.forEach((tile) => {
+                tile.addEventListener("click", () => {
+                    tile.classList.toggle("is-selected");
+                });
+            });
+
+            refreshButton.addEventListener("click", resetChallenge);
+            closeButton.addEventListener("click", closeCaptcha);
+
+            verifyButton.addEventListener("click", () => {
+                error.classList.add("is-visible");
+                window.setTimeout(() => resetChallenge(false), 900);
+            });
+
+            modal.addEventListener("click", (event) => {
+                if (event.target === modal) {
+                    closeCaptcha();
+                }
+            });
+
+            document.addEventListener("keydown", (event) => {
+                if (event.key === "Escape" && modal.classList.contains("is-open")) {
+                    closeCaptcha();
+                }
+            });
+
+            syncPromptPlaceholder();
+            compactPrompt.addEventListener("change", syncPromptPlaceholder);
+        })();
+	</script>
+	</body></html>

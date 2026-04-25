@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CHANGEMEPLS - Usage History</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed-dim": "#adc7ff",
+              "inverse-on-surface": "#eaf1ff",
+              "surface-variant": "#d3e4fe",
+              "outline-variant": "#bbcbb9",
+              "surface-container-low": "#eff4ff",
+              "primary-container": "#00d166",
+              "on-secondary": "#ffffff",
+              "outline": "#6c7b6c",
+              "surface-container-high": "#dce9ff",
+              "secondary-container": "#0070ea",
+              "on-primary-container": "#005324",
+              "on-background": "#0b1c30",
+              "background": "#f8f9ff",
+              "on-error-container": "#93000a",
+              "inverse-primary": "#30e375",
+              "surface-tint": "#006d32",
+              "on-tertiary-fixed": "#131b2e",
+              "on-secondary-container": "#fefcff",
+              "secondary": "#0059bb",
+              "on-primary-fixed-variant": "#005224",
+              "surface-dim": "#cbdbf5",
+              "tertiary-fixed-dim": "#bec6e0",
+              "primary-fixed": "#64ff92",
+              "on-primary-fixed": "#00210b",
+              "primary": "#006d32",
+              "on-surface": "#0b1c30",
+              "error-container": "#ffdad6",
+              "primary-fixed-dim": "#30e375",
+              "surface-container-lowest": "#ffffff",
+              "secondary-fixed": "#d8e2ff",
+              "surface-container-highest": "#d3e4fe",
+              "on-tertiary": "#ffffff",
+              "error": "#ba1a1a",
+              "surface": "#f8f9ff",
+              "tertiary-container": "#aeb5cf",
+              "on-primary": "#ffffff",
+              "on-surface-variant": "#3c4a3d",
+              "on-secondary-fixed-variant": "#004493",
+              "on-tertiary-container": "#3f475c",
+              "surface-container": "#e5eeff",
+              "surface-bright": "#f8f9ff",
+              "tertiary": "#565e74",
+              "on-error": "#ffffff",
+              "tertiary-fixed": "#dae2fd",
+              "inverse-surface": "#213145",
+              "on-secondary-fixed": "#001a41",
+              "on-tertiary-fixed-variant": "#3f465c"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      body { font-family: 'Inter', sans-serif; }
+      .font-headline { font-family: 'Space Grotesk', sans-serif; }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  
+<style id="impossible-captcha-style">
+  .impossible-captcha-modal,
+  .impossible-captcha-modal * {
+    box-sizing: border-box;
+  }
+
+  .impossible-captcha-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(0, 0, 0, 0.68);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+  }
+
+  .impossible-captcha-modal.is-open {
+    display: flex;
+  }
+
+  .impossible-captcha-panel {
+    position: relative;
+    width: min(100%, 420px);
+    max-height: calc(100svh - 48px);
+    overflow: auto;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 12px;
+    background: #191a1f;
+    color: #fff;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+    font-family: Inter, Manrope, "Plus Jakarta Sans", Arial, sans-serif;
+  }
+
+  .impossible-captcha-close {
+    position: absolute;
+    z-index: 2;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .impossible-captcha-close:hover,
+  .impossible-captcha-tool:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  .impossible-captcha-header {
+    margin: 16px 16px 12px;
+    padding: 16px 56px 16px 16px;
+    background: #2563eb;
+    color: #fff;
+  }
+
+  .impossible-captcha-header span {
+    display: block;
+    opacity: 0.82;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .impossible-captcha-header strong {
+    display: block;
+    margin-top: 4px;
+    font-size: 20px;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  .impossible-captcha-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+    padding: 0 16px 16px;
+  }
+
+  .impossible-captcha-tile {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border: 2px solid transparent;
+    border-radius: 0;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent 40%),
+      var(--tile-bg, #24262d);
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .impossible-captcha-tile:nth-child(1) { --tile-bg: radial-gradient(circle at 70% 25%, #9ca3af, #111827 58%); }
+  .impossible-captcha-tile:nth-child(2) { --tile-bg: conic-gradient(from 45deg, #1d4ed8, #111827, #7c3aed, #1d4ed8); }
+  .impossible-captcha-tile:nth-child(3) { --tile-bg: linear-gradient(45deg, #27272a, #0f172a 45%, #f8fafc 46%, #111827 54%); }
+  .impossible-captcha-tile:nth-child(4) { --tile-bg: repeating-linear-gradient(60deg, #334155 0 8px, #020617 8px 16px); }
+  .impossible-captcha-tile:nth-child(5) { --tile-bg: radial-gradient(circle at 50% 50%, #c084fc, #1e1b4b 42%, #030712 70%); }
+  .impossible-captcha-tile:nth-child(6) { --tile-bg: linear-gradient(120deg, #0f766e, #111827 46%, #475569); }
+  .impossible-captcha-tile:nth-child(7) { --tile-bg: conic-gradient(from 90deg, #111827, #64748b, #020617, #94a3b8, #111827); }
+  .impossible-captcha-tile:nth-child(8) { --tile-bg: radial-gradient(circle at 20% 80%, #f8fafc, #1f2937 34%, #020617); }
+  .impossible-captcha-tile:nth-child(9) { --tile-bg: repeating-conic-gradient(from 18deg, #1f2937 0 10deg, #4b5563 10deg 20deg); }
+
+  .impossible-captcha-tile.is-selected {
+    border-color: #60a5fa;
+    box-shadow: inset 0 0 0 2px rgba(96, 165, 250, 0.45);
+  }
+
+  .impossible-captcha-tile.is-selected::after {
+    content: "check";
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: #2563eb;
+    color: #fff;
+    font-family: "Material Symbols Outlined";
+    font-size: 16px;
+  }
+
+  .impossible-captcha-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 0 16px;
+    padding: 14px 0 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .impossible-captcha-tools {
+    display: flex;
+    gap: 10px;
+    color: #c4c7c8;
+  }
+
+  .impossible-captcha-tool {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .impossible-captcha-verify {
+    min-width: 96px;
+    min-height: 36px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 4px;
+    background: #2563eb;
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+  }
+
+  .impossible-captcha-verify:hover {
+    background: #1d4ed8;
+  }
+
+  .impossible-captcha-error {
+    min-height: 28px;
+    padding: 0 16px 18px;
+    color: #ffb4ab;
+    font-size: 14px;
+    line-height: 1.35;
+    text-align: center;
+    visibility: hidden;
+  }
+
+  .impossible-captcha-error.is-visible {
+    visibility: visible;
+  }
+
+  @media (max-width: 480px) {
+    .impossible-captcha-modal {
+      padding: 16px;
+    }
+
+    .impossible-captcha-panel {
+      width: 100%;
+    }
+  }
+</style>
+</head>
+<body class="bg-background text-on-surface min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="sticky top-0 z-50 bg-surface/80 backdrop-blur-xl px-6 py-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center overflow-hidden border border-outline-variant/20">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Close up portrait of a smiling man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8cq54f5W_Hc1G7J8KPwmxs2pA1MK3tSDEuLFc62_88b0qe2hlMRDGgCjoitJACUsvO8cU9G45NyvLIr5U3ihCAu4Jhtyg0IMaysoo0FNtDheNZJ6zoBotOSWAFZRVC87NAgyHN1oYiIUHUMWsSsvYRh_HtSxDyhDlnkc4n2I3EQAw4tNPkxx0RSdFteolYI-xfBVFcf51WpY8-e6BJhLjx-YOm2Ld_SabY43c78wbfhrrJD2KotZ6jLCKRrdw_grhT9JUxerEQW2S"/>
+</div>
+<h1 class="font-headline text-xl font-bold tracking-tight text-on-surface">CHANGEMEPLS</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+</button>
+</header>
+<main class="px-6 py-8 max-w-5xl mx-auto space-y-10">
+<!-- Hero Section: Dynamic Summary -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<div class="md:col-span-8 p-8 rounded-xl bg-surface-container-low flex flex-col justify-between relative overflow-hidden">
+<div class="relative z-10">
+<span class="font-label text-xs font-semibold tracking-widest text-primary uppercase bg-primary-fixed/30 px-3 py-1 rounded-full">Weekly Insight</span>
+<h2 class="font-headline text-4xl mt-4 font-bold leading-tight">Your efficiency rose by <span class="text-primary">12%</span> since last Monday.</h2>
+</div>
+<div class="mt-8 flex gap-8 relative z-10">
+<div>
+<p class="font-label text-sm text-on-surface-variant">Avg. Daily Energy</p>
+<p class="font-headline text-2xl font-bold text-on-surface">14.2 kWh</p>
+</div>
+<div>
+<p class="font-label text-sm text-on-surface-variant">Avg. Daily Water</p>
+<p class="font-headline text-2xl font-bold text-on-surface">420 L</p>
+</div>
+</div>
+<!-- Abstract Gradient Decor -->
+<div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-primary-container/20 to-transparent rounded-full -mr-20 -mt-20 blur-3xl"></div>
+</div>
+<div class="md:col-span-4 p-8 rounded-xl bg-primary text-on-primary flex flex-col justify-between shadow-xl shadow-primary/10">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-4xl" data-icon="bolt" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<span class="material-symbols-outlined opacity-50" data-icon="arrow_outward">arrow_outward</span>
+</div>
+<div>
+<p class="font-headline text-4xl font-bold">-$42.00</p>
+<p class="font-label text-sm opacity-80 mt-1">Estimated Savings this month</p>
+</div>
+</div>
+</section>
+<!-- Usage Trends: The "Pulse" Chart Area -->
+<section class="space-y-6">
+<div class="flex items-end justify-between">
+<div>
+<h3 class="font-headline text-2xl font-bold">Usage Trends</h3>
+<p class="font-label text-on-surface-variant">7-Day Resource Comparison</p>
+</div>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+<span class="text-xs font-medium">Energy (kWh)</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-secondary"></div>
+<span class="text-xs font-medium">Water (L)</span>
+</div>
+</div>
+</div>
+<div class="p-8 rounded-xl bg-surface-container-lowest border border-outline-variant/10 shadow-sm h-80 flex flex-col">
+<div class="flex-1 flex items-end gap-2 md:gap-4 px-2">
+<!-- Day 1 -->
+<div class="flex-1 flex flex-col items-center gap-2 h-full justify-end group">
+<div class="w-full flex justify-center items-end gap-1 h-full">
+<div class="w-2 md:w-4 bg-primary/20 rounded-t-full h-[40%] group-hover:bg-primary transition-all"></div>
+<div class="w-2 md:w-4 bg-secondary/20 rounded-t-full h-[60%] group-hover:bg-secondary transition-all"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">MON</span>
+</div>
+<!-- Day 2 -->
+<div class="flex-1 flex flex-col items-center gap-2 h-full justify-end group">
+<div class="w-full flex justify-center items-end gap-1 h-full">
+<div class="w-2 md:w-4 bg-primary/20 rounded-t-full h-[55%] group-hover:bg-primary transition-all"></div>
+<div class="w-2 md:w-4 bg-secondary/20 rounded-t-full h-[45%] group-hover:bg-secondary transition-all"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">TUE</span>
+</div>
+<!-- Day 3 -->
+<div class="flex-1 flex flex-col items-center gap-2 h-full justify-end group">
+<div class="w-full flex justify-center items-end gap-1 h-full">
+<div class="w-2 md:w-4 bg-primary/20 rounded-t-full h-[70%] group-hover:bg-primary transition-all"></div>
+<div class="w-2 md:w-4 bg-secondary/20 rounded-t-full h-[80%] group-hover:bg-secondary transition-all"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">WED</span>
+</div>
+<!-- Day 4 -->
+<div class="flex-1 flex flex-col items-center gap-2 h-full justify-end group">
+<div class="w-full flex justify-center items-end gap-1 h-full">
+<div class="w-2 md:w-4 bg-primary rounded-t-full h-[85%]"></div>
+<div class="w-2 md:w-4 bg-secondary rounded-t-full h-[40%]"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface">THU</span>
+</div>
+<!-- Day 5 -->
+<div class="flex-1 flex flex-col items-center gap-2 h-full justify-end group">
+<div class="w-full flex justify-center items-end gap-1 h-full">
+<div class="w-2 md:w-4 bg-primary/20 rounded-t-full h-[40%] group-hover:bg-primary transition-all"></div>
+<div class="w-2 md:w-4 bg-secondary/20 rounded-t-full h-[50%] group-hover:bg-secondary transition-all"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">FRI</span>
+</div>
+<!-- Day 6 -->
+<div class="flex-1 flex flex-col items-center gap-2 h-full justify-end group">
+<div class="w-full flex justify-center items-end gap-1 h-full">
+<div class="w-2 md:w-4 bg-primary/20 rounded-t-full h-[30%] group-hover:bg-primary transition-all"></div>
+<div class="w-2 md:w-4 bg-secondary/20 rounded-t-full h-[35%] group-hover:bg-secondary transition-all"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">SAT</span>
+</div>
+<!-- Day 7 -->
+<div class="flex-1 flex flex-col items-center gap-2 h-full justify-end group">
+<div class="w-full flex justify-center items-end gap-1 h-full">
+<div class="w-2 md:w-4 bg-primary/20 rounded-t-full h-[50%] group-hover:bg-primary transition-all"></div>
+<div class="w-2 md:w-4 bg-secondary/20 rounded-t-full h-[40%] group-hover:bg-secondary transition-all"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">SUN</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Top Consumers: Bento Grid Style -->
+<section class="space-y-6">
+<h3 class="font-headline text-2xl font-bold">Top Consumers</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Appliance 1 -->
+<div class="bg-surface-container p-6 rounded-xl flex flex-col justify-between hover:bg-surface-container-high transition-all">
+<div class="flex justify-between items-start">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="hvac">hvac</span>
+</div>
+<span class="text-xs font-bold text-error">+4% vs LW</span>
+</div>
+<div class="mt-8">
+<h4 class="font-headline text-lg font-bold">HVAC System</h4>
+<div class="flex items-center gap-2 mt-2">
+<span class="font-headline text-2xl font-bold">84.2</span>
+<span class="text-sm font-label text-on-surface-variant">kWh</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded-full mt-4 overflow-hidden">
+<div class="bg-primary h-full w-[75%]"></div>
+</div>
+</div>
+</div>
+<!-- Appliance 2 -->
+<div class="bg-surface-container p-6 rounded-xl flex flex-col justify-between hover:bg-surface-container-high transition-all">
+<div class="flex justify-between items-start">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary" data-icon="local_laundry_service">local_laundry_service</span>
+</div>
+<span class="text-xs font-bold text-primary">-12% vs LW</span>
+</div>
+<div class="mt-8">
+<h4 class="font-headline text-lg font-bold">Dishwasher</h4>
+<div class="flex items-center gap-2 mt-2">
+<span class="font-headline text-2xl font-bold">156</span>
+<span class="text-sm font-label text-on-surface-variant">Liters</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded-full mt-4 overflow-hidden">
+<div class="bg-secondary h-full w-[45%]"></div>
+</div>
+</div>
+</div>
+<!-- Appliance 3 -->
+<div class="bg-surface-container p-6 rounded-xl flex flex-col justify-between hover:bg-surface-container-high transition-all">
+<div class="flex justify-between items-start">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="ev_station">ev_station</span>
+</div>
+<span class="text-xs font-bold text-on-surface-variant">Stable</span>
+</div>
+<div class="mt-8">
+<h4 class="font-headline text-lg font-bold">EV Charger</h4>
+<div class="flex items-center gap-2 mt-2">
+<span class="font-headline text-2xl font-bold">52.0</span>
+<span class="text-sm font-label text-on-surface-variant">kWh</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded-full mt-4 overflow-hidden">
+<div class="bg-primary h-full w-[60%]"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Anomaly Detection / Advice Section -->
+<section class="bg-secondary-fixed text-on-secondary-fixed p-6 rounded-xl flex flex-col md:flex-row gap-6 items-center">
+<div class="flex-shrink-0 w-16 h-16 bg-on-secondary-fixed/10 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl" data-icon="lightbulb" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+</div>
+<div class="flex-1">
+<h4 class="font-headline text-xl font-bold">Smart Optimization Tip</h4>
+<p class="mt-1 opacity-80">Your hot water usage peaks between 7 AM and 8 AM. Shifting your dishwasher cycle to 11 PM could save you $14.50/month on off-peak rates.</p>
+</div>
+<button class="bg-on-secondary-fixed text-secondary-fixed px-6 py-3 rounded-lg font-bold whitespace-nowrap hover:opacity-90 transition-opacity">
+                Automate Now
+            </button>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 right-0 z-50 bg-surface/80 backdrop-blur-xl border-t border-outline-variant/10 px-6 py-2">
+<div class="max-w-md mx-auto flex justify-between items-center">
+<button class="flex flex-col items-center gap-1 p-2 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-[10px] font-medium">Dashboard</span>
+</button>
+<button class="flex flex-col items-center gap-1 p-2 text-primary font-bold">
+<span class="material-symbols-outlined" data-icon="bar_chart" style="font-variation-settings: 'FILL' 1;">bar_chart</span>
+<span class="text-[10px]">Usage</span>
+</button>
+<button class="flex flex-col items-center gap-1 p-2 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="settings_input_component">settings_input_component</span>
+<span class="text-[10px] font-medium">Automations</span>
+</button>
+<button class="flex flex-col items-center gap-1 p-2 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-[10px] font-medium">Settings</span>
+</button>
+</div>
+</nav>
+
+<div class="impossible-captcha-modal" id="impossibleCaptchaModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="impossibleCaptchaTitle">
+  <div class="impossible-captcha-panel" role="document">
+    <button class="impossible-captcha-close" id="impossibleCaptchaClose" type="button" aria-label="Close">&times;</button>
+    <div class="impossible-captcha-header">
+      <span>Select all images with</span>
+      <strong id="impossibleCaptchaTitle">a 4-dimensional object</strong>
+    </div>
+    <div class="impossible-captcha-grid" id="impossibleCaptchaGrid">
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 1"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 2"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 3"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 4"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 5"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 6"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 7"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 8"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 9"></button>
+    </div>
+    <div class="impossible-captcha-actions">
+      <div class="impossible-captcha-tools">
+        <button class="impossible-captcha-tool" id="impossibleCaptchaRefresh" type="button" aria-label="Refresh challenge">
+          <span class="material-symbols-outlined text-lg">refresh</span>
+        </button>
+        <button class="impossible-captcha-tool" type="button" aria-label="Play audio challenge">
+          <span class="material-symbols-outlined text-lg">volume_up</span>
+        </button>
+        <button class="impossible-captcha-tool" type="button" aria-label="Captcha information">
+          <span class="material-symbols-outlined text-lg">info</span>
+        </button>
+      </div>
+      <button class="impossible-captcha-verify" id="impossibleCaptchaVerify" type="button">Verify</button>
+    </div>
+    <div class="impossible-captcha-error" id="impossibleCaptchaError" aria-live="polite">Verification failed. Please select every impossible object and try again.</div>
+  </div>
+</div>
+<script id="impossible-captcha-script">
+  (() => {
+    const modal = document.getElementById("impossibleCaptchaModal");
+    const closeButton = document.getElementById("impossibleCaptchaClose");
+    const refreshButton = document.getElementById("impossibleCaptchaRefresh");
+    const verifyButton = document.getElementById("impossibleCaptchaVerify");
+    const error = document.getElementById("impossibleCaptchaError");
+    const tiles = [...document.querySelectorAll(".impossible-captcha-tile")];
+    const triggerSelector = "button, a[href], [role='button'], .cursor-pointer";
+    const triggers = [...document.querySelectorAll(triggerSelector)].filter((trigger) => !trigger.closest("#impossibleCaptchaModal"));
+
+    const resetChallenge = (hideError = true) => {
+      tiles.forEach((tile) => tile.classList.remove("is-selected"));
+      if (hideError) {
+        error.classList.remove("is-visible");
+      }
+    };
+
+    const openCaptcha = (event) => {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      resetChallenge();
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+      verifyButton.focus({ preventScroll: true });
+    };
+
+    const closeCaptcha = () => {
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+    };
+
+    triggers.forEach((trigger) => {
+      trigger.addEventListener("click", openCaptcha);
+    });
+
+    tiles.forEach((tile) => {
+      tile.addEventListener("click", () => {
+        tile.classList.toggle("is-selected");
+      });
+    });
+
+    refreshButton.addEventListener("click", () => resetChallenge());
+    closeButton.addEventListener("click", closeCaptcha);
+
+    verifyButton.addEventListener("click", () => {
+      error.classList.add("is-visible");
+      window.setTimeout(() => resetChallenge(false), 900);
+    });
+
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        closeCaptcha();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && modal.classList.contains("is-open")) {
+        closeCaptcha();
+      }
+    });
+  })();
+</script>
+</body></html>

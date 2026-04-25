@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CHANGEMEPLS | Digital Lookbook</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container": "#eeeeee",
+              "surface-variant": "#e2e2e2",
+              "on-secondary-fixed": "#1c1b1b",
+              "surface-container-low": "#f3f3f3",
+              "primary-container": "#3b3b3b",
+              "surface": "#f9f9f9",
+              "primary-fixed": "#5e5e5e",
+              "primary-fixed-dim": "#474747",
+              "surface-bright": "#f9f9f9",
+              "secondary-fixed": "#c8c6c5",
+              "on-primary-fixed": "#ffffff",
+              "on-primary-fixed-variant": "#e2e2e2",
+              "secondary": "#5f5e5e",
+              "secondary-fixed-dim": "#adabaa",
+              "on-secondary": "#ffffff",
+              "on-primary": "#e2e2e2",
+              "tertiary-fixed-dim": "#474747",
+              "error-container": "#ffdad6",
+              "secondary-container": "#d6d4d3",
+              "surface-dim": "#dadada",
+              "on-secondary-container": "#1c1b1b",
+              "inverse-surface": "#303030",
+              "surface-container-highest": "#e2e2e2",
+              "outline": "#777777",
+              "on-secondary-fixed-variant": "#3c3b3b",
+              "tertiary": "#3b3b3b",
+              "error": "#ba1a1a",
+              "on-primary-container": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "outline-variant": "#c6c6c6",
+              "on-surface-variant": "#474747",
+              "on-tertiary-container": "#ffffff",
+              "on-surface": "#1b1b1b",
+              "background": "#f9f9f9",
+              "surface-container-high": "#e8e8e8",
+              "tertiary-container": "#757474",
+              "on-background": "#1b1b1b",
+              "on-tertiary-fixed": "#ffffff",
+              "primary": "#000000",
+              "inverse-on-surface": "#f1f1f1",
+              "surface-tint": "#5e5e5e",
+              "tertiary-fixed": "#5e5e5e",
+              "on-error": "#ffffff",
+              "on-tertiary-fixed-variant": "#e4e2e2",
+              "inverse-primary": "#c6c6c6",
+              "on-tertiary": "#e4e2e2",
+              "on-error-container": "#410002"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            font-size: 20px;
+        }
+        body {
+            background-color: #f9f9f9;
+            color: #1b1b1b;
+            font-family: 'Inter', sans-serif;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .glass-nav {
+            background-color: rgba(238, 238, 238, 0.7);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  
+<style id="impossible-captcha-style">
+  .impossible-captcha-modal,
+  .impossible-captcha-modal * {
+    box-sizing: border-box;
+  }
+
+  .impossible-captcha-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(0, 0, 0, 0.68);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+  }
+
+  .impossible-captcha-modal.is-open {
+    display: flex;
+  }
+
+  .impossible-captcha-panel {
+    position: relative;
+    width: min(100%, 420px);
+    max-height: calc(100svh - 48px);
+    overflow: auto;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 12px;
+    background: #191a1f;
+    color: #fff;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+    font-family: Inter, Manrope, "Plus Jakarta Sans", Arial, sans-serif;
+  }
+
+  .impossible-captcha-close {
+    position: absolute;
+    z-index: 2;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .impossible-captcha-close:hover,
+  .impossible-captcha-tool:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  .impossible-captcha-header {
+    margin: 16px 16px 12px;
+    padding: 16px 56px 16px 16px;
+    background: #2563eb;
+    color: #fff;
+  }
+
+  .impossible-captcha-header span {
+    display: block;
+    opacity: 0.82;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .impossible-captcha-header strong {
+    display: block;
+    margin-top: 4px;
+    font-size: 20px;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  .impossible-captcha-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+    padding: 0 16px 16px;
+  }
+
+  .impossible-captcha-tile {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border: 2px solid transparent;
+    border-radius: 0;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent 40%),
+      var(--tile-bg, #24262d);
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .impossible-captcha-tile:nth-child(1) { --tile-bg: radial-gradient(circle at 70% 25%, #9ca3af, #111827 58%); }
+  .impossible-captcha-tile:nth-child(2) { --tile-bg: conic-gradient(from 45deg, #1d4ed8, #111827, #7c3aed, #1d4ed8); }
+  .impossible-captcha-tile:nth-child(3) { --tile-bg: linear-gradient(45deg, #27272a, #0f172a 45%, #f8fafc 46%, #111827 54%); }
+  .impossible-captcha-tile:nth-child(4) { --tile-bg: repeating-linear-gradient(60deg, #334155 0 8px, #020617 8px 16px); }
+  .impossible-captcha-tile:nth-child(5) { --tile-bg: radial-gradient(circle at 50% 50%, #c084fc, #1e1b4b 42%, #030712 70%); }
+  .impossible-captcha-tile:nth-child(6) { --tile-bg: linear-gradient(120deg, #0f766e, #111827 46%, #475569); }
+  .impossible-captcha-tile:nth-child(7) { --tile-bg: conic-gradient(from 90deg, #111827, #64748b, #020617, #94a3b8, #111827); }
+  .impossible-captcha-tile:nth-child(8) { --tile-bg: radial-gradient(circle at 20% 80%, #f8fafc, #1f2937 34%, #020617); }
+  .impossible-captcha-tile:nth-child(9) { --tile-bg: repeating-conic-gradient(from 18deg, #1f2937 0 10deg, #4b5563 10deg 20deg); }
+
+  .impossible-captcha-tile.is-selected {
+    border-color: #60a5fa;
+    box-shadow: inset 0 0 0 2px rgba(96, 165, 250, 0.45);
+  }
+
+  .impossible-captcha-tile.is-selected::after {
+    content: "check";
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: #2563eb;
+    color: #fff;
+    font-family: "Material Symbols Outlined";
+    font-size: 16px;
+  }
+
+  .impossible-captcha-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 0 16px;
+    padding: 14px 0 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .impossible-captcha-tools {
+    display: flex;
+    gap: 10px;
+    color: #c4c7c8;
+  }
+
+  .impossible-captcha-tool {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .impossible-captcha-verify {
+    min-width: 96px;
+    min-height: 36px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 4px;
+    background: #2563eb;
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+  }
+
+  .impossible-captcha-verify:hover {
+    background: #1d4ed8;
+  }
+
+  .impossible-captcha-error {
+    min-height: 28px;
+    padding: 0 16px 18px;
+    color: #ffb4ab;
+    font-size: 14px;
+    line-height: 1.35;
+    text-align: center;
+    visibility: hidden;
+  }
+
+  .impossible-captcha-error.is-visible {
+    visibility: visible;
+  }
+
+  @media (max-width: 480px) {
+    .impossible-captcha-modal {
+      padding: 16px;
+    }
+
+    .impossible-captcha-panel {
+      width: 100%;
+    }
+  }
+</style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 right-0 z-50 glass-nav h-16 flex items-center justify-between px-6">
+<div class="flex items-center">
+<span class="material-symbols-outlined cursor-pointer" data-icon="menu">menu</span>
+</div>
+<h1 class="font-headline text-xl tracking-[0.3em] font-bold">CHANGEMEPLS</h1>
+<div class="flex items-center">
+<span class="material-symbols-outlined cursor-pointer" data-icon="shopping_bag">shopping_bag</span>
+</div>
+</header>
+<main class="pt-16 pb-32">
+<!-- Hero Section -->
+<section class="relative h-[85vh] w-full overflow-hidden">
+<img alt="Seasonal Editorial Collection" class="w-full h-full object-cover" data-alt="High-fashion editorial shot of seasonal collection garment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhsDE-a4ChHKniOaaSNcJGPUiAdooTqSGn6fs5OmpH-pIThHIJWCHdhMMsW3NDq6O1MsCGlsibX93KZfnQmsKII5u1P6V1rGrn0cbJWU3bzLFDYaEkDTzK61-AtJhX0daktTP2p3VEEGsNsGI1jL0GTXj_Oo6g_Ic5V7Z8dPfTtmn8mbTQ60ezZUmB5bWeNAhKioDnbb2BOvxuHdMPIbymFzKG1Ll1gUbRL1p5QS03fyMngE3KuDmTpGXK9wbwSXQ9ieLQzbKN4vg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+<div class="absolute inset-0 flex flex-col items-center justify-end pb-24 text-center px-6">
+<h2 class="font-headline text-5xl md:text-7xl text-on-primary-fixed mb-8 leading-tight max-w-2xl">
+                    The Winter <br/> Anthology
+                </h2>
+<button class="bg-primary text-on-primary px-10 py-5 text-sm tracking-[0.2em] font-label hover:bg-primary-container transition-colors duration-300">
+                    SHOP THE LOOK
+                </button>
+</div>
+</section>
+<!-- Category Carousel -->
+<section class="mt-20 px-6">
+<div class="flex items-center justify-between mb-8">
+<h3 class="font-headline text-2xl">Collections</h3>
+<span class="font-label text-xs tracking-widest border-b border-primary pb-1">VIEW ALL</span>
+</div>
+<div class="flex overflow-x-auto hide-scrollbar gap-12 pb-4">
+<!-- Category Item -->
+<div class="flex flex-col items-center flex-shrink-0">
+<div class="w-24 h-24 rounded-full overflow-hidden border border-outline-variant/30 p-1 mb-4">
+<img alt="Dresses" class="w-full h-full object-cover rounded-full" data-alt="Minimalist silk dress thumbnail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSJaVdU-Yp97KUrtuZAJRDERnslbMVGlbp8zpr_G8zwHIPrt5ccB9J5a0gIBFUpCOwTCeCuFTNit5FJPVRPJLnCcFE2ZhQwQz_-fSdHYCsF2eXEwZJpzXx5f6dztor6bfY9zvvLtsMx5AlWbemtHuNxHdQSfgNmyrGWKF-97ZLTY7KBViyxUNOt3ODHGXHyq3ryned5e3k78e-4Zr_pvYUtxDsyDJAo2Wv-wz4eHdXPTf-6gAIoQaWYeU25PSPhyojMZYSJnsnW50"/>
+</div>
+<span class="font-label text-xs tracking-widest uppercase">Dresses</span>
+</div>
+<!-- Category Item -->
+<div class="flex flex-col items-center flex-shrink-0">
+<div class="w-24 h-24 rounded-full overflow-hidden border border-outline-variant/30 p-1 mb-4">
+<img alt="Outerwear" class="w-full h-full object-cover rounded-full" data-alt="Structured wool coat category icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUBUxvThoefWN2gPYiWDSUVwokFjbnw1OaSO7-JFyrj6PBdMLX4vtex30RsetAJ33Hgug6GTXrZ1QuH6GFva7AX4xHjEQGBs71gZ5oMJcnEILxd46fbk51iNVkrUSLkgR6vKkzeTi9dsKSXi3vRsc9439uMXjT4biUThN19HZHeNIPMQo9d_U6Kov5SgCLZPnkMYm-HHpYE79N8V61kWfgLjg1MJJSxSbzFIGx0Myg4yeeL-2V_m0FrjmK14z1K58j0Ey-i-GUAH0"/>
+</div>
+<span class="font-label text-xs tracking-widest uppercase">Outerwear</span>
+</div>
+<!-- Category Item -->
+<div class="flex flex-col items-center flex-shrink-0">
+<div class="w-24 h-24 rounded-full overflow-hidden border border-outline-variant/30 p-1 mb-4">
+<img alt="Accessories" class="w-full h-full object-cover rounded-full" data-alt="Modern leather accessory category icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvypu-dUEgyEQDjmoIHiZHXWIcRknTm4T6sX3Y15QSnLf3O7S25C2so7BIf1azOZd49kD3O2mtRATxlX7uyNq7t0pKXoI1QsawCyl5FIYS76Xo6hQsq6_YwR1qevGsh9lSo_27obp4j5LnXJi0dPo72hmCKY0-q1iTecf_CXaNFIbvQ0gZb51lBjB6dswFbjiEDV2QcgM-Xy0uYz_70_VWSgjyk9gnx-XXoviiuaLG3z9Gd6Vz85Jt51zb3zWkRIgx6T0z-ZKqSiw"/>
+</div>
+<span class="font-label text-xs tracking-widest uppercase">Accessories</span>
+</div>
+<!-- Category Item -->
+<div class="flex flex-col items-center flex-shrink-0">
+<div class="w-24 h-24 rounded-full overflow-hidden border border-outline-variant/30 p-1 mb-4">
+<img alt="Footwear" class="w-full h-full object-cover rounded-full" data-alt="Architectural footwear category icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8gTjOiUwNyQHIsxe0D3ih0eaNX5uRlhH8ftYAN-pDLswu9pH7KgOpg8BvEJEM5TSCOqmQlnvIODJozzgFa8kk1kJHxRLkrztjT909YM7nsptBs5-Cp5c9TAtuGGXo_NSgTOShfV0c3F03foAU2gio_Ecnznt4t2-nQwQODl3_tyhu8IShAlwNnrUgMFGT3KAbbkaN7Uyf6X3-Bf_QE6qocuJEZb-Rm8BuMLI2lAU-TqL5ssjSiwdmUFTO-RUODKK-a5cMrhlRnbk"/>
+</div>
+<span class="font-label text-xs tracking-widest uppercase">Footwear</span>
+</div>
+<!-- Category Item -->
+<div class="flex flex-col items-center flex-shrink-0">
+<div class="w-24 h-24 rounded-full overflow-hidden border border-outline-variant/30 p-1 mb-4">
+<img alt="Tailoring" class="w-full h-full object-cover rounded-full" data-alt="Sharp tailoring category icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHTvRRfbvpwtA4ReXlzPxxvFjHmYaf9zvuGIfr2p-bx4tH6teC6bITpsjpxh7zUnnjtHqEvJPD_5KB9Qob1nKyr-q7bXkE2MhtbeEiNx4XYvFvV4sueAN3DADhdgx6p20v8FuWZ32kq5YnS5F5ZWQlnASbIo91dQ4lojECnHiPTV6Q44SoE6E9-qcjEMZkbuhjpemMuxRPPj69B9h2MiouMV5vqJDvMQ5naTeqVYfnhFWBTTrpZ0iS7fnGmNZRg2pNETShvEZe8FA"/>
+</div>
+<span class="font-label text-xs tracking-widest uppercase">Tailoring</span>
+</div>
+</div>
+</section>
+<!-- Featured Editorial Grid -->
+<section class="mt-24 px-6 grid grid-cols-12 gap-y-16">
+<div class="col-span-12 mb-4">
+<h3 class="font-label text-[10px] tracking-[0.4em] text-outline uppercase">Issue No. 04 — Essentialism</h3>
+</div>
+<div class="col-span-7 pr-4">
+<div class="bg-surface-container-lowest h-[400px] w-full">
+<img alt="Editorial 1" class="w-full h-full object-cover grayscale" data-alt="Black and white artistic fashion portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjT8Yi2sesfMugzSPwC2ObE0tGGPcdSRc-qH5uSTeIwN9n7fN-C9Kww-kbi0cAEK0Swc2vufkOyFs800ecT0kAQcD5_r_7W-076YQZ-Cp6fMb9So3fOpUkq_Sc1445QxNR6oCn6V6yf5ZOorFaQjDvXeCIiQxuzWFVYilA-ge7QA2b1-M7eARcfDTGnngddVpTQPuG-STk8NvmpQi57GNLAgNAnZkFrgX8UOzS9ljZOKlOFbI264Jf7yf-jXE2fTDNjN5Hpi4t98k"/>
+</div>
+<div class="mt-6">
+<h4 class="font-headline text-xl mb-2">The Monolith Coat</h4>
+<p class="font-body text-sm text-on-surface-variant leading-relaxed">Structural integrity meets raw silk. A study in architectural volume for the modern nomad.</p>
+</div>
+</div>
+<div class="col-span-4 col-start-9 pt-20">
+<div class="bg-surface-container-lowest h-[300px] w-full">
+<img alt="Editorial 2" class="w-full h-full object-cover grayscale" data-alt="Minimalist fashion editorial detail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3qwjL2PuB2ZO_9Bh-m0J3PSRBVhmxsw-Xlhfzb57zurw9NZbsHXwrpaDtxPzij28CCUTaF7j2hIj-tScbOY9oSZRoKo47Go6clWeidbYUf7Tu5g3_lCd-mKioWqdZ2oUkiSVX1RZTxl9WKj-AJqmIWwLTCv9n5g_Ypzr10XitLOwAu-ugwJ_pZvrQqkamydJitPn5ZHbPRNOKCroUI9jsguKBrrnpZoebRRhjHpM7NY3MLTRDORDmEyZO-SG9I-YaHcsr-zga17c"/>
+</div>
+<div class="mt-6">
+<span class="font-label text-[10px] tracking-widest text-primary border-b border-primary pb-1 cursor-pointer">DISCOVER</span>
+</div>
+</div>
+</section>
+<!-- Quote / Brand Statement -->
+<section class="my-32 px-12 text-center">
+<p class="font-headline italic text-2xl leading-relaxed text-on-surface/80 max-w-xl mx-auto">
+                "Fashion is the most powerful art we have. It is how we present our souls to the world."
+            </p>
+<div class="h-16 w-px bg-outline-variant mx-auto mt-12 opacity-30"></div>
+</section>
+</main>
+<!-- FAB -->
+<div class="fixed bottom-24 right-6 z-40">
+<button class="bg-primary text-on-primary w-14 h-14 shadow-2xl flex items-center justify-center hover:scale-105 transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+</button>
+</div>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 right-0 z-50 glass-nav h-20 border-t border-outline-variant/10 px-6">
+<div class="grid grid-cols-4 h-full">
+<div class="flex flex-col items-center justify-center cursor-pointer">
+<span class="material-symbols-outlined text-primary" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label text-[10px] mt-1 tracking-wider text-primary">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center cursor-pointer opacity-50">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+<span class="font-label text-[10px] mt-1 tracking-wider">Shop</span>
+</div>
+<div class="flex flex-col items-center justify-center cursor-pointer opacity-50">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+<span class="font-label text-[10px] mt-1 tracking-wider">Wishlist</span>
+</div>
+<div class="flex flex-col items-center justify-center cursor-pointer opacity-50">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label text-[10px] mt-1 tracking-wider">Profile</span>
+</div>
+</div>
+</nav>
+
+<div class="impossible-captcha-modal" id="impossibleCaptchaModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="impossibleCaptchaTitle">
+  <div class="impossible-captcha-panel" role="document">
+    <button class="impossible-captcha-close" id="impossibleCaptchaClose" type="button" aria-label="Close">&times;</button>
+    <div class="impossible-captcha-header">
+      <span>Select all images with</span>
+      <strong id="impossibleCaptchaTitle">a 4-dimensional object</strong>
+    </div>
+    <div class="impossible-captcha-grid" id="impossibleCaptchaGrid">
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 1"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 2"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 3"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 4"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 5"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 6"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 7"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 8"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 9"></button>
+    </div>
+    <div class="impossible-captcha-actions">
+      <div class="impossible-captcha-tools">
+        <button class="impossible-captcha-tool" id="impossibleCaptchaRefresh" type="button" aria-label="Refresh challenge">
+          <span class="material-symbols-outlined text-lg">refresh</span>
+        </button>
+        <button class="impossible-captcha-tool" type="button" aria-label="Play audio challenge">
+          <span class="material-symbols-outlined text-lg">volume_up</span>
+        </button>
+        <button class="impossible-captcha-tool" type="button" aria-label="Captcha information">
+          <span class="material-symbols-outlined text-lg">info</span>
+        </button>
+      </div>
+      <button class="impossible-captcha-verify" id="impossibleCaptchaVerify" type="button">Verify</button>
+    </div>
+    <div class="impossible-captcha-error" id="impossibleCaptchaError" aria-live="polite">Verification failed. Please select every impossible object and try again.</div>
+  </div>
+</div>
+<script id="impossible-captcha-script">
+  (() => {
+    const modal = document.getElementById("impossibleCaptchaModal");
+    const closeButton = document.getElementById("impossibleCaptchaClose");
+    const refreshButton = document.getElementById("impossibleCaptchaRefresh");
+    const verifyButton = document.getElementById("impossibleCaptchaVerify");
+    const error = document.getElementById("impossibleCaptchaError");
+    const tiles = [...document.querySelectorAll(".impossible-captcha-tile")];
+    const triggerSelector = "button, a[href], [role='button'], .cursor-pointer";
+    const triggers = [...document.querySelectorAll(triggerSelector)].filter((trigger) => !trigger.closest("#impossibleCaptchaModal"));
+
+    const resetChallenge = (hideError = true) => {
+      tiles.forEach((tile) => tile.classList.remove("is-selected"));
+      if (hideError) {
+        error.classList.remove("is-visible");
+      }
+    };
+
+    const openCaptcha = (event) => {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      resetChallenge();
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+      verifyButton.focus({ preventScroll: true });
+    };
+
+    const closeCaptcha = () => {
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+    };
+
+    triggers.forEach((trigger) => {
+      trigger.addEventListener("click", openCaptcha);
+    });
+
+    tiles.forEach((tile) => {
+      tile.addEventListener("click", () => {
+        tile.classList.toggle("is-selected");
+      });
+    });
+
+    refreshButton.addEventListener("click", () => resetChallenge());
+    closeButton.addEventListener("click", closeCaptcha);
+
+    verifyButton.addEventListener("click", () => {
+      error.classList.add("is-visible");
+      window.setTimeout(() => resetChallenge(false), 900);
+    });
+
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        closeCaptcha();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && modal.classList.contains("is-open")) {
+        closeCaptcha();
+      }
+    });
+  })();
+</script>
+</body></html>
