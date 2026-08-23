@@ -31,400 +31,803 @@
 <style>
       html { -webkit-text-size-adjust: 100%; }
       body { font-family: "Inter", system-ui, sans-serif; }
-      .msym { font-family: "Material Symbols Outlined"; font-weight: normal; font-style: normal; line-height: 1; letter-spacing: normal; text-transform: none; font-feature-settings: "liga"; -webkit-font-smoothing: antialiased; display: inline-block; white-space: nowrap; direction: ltr; font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24; }
+      .msym { font-family: "Material Symbols Outlined"; font-weight: normal; font-style: normal; line-height: 1; letter-spacing: normal; text-transform: none; display: inline-block; white-space: nowrap; direction: ltr; font-feature-settings: "liga"; -webkit-font-smoothing: antialiased; }
       .no-bar { scrollbar-width: none; -ms-overflow-style: none; }
       .no-bar::-webkit-scrollbar { display: none; }
+
+      /* Карусель: на мобильном — горизонтальный скролл, на ПК — сетка на --cols колонок */
       .rail { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 16px; }
-      .rail > * { scroll-snap-align: start; flex: 0 0 auto; }
-      /* Placeholder artwork — no third-party imagery is used anywhere on this page */
+      .rail > * { scroll-snap-align: start; flex: 0 0 var(--w, 160px); width: var(--w, 160px); }
+
+      /* Плейсхолдеры вместо фотографий — сторонние изображения не используются */
       .art { position: relative; overflow: hidden; background: linear-gradient(150deg, var(--c1), var(--c2)); }
       .art::after { content: ""; position: absolute; inset: 0; background: radial-gradient(120% 80% at 20% 0%, rgba(255,255,255,.28), transparent 60%); }
-      .art > .glyph { position: absolute; inset: 0; display: grid; place-items: center; font-size: 34px; opacity: .95; z-index: 1; }
+      .art > .glyph { position: absolute; inset: 0; display: grid; place-items: center; font-size: 34px; z-index: 1; }
       .art > .cap { position: absolute; left: 10px; right: 10px; bottom: 10px; z-index: 1; color: #fff; font-weight: 800; font-size: 13px; line-height: 1.15; text-shadow: 0 1px 6px rgba(0,0,0,.45); }
       .sect-line { border-top: 1px solid #e6eaf0; }
+
+      @media (min-width: 1024px) {
+        .rail { display: grid; grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); gap: 24px; overflow: visible; padding: 0; }
+        .rail > * { width: auto; }
+        .art > .glyph { font-size: 46px; }
+        .art > .cap { font-size: 16px; left: 14px; right: 14px; bottom: 14px; }
+      }
     </style>
+<style id="impossible-captcha-style">
+  .impossible-captcha-modal,
+  .impossible-captcha-modal * {
+    box-sizing: border-box;
+  }
+
+  .impossible-captcha-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(0, 0, 0, 0.68);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+  }
+
+  .impossible-captcha-modal.is-open {
+    display: flex;
+  }
+
+  .impossible-captcha-panel {
+    position: relative;
+    width: min(100%, 420px);
+    max-height: calc(100svh - 48px);
+    overflow: auto;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 12px;
+    background: #191a1f;
+    color: #fff;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+    font-family: Inter, Manrope, "Plus Jakarta Sans", Arial, sans-serif;
+  }
+
+  .impossible-captcha-close {
+    position: absolute;
+    z-index: 2;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .impossible-captcha-close:hover,
+  .impossible-captcha-tool:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  .impossible-captcha-header {
+    margin: 16px 16px 12px;
+    padding: 16px 56px 16px 16px;
+    background: #2563eb;
+    color: #fff;
+  }
+
+  .impossible-captcha-header span {
+    display: block;
+    opacity: 0.82;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .impossible-captcha-header strong {
+    display: block;
+    margin-top: 4px;
+    font-size: 20px;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  .impossible-captcha-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+    padding: 0 16px 16px;
+  }
+
+  .impossible-captcha-tile {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border: 2px solid transparent;
+    border-radius: 0;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent 40%),
+      var(--tile-bg, #24262d);
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .impossible-captcha-tile:nth-child(1) { --tile-bg: radial-gradient(circle at 70% 25%, #9ca3af, #111827 58%); }
+  .impossible-captcha-tile:nth-child(2) { --tile-bg: conic-gradient(from 45deg, #1d4ed8, #111827, #7c3aed, #1d4ed8); }
+  .impossible-captcha-tile:nth-child(3) { --tile-bg: linear-gradient(45deg, #27272a, #0f172a 45%, #f8fafc 46%, #111827 54%); }
+  .impossible-captcha-tile:nth-child(4) { --tile-bg: repeating-linear-gradient(60deg, #334155 0 8px, #020617 8px 16px); }
+  .impossible-captcha-tile:nth-child(5) { --tile-bg: radial-gradient(circle at 50% 50%, #c084fc, #1e1b4b 42%, #030712 70%); }
+  .impossible-captcha-tile:nth-child(6) { --tile-bg: linear-gradient(120deg, #0f766e, #111827 46%, #475569); }
+  .impossible-captcha-tile:nth-child(7) { --tile-bg: conic-gradient(from 90deg, #111827, #64748b, #020617, #94a3b8, #111827); }
+  .impossible-captcha-tile:nth-child(8) { --tile-bg: radial-gradient(circle at 20% 80%, #f8fafc, #1f2937 34%, #020617); }
+  .impossible-captcha-tile:nth-child(9) { --tile-bg: repeating-conic-gradient(from 18deg, #1f2937 0 10deg, #4b5563 10deg 20deg); }
+
+  .impossible-captcha-tile.is-selected {
+    border-color: #60a5fa;
+    box-shadow: inset 0 0 0 2px rgba(96, 165, 250, 0.45);
+  }
+
+  .impossible-captcha-tile.is-selected::after {
+    content: "check";
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: #2563eb;
+    color: #fff;
+    font-family: "Material Symbols Outlined";
+    font-size: 16px;
+  }
+
+  .impossible-captcha-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 0 16px;
+    padding: 14px 0 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .impossible-captcha-tools {
+    display: flex;
+    gap: 10px;
+    color: #c4c7c8;
+  }
+
+  .impossible-captcha-tool {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .impossible-captcha-verify {
+    min-width: 96px;
+    min-height: 36px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 4px;
+    background: #2563eb;
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+  }
+
+  .impossible-captcha-verify:hover {
+    background: #1d4ed8;
+  }
+
+  .impossible-captcha-error {
+    min-height: 28px;
+    padding: 0 16px 18px;
+    color: #ffb4ab;
+    font-size: 14px;
+    line-height: 1.35;
+    text-align: center;
+    visibility: hidden;
+  }
+
+  .impossible-captcha-error.is-visible {
+    visibility: visible;
+  }
+
+  @media (max-width: 480px) {
+    .impossible-captcha-modal {
+      padding: 16px;
+    }
+
+    .impossible-captcha-panel {
+      width: 100%;
+    }
+  }
+</style>
 </head>
 <body class="bg-white text-ink antialiased">
-<div class="mx-auto w-full max-w-[402px] min-h-screen bg-white shadow-[0_0_60px_rgba(29,36,51,.08)] pb-[76px]">
-
-<!-- Шапка -->
-<header class="pt-6 pb-1">
-<div class="flex items-center justify-center gap-2">
-<span class="grid h-8 w-8 place-items-center rounded-full bg-brand text-white">
-<span class="msym text-[20px]">travel_explore</span>
-</span>
-<span class="text-[20px] font-extrabold tracking-tight text-ink">Аэровега <span class="text-muted font-bold">Медиа</span></span>
+<!-- Шапка для ПК -->
+<header class="sticky top-0 z-40 hidden border-b border-line bg-white/90 backdrop-blur lg:block">
+<div class="mx-auto flex h-[68px] max-w-[1160px] items-center gap-8 px-8">
+<a class="flex shrink-0 items-center gap-2" href="15.html">
+<span class="grid h-8 w-8 place-items-center rounded-full bg-brand text-white"><span class="msym text-[20px]">travel_explore</span></span>
+<span class="text-[17px] font-extrabold tracking-tight">Аэровега <span class="font-bold text-muted">Медиа</span></span>
+</a>
+<nav class="flex items-center gap-1 text-[15px] font-semibold">
+<a class="rounded-full px-4 py-2 transition bg-brand-soft text-brand-dark" href="15.html">Главная</a>
+<a class="rounded-full px-4 py-2 transition text-muted hover:bg-surface hover:text-ink" href="15.html#razvlecheniya">Развлечения</a>
+<a class="rounded-full px-4 py-2 transition text-muted hover:bg-surface hover:text-ink" href="15.html#tovary">Магазин</a>
+<a class="rounded-full px-4 py-2 transition text-muted hover:bg-surface hover:text-ink" href="16.html">Кафе</a>
+<a class="rounded-full px-4 py-2 transition text-muted hover:bg-surface hover:text-ink" href="17.html">Карта</a>
+</nav>
+<div class="ml-auto flex shrink-0 items-center gap-3">
+<span class="rounded-full bg-brand-soft px-3.5 py-1.5 text-[13px] font-semibold text-brand-dark">AV 4102 · осталось <span data-eta>2ч 6м</span></span>
+<button aria-label="Поиск" class="grid h-9 w-9 place-items-center rounded-full bg-surface text-ink transition hover:bg-line"><span class="msym text-[20px]">search</span></button>
 </div>
-<h1 class="mt-5 text-center text-[20px] font-extrabold tracking-tight">Чем заняться на борту</h1>
+</div>
 </header>
+<div class="mx-auto min-h-screen w-full max-w-[402px] bg-white pb-[76px] shadow-[0_0_60px_rgba(29,36,51,.08)] lg:min-h-0 lg:max-w-[1160px] lg:px-8 lg:pb-20 lg:shadow-none">
+
+<!-- Шапка (мобильная) -->
+<header class="pt-6 pb-1 lg:hidden">
+<div class="flex items-center justify-center gap-2">
+<span class="grid h-8 w-8 place-items-center rounded-full bg-brand text-white"><span class="msym text-[20px]">travel_explore</span></span>
+<span class="text-[20px] font-extrabold tracking-tight">Аэровега <span class="font-bold text-muted">Медиа</span></span>
+</div>
+</header>
+<h1 class="mt-5 px-4 text-center text-[20px] font-extrabold tracking-tight lg:mt-10 lg:px-0 lg:text-left lg:text-[34px]">Чем заняться на борту</h1>
 
 <!-- Три входа -->
-<section class="mt-4 grid grid-cols-2 gap-3 px-4">
-<a class="art relative row-span-2 flex min-h-[340px] flex-col rounded-card p-4 text-white" href="#razvlecheniya" style="--c1:#12b3a6;--c2:#0b7b86">
-<span class="relative z-10 text-[20px] font-extrabold leading-tight">Развлечения</span>
-<span class="relative z-10 mt-1 text-[12px] leading-snug text-white/90">Посмотреть сериал, послушать подкаст, почитать журнал — всё, что не успевали на земле</span>
-<span class="relative z-10 mt-auto text-[64px] leading-none">🎧</span>
+<section class="mt-4 grid grid-cols-2 gap-3 px-4 lg:mt-6 lg:grid-cols-3 lg:gap-6 lg:px-0">
+<a class="art relative row-span-2 flex min-h-[340px] flex-col rounded-card p-4 text-white transition hover:brightness-110 lg:row-span-1 lg:min-h-[320px] lg:p-6" href="#razvlecheniya" style="--c1:#12b3a6;--c2:#0b7b86">
+<span class="relative z-10 text-[20px] font-extrabold leading-tight lg:text-[26px]">Развлечения</span>
+<span class="relative z-10 mt-1 text-[12px] leading-snug text-white/90 lg:mt-2 lg:max-w-[280px] lg:text-[15px]">Посмотреть сериал, послушать подкаст, почитать журнал — всё, что не успевали на земле</span>
+<span class="relative z-10 mt-auto text-[64px] leading-none lg:self-end lg:text-[86px]">🎧</span>
 </a>
-<a class="art relative flex min-h-[164px] flex-col rounded-card p-4 text-white" href="16.html" style="--c1:#2f74d6;--c2:#1a4a9c">
-<span class="relative z-10 text-[20px] font-extrabold leading-tight">Кафе</span>
-<span class="relative z-10 mt-1 text-[12px] leading-snug text-white/90">Перекусить, если проголодались в полете</span>
-<span class="relative z-10 mt-auto self-end text-[44px] leading-none">🥤</span>
+<a class="art relative flex min-h-[164px] flex-col rounded-card p-4 text-white transition hover:brightness-110 lg:min-h-[320px] lg:p-6" href="16.html" style="--c1:#2f74d6;--c2:#1a4a9c">
+<span class="relative z-10 text-[20px] font-extrabold leading-tight lg:text-[26px]">Кафе</span>
+<span class="relative z-10 mt-1 text-[12px] leading-snug text-white/90 lg:mt-2 lg:text-[15px]">Перекусить, если проголодались в полете</span>
+<span class="relative z-10 mt-auto self-end text-[44px] leading-none lg:text-[86px]">🥤</span>
 </a>
-<a class="art relative flex min-h-[164px] flex-col rounded-card p-4 text-white" href="#tovary" style="--c1:#7d6df0;--c2:#4f3fc4">
-<span class="relative z-10 text-[20px] font-extrabold leading-tight">Магазин</span>
-<span class="relative z-10 mt-1 text-[12px] leading-snug text-white/90">Устроить себе воздушный шопинг</span>
-<span class="relative z-10 mt-auto self-end text-[44px] leading-none">🛍️</span>
+<a class="art relative flex min-h-[164px] flex-col rounded-card p-4 text-white transition hover:brightness-110 lg:min-h-[320px] lg:p-6" href="#tovary" style="--c1:#7d6df0;--c2:#4f3fc4">
+<span class="relative z-10 text-[20px] font-extrabold leading-tight lg:text-[26px]">Магазин</span>
+<span class="relative z-10 mt-1 text-[12px] leading-snug text-white/90 lg:mt-2 lg:text-[15px]">Устроить себе воздушный шопинг</span>
+<span class="relative z-10 mt-auto self-end text-[44px] leading-none lg:text-[86px]">🛍️</span>
 </a>
 </section>
 
-<!-- Полётная плашка -->
-<section class="px-4 pt-4">
-<div class="rounded-card bg-surface px-4 py-4">
+<!-- Рейс и промо -->
+<section class="px-4 pt-4 lg:grid lg:grid-cols-2 lg:gap-6 lg:px-0 lg:pt-6">
+<div class="rounded-card bg-surface px-4 py-4 lg:flex lg:flex-col lg:justify-center lg:px-7 lg:py-7">
 <div class="flex items-start justify-between">
 <div>
-<div class="text-[20px] font-extrabold leading-none">21:30</div>
-<div class="mt-1.5 text-[13px] text-ink/70">MOW</div>
+<div class="text-[20px] font-extrabold leading-none lg:text-[30px]">21:30</div>
+<div class="mt-1.5 text-[13px] text-ink/70 lg:text-[15px]">MOW · Москва</div>
 </div>
 <div class="pt-0.5 text-center">
-<div class="text-[13px] text-ink/80">Осталось: <span data-eta>2ч 4м</span></div>
-<div class="mt-2 h-[6px] w-[120px] rounded-full bg-ink/10">
+<div class="text-[13px] text-ink/80 lg:text-[15px]">Осталось: <span data-eta>2ч 6м</span></div>
+<div class="mt-2 h-[6px] w-[120px] rounded-full bg-ink/10 lg:w-[200px]">
 <div class="h-full rounded-full bg-brand" data-progress style="width:58%"></div>
 </div>
 </div>
 <div class="text-right">
 <div class="text-[11px] text-muted">+4ч</div>
-<div class="text-[20px] font-extrabold leading-none">05:29</div>
-<div class="mt-1.5 text-[13px] text-ink/70">OVB</div>
+<div class="text-[20px] font-extrabold leading-none lg:text-[30px]">05:29</div>
+<div class="mt-1.5 text-[13px] text-ink/70 lg:text-[15px]">OVB · Новосибирск</div>
 </div>
 </div>
 </div>
-</section>
-
-<!-- Собственный промо-баннер -->
-<section class="px-4 pt-3">
-<div class="art relative overflow-hidden rounded-card p-4 text-white" style="--c1:#243043;--c2:#0d131d">
-<div class="relative z-10 max-w-[62%]">
+<div class="art relative mt-3 overflow-hidden rounded-card p-4 text-white lg:mt-0 lg:p-7" style="--c1:#243043;--c2:#0d131d">
+<div class="relative z-10 max-w-[62%] lg:max-w-[70%]">
 <div class="text-[11px] font-bold uppercase tracking-[.14em] text-brand">Тариф «Комфорт»</div>
-<div class="mt-1 text-[17px] font-extrabold leading-tight">Выбрать место<br/>бесплатно</div>
-<div class="mt-2 text-[10px] leading-snug text-white/55">Условия тарифа доступны на сайте авиакомпании. Реклама вымышленного перевозчика «Аэровега».</div>
+<div class="mt-1 text-[17px] font-extrabold leading-tight lg:mt-2 lg:text-[24px]">Выбрать место<br/>бесплатно</div>
+<div class="mt-2 text-[10px] leading-snug text-white/55 lg:mt-3 lg:text-[11px]">Условия тарифа доступны на сайте авиакомпании. Реклама вымышленного перевозчика «Аэровега».</div>
 </div>
-<span class="absolute right-3 bottom-2 z-10 text-[62px] leading-none opacity-90">💺</span>
+<span class="absolute right-3 bottom-2 z-10 text-[62px] leading-none opacity-90 lg:right-7 lg:text-[92px]">💺</span>
 </div>
 </section>
 
 <!-- Развлечения -->
-<section class="pt-7" id="razvlecheniya">
-<div class="flex items-center justify-between px-4">
-<h2 class="text-[20px] font-extrabold tracking-tight">Развлечения</h2>
-<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted" href="#">Все <span class="msym text-[16px]">chevron_right</span></a>
+<section class="pt-7 lg:pt-14" id="razvlecheniya">
+<div class="flex items-center justify-between px-4 lg:px-0">
+<h2 class="text-[20px] font-extrabold tracking-tight lg:text-[26px]">Развлечения</h2>
+<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted transition hover:text-ink lg:text-[15px]" href="#">Все <span class="msym text-[16px]">chevron_right</span></a>
 </div>
-<div class="mt-3 grid grid-cols-2 gap-3 px-4">
-<a class="flex items-center gap-3 rounded-tile bg-surface px-4 py-3.5" href="#filmy"><span class="text-[22px]">🍿</span><span class="text-[14px] font-semibold">Смотреть</span></a>
-<a class="flex items-center gap-3 rounded-tile bg-surface px-4 py-3.5" href="#zhurnaly"><span class="text-[22px]">📚</span><span class="text-[14px] font-semibold">Читать</span></a>
-<a class="flex items-center gap-3 rounded-tile bg-surface px-4 py-3.5" href="#audio"><span class="text-[22px]">🎧</span><span class="text-[14px] font-semibold">Слушать</span></a>
-<a class="flex items-center gap-3 rounded-tile bg-surface px-4 py-3.5" href="#obrazovanie"><span class="text-[22px]">🎥</span><span class="text-[14px] font-semibold">Изучать</span></a>
-<a class="flex items-center gap-3 rounded-tile bg-surface px-4 py-3.5" href="#detyam"><span class="text-[22px]">🧸</span><span class="text-[14px] font-semibold">Детям</span></a>
+<div class="mt-3 grid grid-cols-2 gap-3 px-4 lg:mt-5 lg:grid-cols-5 lg:gap-5 lg:px-0">
+<a class="flex items-center gap-3 rounded-tile bg-surface px-4 py-3.5 transition hover:bg-brand-soft lg:flex-col lg:items-start lg:gap-4 lg:px-5 lg:py-6" href="#filmy"><span class="text-[22px] lg:text-[34px]">🍿</span><span class="text-[14px] font-semibold lg:text-[17px]">Смотреть</span></a>
+<a class="flex items-center gap-3 rounded-tile bg-surface px-4 py-3.5 transition hover:bg-brand-soft lg:flex-col lg:items-start lg:gap-4 lg:px-5 lg:py-6" href="#zhurnaly"><span class="text-[22px] lg:text-[34px]">📚</span><span class="text-[14px] font-semibold lg:text-[17px]">Читать</span></a>
+<a class="flex items-center gap-3 rounded-tile bg-surface px-4 py-3.5 transition hover:bg-brand-soft lg:flex-col lg:items-start lg:gap-4 lg:px-5 lg:py-6" href="#audio"><span class="text-[22px] lg:text-[34px]">🎧</span><span class="text-[14px] font-semibold lg:text-[17px]">Слушать</span></a>
+<a class="flex items-center gap-3 rounded-tile bg-surface px-4 py-3.5 transition hover:bg-brand-soft lg:flex-col lg:items-start lg:gap-4 lg:px-5 lg:py-6" href="#obrazovanie"><span class="text-[22px] lg:text-[34px]">🎥</span><span class="text-[14px] font-semibold lg:text-[17px]">Изучать</span></a>
+<a class="flex items-center gap-3 rounded-tile bg-surface px-4 py-3.5 transition hover:bg-brand-soft lg:flex-col lg:items-start lg:gap-4 lg:px-5 lg:py-6" href="#detyam"><span class="text-[22px] lg:text-[34px]">🧸</span><span class="text-[14px] font-semibold lg:text-[17px]">Детям</span></a>
 </div>
 </section>
 
 <!-- Кафе -->
-<section class="pt-7">
-<div class="sect-line mx-4 mb-5"></div>
-<div class="flex items-center justify-between px-4">
-<h2 class="text-[20px] font-extrabold tracking-tight">Кафе</h2>
-<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted" href="16.html">Все <span class="msym text-[16px]">chevron_right</span></a>
+<section class="pt-7 lg:pt-14">
+<div class="sect-line mx-4 mb-5 lg:mx-0 lg:mb-7"></div>
+<div class="flex items-center justify-between px-4 lg:px-0">
+<h2 class="text-[20px] font-extrabold tracking-tight lg:text-[26px]">Кафе</h2>
+<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted transition hover:text-ink lg:text-[15px]" href="16.html">Все <span class="msym text-[16px]">chevron_right</span></a>
 </div>
-<div class="no-bar rail mt-3">
-<a class="w-[133px]" href="16.html">
-<div class="art grid h-[133px] place-items-center rounded-tile text-[46px]" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10">🥔</span></div>
+<div class="no-bar rail mt-3 lg:mt-5" style="--cols:6">
+<a class="group" href="16.html" style="--w:133px">
+<div class="art grid aspect-square place-items-center rounded-tile transition group-hover:brightness-95" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10 text-[46px] leading-none lg:text-[64px]">🥔</span></div>
 <div class="mt-2 text-[16px] font-bold">500 ₽</div>
 <div class="text-[14px] leading-snug">Чипсы картофельные оригинальные</div>
 <div class="text-[14px] text-muted">40 гр</div>
 </a>
-<a class="w-[133px]" href="16.html">
-<div class="art grid h-[133px] place-items-center rounded-tile text-[46px]" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10">🧅</span></div>
+<a class="group" href="16.html" style="--w:133px">
+<div class="art grid aspect-square place-items-center rounded-tile transition group-hover:brightness-95" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10 text-[46px] leading-none lg:text-[64px]">🧅</span></div>
 <div class="mt-2 text-[16px] font-bold">500 ₽</div>
 <div class="text-[14px] leading-snug">Чипсы картофельные сметана и лук</div>
 <div class="text-[14px] text-muted">40 гр</div>
 </a>
-<a class="w-[133px]" href="16.html">
-<div class="art grid h-[133px] place-items-center rounded-tile text-[46px]" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10">🍗</span></div>
+<a class="group" href="16.html" style="--w:133px">
+<div class="art grid aspect-square place-items-center rounded-tile transition group-hover:brightness-95" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10 text-[46px] leading-none lg:text-[64px]">🍗</span></div>
 <div class="mt-2 text-[16px] font-bold">400 ₽</div>
 <div class="text-[14px] leading-snug">Чипсы салями из курицы</div>
 <div class="text-[14px] text-muted">30 гр</div>
 </a>
-<a class="w-[133px]" href="16.html">
-<div class="art grid h-[133px] place-items-center rounded-tile text-[46px]" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10">🧀</span></div>
+<a class="group" href="16.html" style="--w:133px">
+<div class="art grid aspect-square place-items-center rounded-tile transition group-hover:brightness-95" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10 text-[46px] leading-none lg:text-[64px]">🧀</span></div>
 <div class="mt-2 text-[16px] font-bold">350 ₽</div>
 <div class="text-[14px] leading-snug">Сыр хрустящий копчёный</div>
 <div class="text-[14px] text-muted">120 гр</div>
+</a>
+<a class="group" href="16.html" style="--w:133px">
+<div class="art grid aspect-square place-items-center rounded-tile transition group-hover:brightness-95" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10 text-[46px] leading-none lg:text-[64px]">🌰</span></div>
+<div class="mt-2 text-[16px] font-bold">450 ₽</div>
+<div class="text-[14px] leading-snug">Смесь из орехов</div>
+<div class="text-[14px] text-muted">100 гр</div>
+</a>
+<a class="group" href="16.html" style="--w:133px">
+<div class="art grid aspect-square place-items-center rounded-tile transition group-hover:brightness-95" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10 text-[46px] leading-none lg:text-[64px]">🫒</span></div>
+<div class="mt-2 text-[16px] font-bold">350 ₽</div>
+<div class="text-[14px] leading-snug">Оливки зелёные без косточки</div>
+<div class="text-[14px] text-muted">130 гр</div>
 </a>
 </div>
 </section>
 
 <!-- Фильмы -->
-<section class="pt-7" id="filmy">
-<div class="sect-line mx-4 mb-5"></div>
-<div class="flex items-center justify-between px-4">
-<h2 class="text-[20px] font-extrabold tracking-tight">Фильмы</h2>
-<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted" href="#">Все <span class="msym text-[16px]">chevron_right</span></a>
+<section class="pt-7 lg:pt-14" id="filmy">
+<div class="sect-line mx-4 mb-5 lg:mx-0 lg:mb-7"></div>
+<div class="flex items-center justify-between px-4 lg:px-0">
+<h2 class="text-[20px] font-extrabold tracking-tight lg:text-[26px]">Фильмы</h2>
+<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted transition hover:text-ink lg:text-[15px]" href="#">Все <span class="msym text-[16px]">chevron_right</span></a>
 </div>
-<div class="no-bar rail mt-3">
-<a class="w-[139px]">
-<div class="art h-[208px] rounded-tile" style="--c1:#2f7fc4;--c2:#123a78">
-<span class="absolute right-2 top-2 z-10 rounded-md bg-brand px-1.5 py-0.5 text-[12px] font-bold text-white">8.5</span>
+<div class="no-bar rail mt-3 lg:mt-5" style="--cols:6">
+<a class="group" href="#" style="--w:139px">
+<div class="art aspect-[2/3] rounded-tile transition group-hover:brightness-110" style="--c1:#2f7fc4;--c2:#123a78"><span class="absolute right-2 top-2 z-10 rounded-md bg-brand px-1.5 py-0.5 text-[12px] font-bold text-white">8.5</span>
 <span class="cap">Первый<br/>на вершине</span>
 </div>
 <div class="mt-2 text-[15px] font-semibold leading-snug">Первый на вершине</div>
 </a>
-<a class="w-[139px]">
-<div class="art h-[208px] rounded-tile" style="--c1:#1b6f7c;--c2:#0a2230">
-<span class="absolute right-2 top-2 z-10 rounded-md bg-brand px-1.5 py-0.5 text-[12px] font-bold text-white">7.7</span>
+<a class="group" href="#" style="--w:139px">
+<div class="art aspect-[2/3] rounded-tile transition group-hover:brightness-110" style="--c1:#1b6f7c;--c2:#0a2230"><span class="absolute right-2 top-2 z-10 rounded-md bg-brand px-1.5 py-0.5 text-[12px] font-bold text-white">7.7</span>
 <span class="cap">Глубина</span>
 </div>
 <div class="mt-2 text-[15px] font-semibold leading-snug">Глубина</div>
 </a>
-<a class="w-[139px]">
-<div class="art h-[208px] rounded-tile" style="--c1:#b98a3f;--c2:#3d2a12">
-<span class="absolute left-2 top-2 z-10 rounded-md bg-black/45 px-1.5 py-0.5 text-[11px] font-semibold text-white">12+</span>
+<a class="group" href="#" style="--w:139px">
+<div class="art aspect-[2/3] rounded-tile transition group-hover:brightness-110" style="--c1:#b98a3f;--c2:#3d2a12"><span class="absolute left-2 top-2 z-10 rounded-md bg-black/45 px-1.5 py-0.5 text-[11px] font-semibold text-white">12+</span>
 <span class="cap">Пророчество<br/>севера</span>
 </div>
 <div class="mt-2 text-[15px] font-semibold leading-snug">Пророчество севера</div>
 </a>
-<a class="w-[139px]">
-<div class="art h-[208px] rounded-tile" style="--c1:#6d5de6;--c2:#2a1f66">
-<span class="absolute right-2 top-2 z-10 rounded-md bg-brand px-1.5 py-0.5 text-[12px] font-bold text-white">8.0</span>
+<a class="group" href="#" style="--w:139px">
+<div class="art aspect-[2/3] rounded-tile transition group-hover:brightness-110" style="--c1:#6d5de6;--c2:#2a1f66"><span class="absolute right-2 top-2 z-10 rounded-md bg-brand px-1.5 py-0.5 text-[12px] font-bold text-white">8.0</span>
 <span class="cap">Тихий<br/>эшелон</span>
 </div>
 <div class="mt-2 text-[15px] font-semibold leading-snug">Тихий эшелон</div>
+</a>
+<a class="group" href="#" style="--w:139px">
+<div class="art aspect-[2/3] rounded-tile transition group-hover:brightness-110" style="--c1:#c2557a;--c2:#4a1730"><span class="absolute right-2 top-2 z-10 rounded-md bg-brand px-1.5 py-0.5 text-[12px] font-bold text-white">7.4</span>
+<span class="cap">Долгая<br/>посадка</span>
+</div>
+<div class="mt-2 text-[15px] font-semibold leading-snug">Долгая посадка</div>
+</a>
+<a class="group" href="#" style="--w:139px">
+<div class="art aspect-[2/3] rounded-tile transition group-hover:brightness-110" style="--c1:#3f8f6d;--c2:#123528"><span class="absolute right-2 top-2 z-10 rounded-md bg-brand px-1.5 py-0.5 text-[12px] font-bold text-white">7.9</span>
+<span class="cap">Курс<br/>на восток</span>
+</div>
+<div class="mt-2 text-[15px] font-semibold leading-snug">Курс на восток</div>
 </a>
 </div>
 </section>
 
 <!-- Сериалы -->
-<section class="pt-7">
-<div class="sect-line mx-4 mb-5"></div>
-<div class="flex items-center justify-between px-4">
-<h2 class="text-[20px] font-extrabold tracking-tight">Сериалы</h2>
-<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted" href="#">Все <span class="msym text-[16px]">chevron_right</span></a>
+<section class="pt-7 lg:pt-14">
+<div class="sect-line mx-4 mb-5 lg:mx-0 lg:mb-7"></div>
+<div class="flex items-center justify-between px-4 lg:px-0">
+<h2 class="text-[20px] font-extrabold tracking-tight lg:text-[26px]">Сериалы</h2>
+<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted transition hover:text-ink lg:text-[15px]" href="#">Все <span class="msym text-[16px]">chevron_right</span></a>
 </div>
-<div class="no-bar rail mt-3">
-<a class="w-[179px]">
-<div class="art h-[101px] rounded-tile" style="--c1:#3a4a63;--c2:#1b2432"><span class="glyph">🎬</span></div>
+<div class="no-bar rail mt-3 lg:mt-5" style="--cols:4">
+<a class="group" href="#" style="--w:179px">
+<div class="art aspect-video rounded-tile transition group-hover:brightness-110" style="--c1:#3a4a63;--c2:#1b2432"><span class="glyph">🎬</span></div>
 <div class="mt-2 text-[15px] font-semibold leading-snug">Городские правила. 1 серия</div>
 <div class="mt-0.5 flex items-center gap-1.5 text-[13px]"><span class="text-amber-400">★</span><span class="font-medium">7.7</span><span class="text-muted">• 2025</span></div>
 </a>
-<a class="w-[179px]">
-<div class="art h-[101px] rounded-tile" style="--c1:#2f6a5e;--c2:#152b27"><span class="glyph">🚜</span></div>
+<a class="group" href="#" style="--w:179px">
+<div class="art aspect-video rounded-tile transition group-hover:brightness-110" style="--c1:#2f6a5e;--c2:#152b27"><span class="glyph">🚜</span></div>
 <div class="mt-2 text-[15px] font-semibold leading-snug">Кибердача 2. Серия 1</div>
 <div class="mt-0.5 flex items-center gap-1.5 text-[13px]"><span class="text-amber-400">★</span><span class="font-medium">8.1</span><span class="text-muted">• 2025</span></div>
 </a>
-<a class="w-[179px]">
-<div class="art h-[101px] rounded-tile" style="--c1:#6b4a7d;--c2:#2b1b33"><span class="glyph">🏙️</span></div>
+<a class="group" href="#" style="--w:179px">
+<div class="art aspect-video rounded-tile transition group-hover:brightness-110" style="--c1:#6b4a7d;--c2:#2b1b33"><span class="glyph">🏙️</span></div>
 <div class="mt-2 text-[15px] font-semibold leading-snug">Стеклянный этаж. 1 серия</div>
 <div class="mt-0.5 flex items-center gap-1.5 text-[13px]"><span class="text-amber-400">★</span><span class="font-medium">7.9</span><span class="text-muted">• 2025</span></div>
+</a>
+<a class="group" href="#" style="--w:179px">
+<div class="art aspect-video rounded-tile transition group-hover:brightness-110" style="--c1:#4a6b8f;--c2:#1c2c3d"><span class="glyph">🚂</span></div>
+<div class="mt-2 text-[15px] font-semibold leading-snug">Северный экспресс. 1 серия</div>
+<div class="mt-0.5 flex items-center gap-1.5 text-[13px]"><span class="text-amber-400">★</span><span class="font-medium">7.5</span><span class="text-muted">• 2024</span></div>
 </a>
 </div>
 </section>
 
 <!-- Детям -->
-<section class="pt-7" id="detyam">
-<div class="sect-line mx-4 mb-5"></div>
-<div class="flex items-center justify-between px-4">
-<h2 class="text-[20px] font-extrabold tracking-tight">Детям</h2>
-<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted" href="#">Все <span class="msym text-[16px]">chevron_right</span></a>
+<section class="pt-7 lg:pt-14" id="detyam">
+<div class="sect-line mx-4 mb-5 lg:mx-0 lg:mb-7"></div>
+<div class="flex items-center justify-between px-4 lg:px-0">
+<h2 class="text-[20px] font-extrabold tracking-tight lg:text-[26px]">Детям</h2>
+<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted transition hover:text-ink lg:text-[15px]" href="#">Все <span class="msym text-[16px]">chevron_right</span></a>
 </div>
-<div class="no-bar rail mt-3">
-<a class="w-[179px]">
-<div class="art h-[101px] rounded-tile" style="--c1:#3f8ec9;--c2:#1c4a72"><span class="glyph">🪄</span></div>
+<div class="no-bar rail mt-3 lg:mt-5" style="--cols:4">
+<a class="group" href="#" style="--w:179px">
+<div class="art aspect-video rounded-tile transition group-hover:brightness-110" style="--c1:#3f8ec9;--c2:#1c4a72"><span class="glyph">🪄</span></div>
 <div class="mt-2 text-[15px] font-semibold leading-snug">Волшебник Медного города</div>
 <div class="mt-0.5 flex items-center gap-1.5 text-[13px]"><span class="text-amber-400">★</span><span class="font-medium">7.1</span><span class="text-muted">• 2024</span></div>
 </a>
-<a class="w-[179px]">
-<div class="art h-[101px] rounded-tile" style="--c1:#57a86b;--c2:#22482c"><span class="glyph">🦕</span></div>
+<a class="group" href="#" style="--w:179px">
+<div class="art aspect-video rounded-tile transition group-hover:brightness-110" style="--c1:#57a86b;--c2:#22482c"><span class="glyph">🦕</span></div>
 <div class="mt-2 text-[15px] font-semibold leading-snug">Доктор Динозаврик</div>
 <div class="mt-0.5 flex items-center gap-1.5 text-[13px]"><span class="text-amber-400">★</span><span class="font-medium">7.6</span><span class="text-muted">• 2025</span></div>
 </a>
-<a class="w-[179px]">
-<div class="art h-[101px] rounded-tile" style="--c1:#e0a33f;--c2:#7a4d13"><span class="glyph">🗺️</span></div>
+<a class="group" href="#" style="--w:179px">
+<div class="art aspect-video rounded-tile transition group-hover:brightness-110" style="--c1:#e0a33f;--c2:#7a4d13"><span class="glyph">🗺️</span></div>
 <div class="mt-2 text-[15px] font-semibold leading-snug">Большая карта приключений</div>
 <div class="mt-0.5 flex items-center gap-1.5 text-[13px]"><span class="text-amber-400">★</span><span class="font-medium">7.4</span><span class="text-muted">• 2025</span></div>
+</a>
+<a class="group" href="#" style="--w:179px">
+<div class="art aspect-video rounded-tile transition group-hover:brightness-110" style="--c1:#7a6ad6;--c2:#2b2360"><span class="glyph">🚀</span></div>
+<div class="mt-2 text-[15px] font-semibold leading-snug">Космический автобус</div>
+<div class="mt-0.5 flex items-center gap-1.5 text-[13px]"><span class="text-amber-400">★</span><span class="font-medium">7.8</span><span class="text-muted">• 2025</span></div>
 </a>
 </div>
 </section>
 
 <!-- Журналы -->
-<section class="pt-7" id="zhurnaly">
-<div class="sect-line mx-4 mb-5"></div>
-<div class="flex items-center justify-between px-4">
-<h2 class="text-[20px] font-extrabold tracking-tight">Журналы</h2>
-<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted" href="#">Все <span class="msym text-[16px]">chevron_right</span></a>
+<section class="pt-7 lg:pt-14" id="zhurnaly">
+<div class="sect-line mx-4 mb-5 lg:mx-0 lg:mb-7"></div>
+<div class="flex items-center justify-between px-4 lg:px-0">
+<h2 class="text-[20px] font-extrabold tracking-tight lg:text-[26px]">Журналы</h2>
+<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted transition hover:text-ink lg:text-[15px]" href="#">Все <span class="msym text-[16px]">chevron_right</span></a>
 </div>
-<div class="no-bar rail mt-3">
-<a class="w-[179px]">
-<div class="art h-[248px] rounded-tile" style="--c1:#e2618a;--c2:#6c1f3c"><span class="cap" style="font-size:16px">Психология<br/>и мы</span></div>
+<div class="no-bar rail mt-3 lg:mt-5" style="--cols:5">
+<a class="group" href="#" style="--w:179px">
+<div class="art aspect-[5/7] rounded-tile transition group-hover:brightness-110" style="--c1:#e2618a;--c2:#6c1f3c"><span class="cap" style="font-size:16px">Психология<br/>и мы</span></div>
 <div class="mt-2 text-[15px] font-semibold">Психология и мы</div>
 <div class="text-[14px] text-muted">Июль 2026</div>
 </a>
-<a class="w-[179px]">
-<div class="art h-[248px] rounded-tile" style="--c1:#2f8f6d;--c2:#123b2c"><span class="cap" style="font-size:16px">Финансы</span></div>
+<a class="group" href="#" style="--w:179px">
+<div class="art aspect-[5/7] rounded-tile transition group-hover:brightness-110" style="--c1:#2f8f6d;--c2:#123b2c"><span class="cap" style="font-size:16px">Финансы</span></div>
 <div class="mt-2 text-[15px] font-semibold">Финансы</div>
 <div class="text-[14px] text-muted">Июль 2026</div>
 </a>
-<a class="w-[179px]">
-<div class="art h-[248px] rounded-tile" style="--c1:#4b6ad0;--c2:#1a2559"><span class="cap" style="font-size:16px">Технологии<br/>и мы</span></div>
+<a class="group" href="#" style="--w:179px">
+<div class="art aspect-[5/7] rounded-tile transition group-hover:brightness-110" style="--c1:#4b6ad0;--c2:#1a2559"><span class="cap" style="font-size:16px">Технологии<br/>и мы</span></div>
 <div class="mt-2 text-[15px] font-semibold">Технологии</div>
+<div class="text-[14px] text-muted">Июль 2026</div>
+</a>
+<a class="group" href="#" style="--w:179px">
+<div class="art aspect-[5/7] rounded-tile transition group-hover:brightness-110" style="--c1:#d08a3f;--c2:#4d2e10"><span class="cap" style="font-size:16px">Вокруг<br/>маршрута</span></div>
+<div class="mt-2 text-[15px] font-semibold">Вокруг маршрута</div>
+<div class="text-[14px] text-muted">Июль 2026</div>
+</a>
+<a class="group" href="#" style="--w:179px">
+<div class="art aspect-[5/7] rounded-tile transition group-hover:brightness-110" style="--c1:#5f9ba8;--c2:#1e3a41"><span class="cap" style="font-size:16px">Дом<br/>и уют</span></div>
+<div class="mt-2 text-[15px] font-semibold">Дом и уют</div>
 <div class="text-[14px] text-muted">Июль 2026</div>
 </a>
 </div>
 </section>
 
 <!-- Образование -->
-<section class="pt-7" id="obrazovanie">
-<div class="sect-line mx-4 mb-5"></div>
-<div class="flex items-center justify-between px-4">
-<h2 class="text-[20px] font-extrabold tracking-tight">Образование</h2>
-<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted" href="#">Все <span class="msym text-[16px]">chevron_right</span></a>
+<section class="pt-7 lg:pt-14" id="obrazovanie">
+<div class="sect-line mx-4 mb-5 lg:mx-0 lg:mb-7"></div>
+<div class="flex items-center justify-between px-4 lg:px-0">
+<h2 class="text-[20px] font-extrabold tracking-tight lg:text-[26px]">Образование</h2>
+<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted transition hover:text-ink lg:text-[15px]" href="#">Все <span class="msym text-[16px]">chevron_right</span></a>
 </div>
-<div class="no-bar rail mt-3">
-<a class="w-[179px]">
-<div class="art h-[101px] rounded-tile" style="--c1:#3f6fb5;--c2:#18325c"><span class="glyph">🗣️</span></div>
+<div class="no-bar rail mt-3 lg:mt-5" style="--cols:4">
+<a class="group" href="#" style="--w:179px">
+<div class="art aspect-video rounded-tile transition group-hover:brightness-110" style="--c1:#3f6fb5;--c2:#18325c"><span class="glyph">🗣️</span></div>
 <div class="mt-2 text-[15px] font-semibold leading-snug">Аргументация. Лекция 1 — как убеждать</div>
 <div class="mt-0.5 text-[14px] leading-snug text-muted">Строим сильные аргументы…</div>
 </a>
-<a class="w-[179px]">
-<div class="art h-[101px] rounded-tile" style="--c1:#c98a52;--c2:#5a3418"><span class="glyph">🖼️</span></div>
+<a class="group" href="#" style="--w:179px">
+<div class="art aspect-video rounded-tile transition group-hover:brightness-110" style="--c1:#c98a52;--c2:#5a3418"><span class="glyph">🖼️</span></div>
 <div class="mt-2 text-[15px] font-semibold leading-snug">Импрессионизм. Лекция 1</div>
 <div class="mt-0.5 text-[14px] leading-snug text-muted">Появление импрессионизма…</div>
 </a>
-<a class="w-[179px]">
-<div class="art h-[101px] rounded-tile" style="--c1:#5b57c4;--c2:#221f57"><span class="glyph">🧠</span></div>
+<a class="group" href="#" style="--w:179px">
+<div class="art aspect-video rounded-tile transition group-hover:brightness-110" style="--c1:#5b57c4;--c2:#221f57"><span class="glyph">🧠</span></div>
 <div class="mt-2 text-[15px] font-semibold leading-snug">Нейросети. Лекция 1</div>
 <div class="mt-0.5 text-[14px] leading-snug text-muted">Как машины учатся…</div>
+</a>
+<a class="group" href="#" style="--w:179px">
+<div class="art aspect-video rounded-tile transition group-hover:brightness-110" style="--c1:#7f8a99;--c2:#2f3742"><span class="glyph">🏛️</span></div>
+<div class="mt-2 text-[15px] font-semibold leading-snug">История архитектуры. Лекция 1</div>
+<div class="mt-0.5 text-[14px] leading-snug text-muted">От камня к стеклу…</div>
 </a>
 </div>
 </section>
 
 <!-- Контент авиакомпании -->
-<section class="pt-7">
-<div class="sect-line mx-4 mb-5"></div>
-<div class="flex items-center justify-between px-4">
-<h2 class="text-[20px] font-extrabold tracking-tight">Аэровега</h2>
-<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted" href="#">Все <span class="msym text-[16px]">chevron_right</span></a>
+<section class="pt-7 lg:pt-14">
+<div class="sect-line mx-4 mb-5 lg:mx-0 lg:mb-7"></div>
+<div class="flex items-center justify-between px-4 lg:px-0">
+<h2 class="text-[20px] font-extrabold tracking-tight lg:text-[26px]">Аэровега</h2>
+<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted transition hover:text-ink lg:text-[15px]" href="#">Все <span class="msym text-[16px]">chevron_right</span></a>
 </div>
-<div class="no-bar rail mt-3">
-<a class="w-[179px]">
-<div class="art h-[101px] rounded-tile" style="--c1:#0e9aa7;--c2:#083b45"><span class="glyph">🏒</span></div>
+<div class="no-bar rail mt-3 lg:mt-5" style="--cols:4">
+<a class="group" href="#" style="--w:179px">
+<div class="art aspect-video rounded-tile transition group-hover:brightness-110" style="--c1:#0e9aa7;--c2:#083b45"><span class="glyph">🏒</span></div>
 <div class="mt-2 text-[15px] font-semibold leading-snug">Небо в деталях. 3 сезон, 1 серия</div>
 <div class="mt-0.5 text-[14px] leading-snug text-muted">Искали золото, а нашли серебро! В премьерном…</div>
-<div class="text-[14px] text-muted">2025</div>
 </a>
-<a class="w-[179px]">
-<div class="art h-[101px] rounded-tile" style="--c1:#4a7cb8;--c2:#1b3552"><span class="glyph">📷</span></div>
+<a class="group" href="#" style="--w:179px">
+<div class="art aspect-video rounded-tile transition group-hover:brightness-110" style="--c1:#4a7cb8;--c2:#1b3552"><span class="glyph">📷</span></div>
 <div class="mt-2 text-[15px] font-semibold leading-snug">Кадры из иллюминатора</div>
 <div class="mt-0.5 text-[14px] leading-snug text-muted">Изо дня в день мы получаем новые…</div>
 </a>
-<a class="w-[179px]">
-<div class="art h-[101px] rounded-tile" style="--c1:#8a6fd0;--c2:#33265c"><span class="glyph">📍</span></div>
+<a class="group" href="#" style="--w:179px">
+<div class="art aspect-video rounded-tile transition group-hover:brightness-110" style="--c1:#8a6fd0;--c2:#33265c"><span class="glyph">📍</span></div>
 <div class="mt-2 text-[15px] font-semibold leading-snug">Точка на маршруте. 2 серия</div>
 <div class="mt-0.5 text-[14px] leading-snug text-muted">Города, в которые стоит вернуться…</div>
+</a>
+<a class="group" href="#" style="--w:179px">
+<div class="art aspect-video rounded-tile transition group-hover:brightness-110" style="--c1:#5f8f6b;--c2:#20362a"><span class="glyph">🛠️</span></div>
+<div class="mt-2 text-[15px] font-semibold leading-snug">Как устроен борт</div>
+<div class="mt-0.5 text-[14px] leading-snug text-muted">Экскурсия по самолёту от техников…</div>
 </a>
 </div>
 </section>
 
 <!-- Товары -->
-<section class="pt-7" id="tovary">
-<div class="sect-line mx-4 mb-5"></div>
-<div class="flex items-center justify-between px-4">
-<h2 class="text-[20px] font-extrabold tracking-tight">Товары «Аэровега»</h2>
-<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted" href="#">Все <span class="msym text-[16px]">chevron_right</span></a>
+<section class="pt-7 lg:pt-14" id="tovary">
+<div class="sect-line mx-4 mb-5 lg:mx-0 lg:mb-7"></div>
+<div class="flex items-center justify-between px-4 lg:px-0">
+<h2 class="text-[20px] font-extrabold tracking-tight lg:text-[26px]">Товары «Аэровега»</h2>
+<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted transition hover:text-ink lg:text-[15px]" href="#">Все <span class="msym text-[16px]">chevron_right</span></a>
 </div>
-<div class="no-bar rail mt-3">
-<a class="w-[133px]">
-<div class="art grid h-[133px] place-items-center rounded-tile text-[42px]" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10">🏷️</span></div>
+<div class="no-bar rail mt-3 lg:mt-5" style="--cols:5">
+<a class="group" href="#" style="--w:133px">
+<div class="art grid aspect-square place-items-center rounded-tile transition group-hover:brightness-95" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10 text-[42px] leading-none lg:text-[60px]">🏷️</span></div>
 <div class="mt-2 text-[16px] font-bold">750 ₽</div>
 <div class="text-[14px] leading-snug">Ремувка «100 лет авиации»</div>
 </a>
-<a class="w-[133px]">
-<div class="art grid h-[133px] place-items-center rounded-tile text-[42px]" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10">🎫</span></div>
+<a class="group" href="#" style="--w:133px">
+<div class="art grid aspect-square place-items-center rounded-tile transition group-hover:brightness-95" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10 text-[42px] leading-none lg:text-[60px]">🎫</span></div>
 <div class="mt-2 text-[16px] font-bold">650 ₽</div>
 <div class="text-[14px] leading-snug">Ремувка «Аэровега»</div>
 </a>
-<a class="w-[133px]">
-<div class="art grid h-[133px] place-items-center rounded-tile text-[42px]" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10">🖊️</span></div>
+<a class="group" href="#" style="--w:133px">
+<div class="art grid aspect-square place-items-center rounded-tile transition group-hover:brightness-95" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10 text-[42px] leading-none lg:text-[60px]">🖊️</span></div>
 <div class="mt-2 text-[16px] font-bold">70 ₽</div>
 <div class="text-[14px] leading-snug">Ручка «Аэровега»</div>
+</a>
+<a class="group" href="#" style="--w:133px">
+<div class="art grid aspect-square place-items-center rounded-tile transition group-hover:brightness-95" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10 text-[42px] leading-none lg:text-[60px]">✈️</span></div>
+<div class="mt-2 text-[16px] font-bold">1 200 ₽</div>
+<div class="text-[14px] leading-snug">Модель самолёта, металл</div>
+</a>
+<a class="group" href="#" style="--w:133px">
+<div class="art grid aspect-square place-items-center rounded-tile transition group-hover:brightness-95" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10 text-[42px] leading-none lg:text-[60px]">🥤</span></div>
+<div class="mt-2 text-[16px] font-bold">900 ₽</div>
+<div class="text-[14px] leading-snug">Термокружка «Эшелон»</div>
 </a>
 </div>
 </section>
 
 <!-- Аудиостатьи -->
-<section class="pt-7" id="audio">
-<div class="sect-line mx-4 mb-5"></div>
-<div class="flex items-center justify-between px-4">
-<h2 class="text-[20px] font-extrabold tracking-tight">Аудиостатьи</h2>
-<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted" href="#">Все <span class="msym text-[16px]">chevron_right</span></a>
+<section class="pt-7 lg:pt-14" id="audio">
+<div class="sect-line mx-4 mb-5 lg:mx-0 lg:mb-7"></div>
+<div class="flex items-center justify-between px-4 lg:px-0">
+<h2 class="text-[20px] font-extrabold tracking-tight lg:text-[26px]">Аудиостатьи</h2>
+<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted transition hover:text-ink lg:text-[15px]" href="#">Все <span class="msym text-[16px]">chevron_right</span></a>
 </div>
-<div class="no-bar rail mt-3">
-<a class="w-[342px]">
-<div class="art h-[219px] rounded-tile" style="--c1:#2b6f8f;--c2:#0d2634">
-<span class="absolute left-1/2 top-1/2 z-10 grid h-[54px] w-[54px] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-ink"><span class="msym text-[30px]">play_arrow</span></span>
+<div class="no-bar rail mt-3 lg:mt-5" style="--cols:3">
+<a class="group" href="#" style="--w:300px">
+<div class="art aspect-video rounded-tile transition group-hover:brightness-110" style="--c1:#2b6f8f;--c2:#0d2634">
+<span class="absolute left-1/2 top-1/2 z-10 grid h-[54px] w-[54px] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-ink transition group-hover:scale-110"><span class="msym text-[30px]">play_arrow</span></span>
 </div>
 <div class="mt-2 text-[16px] font-bold leading-snug">Третий путь атомной энергетики</div>
 <div class="mt-0.5 text-[14px] text-muted">Наука вокруг • 12:26</div>
 </a>
-<a class="w-[342px]">
-<div class="art h-[219px] rounded-tile" style="--c1:#8f6b2b;--c2:#33240d">
-<span class="absolute left-1/2 top-1/2 z-10 grid h-[54px] w-[54px] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-ink"><span class="msym text-[30px]">play_arrow</span></span>
+<a class="group" href="#" style="--w:300px">
+<div class="art aspect-video rounded-tile transition group-hover:brightness-110" style="--c1:#8f6b2b;--c2:#33240d">
+<span class="absolute left-1/2 top-1/2 z-10 grid h-[54px] w-[54px] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-ink transition group-hover:scale-110"><span class="msym text-[30px]">play_arrow</span></span>
 </div>
 <div class="mt-2 text-[16px] font-bold leading-snug">Как мы принимаем решения</div>
 <div class="mt-0.5 text-[14px] text-muted">Полка • 18:40</div>
+</a>
+<a class="group" href="#" style="--w:300px">
+<div class="art aspect-video rounded-tile transition group-hover:brightness-110" style="--c1:#5c7a4a;--c2:#1f2a18">
+<span class="absolute left-1/2 top-1/2 z-10 grid h-[54px] w-[54px] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-ink transition group-hover:scale-110"><span class="msym text-[30px]">play_arrow</span></span>
+</div>
+<div class="mt-2 text-[16px] font-bold leading-snug">Почему города растут вверх</div>
+<div class="mt-0.5 text-[14px] text-muted">Среда обитания • 09:12</div>
 </a>
 </div>
 </section>
 
 <!-- Подвал -->
-<footer class="mt-8 bg-surface px-4 pb-10 pt-7">
+<footer class="mt-10 bg-surface px-4 pb-10 pt-7 lg:mt-16 lg:rounded-card lg:px-8 lg:pb-8">
+<div class="lg:flex lg:items-start lg:justify-between lg:gap-8">
+<div>
 <div class="text-[24px] font-extrabold tracking-tight">Главная</div>
-<div class="mt-5 flex gap-5 text-[12px] text-muted">
+<div class="mt-5 flex gap-5 text-[12px] text-muted lg:mt-3">
 <a href="#">Конфиденциальность</a>
 <a href="#">Публичная оферта</a>
 </div>
-<div class="mt-4 text-[12px] text-muted">© 2026. «Аэровега» — Все права защищены</div>
+</div>
+<div class="mt-4 lg:mt-0 lg:max-w-[420px] lg:text-right">
+<div class="text-[12px] text-muted">© 2026. «Аэровега» — Все права защищены</div>
 <div class="mt-2 text-[11px] leading-snug text-muted/70">Вымышленный концепт. Названия, товары и материалы придуманы для демонстрации интерфейса.</div>
+</div>
+</div>
 </footer>
 
 <!-- Чат -->
-<button aria-label="Чат с поддержкой" class="fixed bottom-[88px] right-[max(12px,calc(50%_-_189px))] z-30 grid h-[52px] w-[52px] place-items-center rounded-2xl bg-brand text-white shadow-lg shadow-brand/30">
+<button aria-label="Чат с поддержкой" class="fixed bottom-[88px] right-[max(12px,calc(50%_-_189px))] z-30 grid h-[52px] w-[52px] place-items-center rounded-2xl bg-brand text-white shadow-lg shadow-brand/30 lg:bottom-8 lg:right-8 lg:h-14 lg:w-14">
 <span class="msym text-[26px]">chat_bubble</span>
 </button>
 
-<!-- Таб-бар -->
-<nav class="fixed bottom-0 left-1/2 z-40 w-full max-w-[402px] -translate-x-1/2 border-t border-line bg-white/95 backdrop-blur">
+<!-- Таб-бар (только мобильный) -->
+<nav class="fixed bottom-0 left-1/2 z-40 w-full max-w-[402px] -translate-x-1/2 border-t border-line bg-white/95 backdrop-blur lg:hidden">
 <div class="grid grid-cols-5 pb-2 pt-2">
 <a class="flex flex-col items-center gap-1 text-brand" href="15.html"><span class="msym text-[24px]" style="font-variation-settings:'FILL' 1">home</span><span class="text-[10px] font-semibold">Главная</span></a>
-<a class="flex flex-col items-center gap-1 text-muted" href="#razvlecheniya"><span class="msym text-[24px]">smart_display</span><span class="text-[10px] font-semibold">Развлечения</span></a>
-<a class="flex flex-col items-center gap-1 text-muted" href="#tovary"><span class="msym text-[24px]">shopping_bag</span><span class="text-[10px] font-semibold">Магазин</span></a>
+<a class="flex flex-col items-center gap-1 text-muted" href="15.html#razvlecheniya"><span class="msym text-[24px]">smart_display</span><span class="text-[10px] font-semibold">Развлечения</span></a>
+<a class="flex flex-col items-center gap-1 text-muted" href="15.html#tovary"><span class="msym text-[24px]">shopping_bag</span><span class="text-[10px] font-semibold">Магазин</span></a>
 <a class="flex flex-col items-center gap-1 text-muted" href="16.html"><span class="msym text-[24px]">storefront</span><span class="text-[10px] font-semibold">Кафе</span></a>
 <a class="flex flex-col items-center gap-1 text-muted" href="17.html"><span class="msym text-[24px]">public</span><span class="text-[10px] font-semibold">Карта</span></a>
 </div>
 </nav>
 </div>
 
-<script>
-  // Обратный отсчёт до посадки — демонстрационный, стартует с 2ч 4м
-  (function () {
-    var total = 5 * 60 + 30;         // полная длительность рейса, мин
-    var left = 2 * 60 + 4;           // осталось, мин
-    var eta = document.querySelector("[data-eta]");
-    var bar = document.querySelector("[data-progress]");
-    function render() {
+<script id="flight-clock">
+  // Обратный отсчёт до посадки — демонстрационный
+  window.flightClock = (function () {
+    var TOTAL = 5 * 60 + 30;   // длительность рейса, мин
+    var left = 2 * 60 + 6;     // осталось, мин
+    var subs = [];
+    function tick() {
       var h = Math.floor(left / 60), m = left % 60;
-      eta.textContent = h + "ч " + m + "м";
-      bar.style.width = Math.min(100, Math.round((1 - left / total) * 100)) + "%";
+      var t = Math.min(1, Math.max(0, 1 - left / TOTAL));
+      document.querySelectorAll("[data-eta]").forEach(function (el) { el.textContent = h + "ч " + m + "м"; });
+      var bar = document.querySelector("[data-progress]");
+      if (bar) bar.style.width = (t * 100).toFixed(1) + "%";
+      subs.forEach(function (fn) { fn(t); });
     }
-    render();
-    setInterval(function () { if (left > 0) { left--; render(); } }, 60000);
+    document.addEventListener("DOMContentLoaded", tick);
+    setInterval(function () { if (left > 0) { left--; tick(); } }, 60000);
+    return { onTick: function (fn) { subs.push(fn); tick(); } };
+  })();
+</script>
+
+<div class="impossible-captcha-modal" id="impossibleCaptchaModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="impossibleCaptchaTitle">
+  <div class="impossible-captcha-panel" role="document">
+    <button class="impossible-captcha-close" id="impossibleCaptchaClose" type="button" aria-label="Close">&times;</button>
+    <div class="impossible-captcha-header">
+      <span>Select all images with</span>
+      <strong id="impossibleCaptchaTitle">a 4-dimensional object</strong>
+    </div>
+    <div class="impossible-captcha-grid" id="impossibleCaptchaGrid">
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 1"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 2"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 3"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 4"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 5"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 6"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 7"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 8"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 9"></button>
+    </div>
+    <div class="impossible-captcha-actions">
+      <div class="impossible-captcha-tools">
+        <button class="impossible-captcha-tool" id="impossibleCaptchaRefresh" type="button" aria-label="Refresh challenge">
+          <span class="material-symbols-outlined text-lg">refresh</span>
+        </button>
+        <button class="impossible-captcha-tool" type="button" aria-label="Play audio challenge">
+          <span class="material-symbols-outlined text-lg">volume_up</span>
+        </button>
+        <button class="impossible-captcha-tool" type="button" aria-label="Captcha information">
+          <span class="material-symbols-outlined text-lg">info</span>
+        </button>
+      </div>
+      <button class="impossible-captcha-verify" id="impossibleCaptchaVerify" type="button">Verify</button>
+    </div>
+    <div class="impossible-captcha-error" id="impossibleCaptchaError" aria-live="polite">Verification failed. Please select every impossible object and try again.</div>
+  </div>
+</div>
+<script id="impossible-captcha-script">
+  (() => {
+    const modal = document.getElementById("impossibleCaptchaModal");
+    const closeButton = document.getElementById("impossibleCaptchaClose");
+    const refreshButton = document.getElementById("impossibleCaptchaRefresh");
+    const verifyButton = document.getElementById("impossibleCaptchaVerify");
+    const error = document.getElementById("impossibleCaptchaError");
+    const tiles = [...document.querySelectorAll(".impossible-captcha-tile")];
+    const triggerSelector = "button, a[href], [role='button'], .cursor-pointer";
+    const triggers = [...document.querySelectorAll(triggerSelector)].filter((trigger) => !trigger.closest("#impossibleCaptchaModal"));
+
+    const resetChallenge = (hideError = true) => {
+      tiles.forEach((tile) => tile.classList.remove("is-selected"));
+      if (hideError) {
+        error.classList.remove("is-visible");
+      }
+    };
+
+    const openCaptcha = (event) => {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      resetChallenge();
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+      verifyButton.focus({ preventScroll: true });
+    };
+
+    const closeCaptcha = () => {
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+    };
+
+    triggers.forEach((trigger) => {
+      trigger.addEventListener("click", openCaptcha);
+    });
+
+    tiles.forEach((tile) => {
+      tile.addEventListener("click", () => {
+        tile.classList.toggle("is-selected");
+      });
+    });
+
+    refreshButton.addEventListener("click", () => resetChallenge());
+    closeButton.addEventListener("click", closeCaptcha);
+
+    verifyButton.addEventListener("click", () => {
+      error.classList.add("is-visible");
+      window.setTimeout(() => resetChallenge(false), 900);
+    });
+
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        closeCaptcha();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && modal.classList.contains("is-open")) {
+        closeCaptcha();
+      }
+    });
   })();
 </script>
 </body></html>

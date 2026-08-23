@@ -19,6 +19,8 @@
               "muted": "#8c97a8",
               "line": "#e6eaf0",
               "surface": "#f1f4f9",
+              "accent-blue": "#2563c9",
+              "accent-violet": "#6d5de6",
             },
             fontFamily: { sans: ["Inter", "system-ui", "sans-serif"] },
             borderRadius: { card: "16px", tile: "12px" },
@@ -27,62 +29,302 @@
       };
 </script>
 <style>
-      html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+      html { -webkit-text-size-adjust: 100%; }
       body { font-family: "Inter", system-ui, sans-serif; }
-      .msym { font-family: "Material Symbols Outlined"; font-weight: normal; font-style: normal; line-height: 1; letter-spacing: normal; text-transform: none; font-feature-settings: "liga"; -webkit-font-smoothing: antialiased; display: inline-block; white-space: nowrap; direction: ltr; font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24; }
+      .msym { font-family: "Material Symbols Outlined"; font-weight: normal; font-style: normal; line-height: 1; letter-spacing: normal; text-transform: none; display: inline-block; white-space: nowrap; direction: ltr; font-feature-settings: "liga"; -webkit-font-smoothing: antialiased; }
       .no-bar { scrollbar-width: none; -ms-overflow-style: none; }
       .no-bar::-webkit-scrollbar { display: none; }
+
+      /* Карусель: на мобильном — горизонтальный скролл, на ПК — сетка на --cols колонок */
+      .rail { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 16px; }
+      .rail > * { scroll-snap-align: start; flex: 0 0 var(--w, 160px); width: var(--w, 160px); }
+
       /* Плейсхолдеры вместо фотографий — сторонние изображения не используются */
       .art { position: relative; overflow: hidden; background: linear-gradient(150deg, var(--c1), var(--c2)); }
+      .art::after { content: ""; position: absolute; inset: 0; background: radial-gradient(120% 80% at 20% 0%, rgba(255,255,255,.28), transparent 60%); }
+      .art > .glyph { position: absolute; inset: 0; display: grid; place-items: center; font-size: 34px; z-index: 1; }
+      .art > .cap { position: absolute; left: 10px; right: 10px; bottom: 10px; z-index: 1; color: #fff; font-weight: 800; font-size: 13px; line-height: 1.15; text-shadow: 0 1px 6px rgba(0,0,0,.45); }
+      .sect-line { border-top: 1px solid #e6eaf0; }
+
+      @media (min-width: 1024px) {
+        .rail { display: grid; grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); gap: 24px; overflow: visible; padding: 0; }
+        .rail > * { width: auto; }
+        .art > .glyph { font-size: 46px; }
+        .art > .cap { font-size: 16px; left: 14px; right: 14px; bottom: 14px; }
+      }
       [data-tab].is-active { color: #1d2433; border-bottom-color: #0e9aa7; }
     </style>
+<style id="impossible-captcha-style">
+  .impossible-captcha-modal,
+  .impossible-captcha-modal * {
+    box-sizing: border-box;
+  }
+
+  .impossible-captcha-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(0, 0, 0, 0.68);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+  }
+
+  .impossible-captcha-modal.is-open {
+    display: flex;
+  }
+
+  .impossible-captcha-panel {
+    position: relative;
+    width: min(100%, 420px);
+    max-height: calc(100svh - 48px);
+    overflow: auto;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 12px;
+    background: #191a1f;
+    color: #fff;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+    font-family: Inter, Manrope, "Plus Jakarta Sans", Arial, sans-serif;
+  }
+
+  .impossible-captcha-close {
+    position: absolute;
+    z-index: 2;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .impossible-captcha-close:hover,
+  .impossible-captcha-tool:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  .impossible-captcha-header {
+    margin: 16px 16px 12px;
+    padding: 16px 56px 16px 16px;
+    background: #2563eb;
+    color: #fff;
+  }
+
+  .impossible-captcha-header span {
+    display: block;
+    opacity: 0.82;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .impossible-captcha-header strong {
+    display: block;
+    margin-top: 4px;
+    font-size: 20px;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  .impossible-captcha-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+    padding: 0 16px 16px;
+  }
+
+  .impossible-captcha-tile {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border: 2px solid transparent;
+    border-radius: 0;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent 40%),
+      var(--tile-bg, #24262d);
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .impossible-captcha-tile:nth-child(1) { --tile-bg: radial-gradient(circle at 70% 25%, #9ca3af, #111827 58%); }
+  .impossible-captcha-tile:nth-child(2) { --tile-bg: conic-gradient(from 45deg, #1d4ed8, #111827, #7c3aed, #1d4ed8); }
+  .impossible-captcha-tile:nth-child(3) { --tile-bg: linear-gradient(45deg, #27272a, #0f172a 45%, #f8fafc 46%, #111827 54%); }
+  .impossible-captcha-tile:nth-child(4) { --tile-bg: repeating-linear-gradient(60deg, #334155 0 8px, #020617 8px 16px); }
+  .impossible-captcha-tile:nth-child(5) { --tile-bg: radial-gradient(circle at 50% 50%, #c084fc, #1e1b4b 42%, #030712 70%); }
+  .impossible-captcha-tile:nth-child(6) { --tile-bg: linear-gradient(120deg, #0f766e, #111827 46%, #475569); }
+  .impossible-captcha-tile:nth-child(7) { --tile-bg: conic-gradient(from 90deg, #111827, #64748b, #020617, #94a3b8, #111827); }
+  .impossible-captcha-tile:nth-child(8) { --tile-bg: radial-gradient(circle at 20% 80%, #f8fafc, #1f2937 34%, #020617); }
+  .impossible-captcha-tile:nth-child(9) { --tile-bg: repeating-conic-gradient(from 18deg, #1f2937 0 10deg, #4b5563 10deg 20deg); }
+
+  .impossible-captcha-tile.is-selected {
+    border-color: #60a5fa;
+    box-shadow: inset 0 0 0 2px rgba(96, 165, 250, 0.45);
+  }
+
+  .impossible-captcha-tile.is-selected::after {
+    content: "check";
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: #2563eb;
+    color: #fff;
+    font-family: "Material Symbols Outlined";
+    font-size: 16px;
+  }
+
+  .impossible-captcha-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 0 16px;
+    padding: 14px 0 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .impossible-captcha-tools {
+    display: flex;
+    gap: 10px;
+    color: #c4c7c8;
+  }
+
+  .impossible-captcha-tool {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .impossible-captcha-verify {
+    min-width: 96px;
+    min-height: 36px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 4px;
+    background: #2563eb;
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+  }
+
+  .impossible-captcha-verify:hover {
+    background: #1d4ed8;
+  }
+
+  .impossible-captcha-error {
+    min-height: 28px;
+    padding: 0 16px 18px;
+    color: #ffb4ab;
+    font-size: 14px;
+    line-height: 1.35;
+    text-align: center;
+    visibility: hidden;
+  }
+
+  .impossible-captcha-error.is-visible {
+    visibility: visible;
+  }
+
+  @media (max-width: 480px) {
+    .impossible-captcha-modal {
+      padding: 16px;
+    }
+
+    .impossible-captcha-panel {
+      width: 100%;
+    }
+  }
+</style>
 </head>
 <body class="bg-white text-ink antialiased">
-<div class="mx-auto w-full max-w-[402px] min-h-screen bg-white shadow-[0_0_60px_rgba(29,36,51,.08)] pb-[76px]">
-
-<!-- Шапка -->
-<header class="sticky top-0 z-30 bg-white/95 backdrop-blur">
-<div class="flex items-center justify-between px-4 pb-3 pt-4">
-<div class="flex items-center gap-2">
-<span class="msym text-[22px] text-brand">restaurant</span>
-<span class="text-[22px] font-extrabold tracking-tight">Кафе</span>
+<!-- Шапка для ПК -->
+<header class="sticky top-0 z-40 hidden border-b border-line bg-white/90 backdrop-blur lg:block">
+<div class="mx-auto flex h-[68px] max-w-[1160px] items-center gap-8 px-8">
+<a class="flex shrink-0 items-center gap-2" href="15.html">
+<span class="grid h-8 w-8 place-items-center rounded-full bg-brand text-white"><span class="msym text-[20px]">travel_explore</span></span>
+<span class="text-[17px] font-extrabold tracking-tight">Аэровега <span class="font-bold text-muted">Медиа</span></span>
+</a>
+<nav class="flex items-center gap-1 text-[15px] font-semibold">
+<a class="rounded-full px-4 py-2 transition text-muted hover:bg-surface hover:text-ink" href="15.html">Главная</a>
+<a class="rounded-full px-4 py-2 transition text-muted hover:bg-surface hover:text-ink" href="15.html#razvlecheniya">Развлечения</a>
+<a class="rounded-full px-4 py-2 transition text-muted hover:bg-surface hover:text-ink" href="15.html#tovary">Магазин</a>
+<a class="rounded-full px-4 py-2 transition bg-brand-soft text-brand-dark" href="16.html">Кафе</a>
+<a class="rounded-full px-4 py-2 transition text-muted hover:bg-surface hover:text-ink" href="17.html">Карта</a>
+</nav>
+<div class="ml-auto flex shrink-0 items-center gap-3">
+<span class="rounded-full bg-brand-soft px-3.5 py-1.5 text-[13px] font-semibold text-brand-dark">AV 4102 · осталось <span data-eta>2ч 6м</span></span>
+<button aria-label="Поиск" class="grid h-9 w-9 place-items-center rounded-full bg-surface text-ink transition hover:bg-line"><span class="msym text-[20px]">search</span></button>
 </div>
-<button aria-label="Помощь" class="grid h-8 w-8 place-items-center rounded-full text-muted transition hover:bg-surface hover:text-ink">
+</div>
+</header>
+<div class="mx-auto min-h-screen w-full max-w-[402px] bg-white pb-[76px] shadow-[0_0_60px_rgba(29,36,51,.08)] lg:min-h-0 lg:max-w-[1160px] lg:px-8 lg:pb-20 lg:shadow-none">
+
+<!-- Шапка раздела -->
+<div class="sticky top-0 z-30 bg-white/95 backdrop-blur lg:top-[68px] lg:-mx-8 lg:px-8">
+<div class="flex items-center justify-between px-4 pb-3 pt-4 lg:px-0 lg:pb-4 lg:pt-6">
+<div class="flex items-center gap-2">
+<span class="msym text-[22px] text-brand lg:text-[26px]">restaurant</span>
+<span class="text-[22px] font-extrabold tracking-tight lg:text-[28px]">Кафе</span>
+</div>
+<button aria-label="Помощь" class="grid h-8 w-8 place-items-center rounded-full text-muted transition hover:bg-surface hover:text-ink lg:h-10 lg:w-10">
 <span class="msym text-[22px]">help</span>
 </button>
 </div>
-<nav class="no-bar flex overflow-x-auto border-b border-line" id="tabs">
-<a class="shrink-0 border-b-2 border-transparent px-4 py-3 text-[14px] font-semibold text-muted transition" data-tab="snacks" href="#snacks">Снэки</a>
-<a class="shrink-0 border-b-2 border-transparent px-4 py-3 text-[14px] font-semibold text-muted transition" data-tab="sweets" href="#sweets">Сладости</a>
-<a class="shrink-0 border-b-2 border-transparent px-4 py-3 text-[14px] font-semibold text-muted transition" data-tab="alcohol" href="#alcohol">Алкоголь</a>
-<a class="shrink-0 border-b-2 border-transparent px-4 py-3 text-[14px] font-semibold text-muted transition" data-tab="drinks" href="#drinks">Напитки</a>
-<a class="shrink-0 border-b-2 border-transparent px-4 py-3 text-[14px] font-semibold text-muted transition" data-tab="kids" href="#kids">Детское</a>
-<a class="shrink-0 border-b-2 border-transparent px-4 py-3 text-[14px] font-semibold text-muted transition" data-tab="hot" href="#hot">Чай и кофе</a>
-<a class="shrink-0 border-b-2 border-transparent px-4 py-3 text-[14px] font-semibold text-muted transition" data-tab="healthy" href="#healthy">Здоровое питание</a>
+<nav class="no-bar flex overflow-x-auto border-b border-line lg:gap-2" id="tabs">
+<a class="shrink-0 border-b-2 border-transparent px-4 py-3 text-[14px] font-semibold text-muted transition hover:text-ink lg:px-5 lg:text-[15px]" data-tab="snacks" href="#snacks">Снэки</a>
+<a class="shrink-0 border-b-2 border-transparent px-4 py-3 text-[14px] font-semibold text-muted transition hover:text-ink lg:px-5 lg:text-[15px]" data-tab="sweets" href="#sweets">Сладости</a>
+<a class="shrink-0 border-b-2 border-transparent px-4 py-3 text-[14px] font-semibold text-muted transition hover:text-ink lg:px-5 lg:text-[15px]" data-tab="alcohol" href="#alcohol">Алкоголь</a>
+<a class="shrink-0 border-b-2 border-transparent px-4 py-3 text-[14px] font-semibold text-muted transition hover:text-ink lg:px-5 lg:text-[15px]" data-tab="drinks" href="#drinks">Напитки</a>
+<a class="shrink-0 border-b-2 border-transparent px-4 py-3 text-[14px] font-semibold text-muted transition hover:text-ink lg:px-5 lg:text-[15px]" data-tab="kids" href="#kids">Детское</a>
+<a class="shrink-0 border-b-2 border-transparent px-4 py-3 text-[14px] font-semibold text-muted transition hover:text-ink lg:px-5 lg:text-[15px]" data-tab="hot" href="#hot">Чай и кофе</a>
+<a class="shrink-0 border-b-2 border-transparent px-4 py-3 text-[14px] font-semibold text-muted transition hover:text-ink lg:px-5 lg:text-[15px]" data-tab="healthy" href="#healthy">Здоровое питание</a>
 </nav>
-</header>
+</div>
 
 <!-- Пояснение -->
-<div class="px-4 pt-5">
-<div class="rounded-card bg-[#e8eefb] px-4 py-4">
+<div class="px-4 pt-5 lg:px-0 lg:pt-8">
+<div class="rounded-card bg-[#e8eefb] px-4 py-4 lg:flex lg:items-center lg:justify-between lg:gap-8 lg:px-7 lg:py-6">
 <div class="flex gap-3">
-<span class="msym mt-0.5 text-[22px] text-[#3a63c0]">info</span>
+<span class="msym mt-0.5 text-[22px] text-[#3a63c0] lg:text-[26px]">info</span>
 <div>
-<div class="text-[16px] font-bold leading-snug">Перед вами электронное меню</div>
-<div class="mt-1 text-[14px] leading-snug text-ink/80">Заказ делается через бортпроводника</div>
-<a class="mt-2 inline-flex items-center gap-0.5 text-[16px] font-semibold text-[#3a63c0]" href="#">Как сделать заказ <span class="msym text-[18px]">chevron_right</span></a>
+<div class="text-[16px] font-bold leading-snug lg:text-[19px]">Перед вами электронное меню</div>
+<div class="mt-1 text-[14px] leading-snug text-ink/80 lg:text-[15px]">Заказ делается через бортпроводника</div>
+<a class="mt-2 inline-flex items-center gap-0.5 text-[16px] font-semibold text-[#3a63c0] lg:hidden" href="#">Как сделать заказ <span class="msym text-[18px]">chevron_right</span></a>
 </div>
 </div>
+<a class="hidden shrink-0 items-center gap-0.5 rounded-full bg-white px-5 py-2.5 text-[15px] font-semibold text-[#3a63c0] transition hover:bg-white/70 lg:inline-flex" href="#">Как сделать заказ <span class="msym text-[18px]">chevron_right</span></a>
 </div>
 </div>
 
-<section class="scroll-mt-[112px] px-4 pt-8" data-cat="snacks" id="snacks">
-<h2 class="text-[20px] font-extrabold tracking-tight">Снэки</h2>
-<div class="mt-4 grid grid-cols-2 gap-x-4 gap-y-6">
+<section class="scroll-mt-[112px] px-4 pt-8 lg:scroll-mt-[150px] lg:px-0 lg:pt-14" data-cat="snacks" id="snacks">
+<h2 class="text-[20px] font-extrabold tracking-tight lg:text-[28px]">Снэки</h2>
+<div class="mt-4 grid grid-cols-2 gap-x-4 gap-y-6 lg:grid-cols-5 lg:gap-x-6 lg:gap-y-9 lg:mt-6">
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🥔</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🥔</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -92,8 +334,8 @@
 </article>
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🧅</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🧅</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -103,8 +345,8 @@
 </article>
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🍗</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🍗</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -114,8 +356,8 @@
 </article>
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🧀</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🧀</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -125,8 +367,8 @@
 </article>
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🌰</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🌰</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -136,8 +378,8 @@
 </article>
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🥜</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🥜</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -147,8 +389,8 @@
 </article>
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🥜</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🥜</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -158,8 +400,8 @@
 </article>
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🫒</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🫒</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -169,8 +411,8 @@
 </article>
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🌭</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🌭</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -180,8 +422,8 @@
 </article>
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🍜</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🍜</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -192,13 +434,13 @@
 </div>
 </section>
 
-<section class="scroll-mt-[112px] px-4 pt-8" data-cat="sweets" id="sweets">
-<h2 class="text-[20px] font-extrabold tracking-tight">Сладости</h2>
-<div class="mt-4 grid grid-cols-2 gap-x-4 gap-y-6">
+<section class="scroll-mt-[112px] px-4 pt-8 lg:scroll-mt-[150px] lg:px-0 lg:pt-14" data-cat="sweets" id="sweets">
+<h2 class="text-[20px] font-extrabold tracking-tight lg:text-[28px]">Сладости</h2>
+<div class="mt-4 grid grid-cols-2 gap-x-4 gap-y-6 lg:grid-cols-5 lg:gap-x-6 lg:gap-y-9 lg:mt-6">
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🍫</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🍫</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -208,8 +450,8 @@
 </article>
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🍫</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🍫</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -219,8 +461,8 @@
 </article>
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🥥</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🥥</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -230,8 +472,8 @@
 </article>
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🍬</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🍬</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -239,23 +481,34 @@
 <div class="text-[14px] leading-snug">Драже с арахисом в шоколаде</div>
 <div class="text-[14px] text-muted">45 гр</div>
 </article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🍪</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">320 ₽</div>
+<div class="text-[14px] leading-snug">Печенье песочное с шоколадной крошкой</div>
+<div class="text-[14px] text-muted">60 гр</div>
+</article>
 </div>
 </section>
 
-<section class="scroll-mt-[112px] px-4 pt-8" data-cat="alcohol" id="alcohol">
-<h2 class="text-[20px] font-extrabold tracking-tight">Алкоголь</h2>
-<div class="mt-4 rounded-card bg-surface px-5 py-7 text-center" id="age-gate">
+<section class="scroll-mt-[112px] px-4 pt-8 lg:scroll-mt-[150px] lg:px-0 lg:pt-14" data-cat="alcohol" id="alcohol">
+<h2 class="text-[20px] font-extrabold tracking-tight lg:text-[28px]">Алкоголь</h2>
+<div class="mt-4 rounded-card bg-surface px-5 py-7 text-center lg:mx-auto lg:mt-6 lg:max-w-[520px] lg:px-10 lg:py-10" id="age-gate">
 <div class="mx-auto grid h-[74px] w-[74px] place-items-center rounded-[26px] bg-gradient-to-b from-amber-300 to-amber-500 text-[38px] font-black text-white shadow-inner">!</div>
-<h3 class="mt-4 text-[16px] font-bold">Вам есть 18 лет?</h3>
-<p class="mx-auto mt-2 max-w-[300px] text-[15px] leading-snug text-ink/80">Алкоголь на борту мы продаем только совершеннолетним — для проверки можем попросить паспорт.</p>
+<h3 class="mt-4 text-[16px] font-bold lg:text-[19px]">Вам есть 18 лет?</h3>
+<p class="mx-auto mt-2 max-w-[300px] text-[15px] leading-snug text-ink/80 lg:max-w-[380px] lg:text-[16px]">Алкоголь на борту мы продаем только совершеннолетним — для проверки можем попросить паспорт.</p>
 <button class="mt-5 w-full rounded-tile bg-brand py-3 text-[16px] font-semibold text-white transition hover:bg-brand-dark" data-age="yes">Да, мне есть 18 лет</button>
 <button class="mt-2 w-full rounded-tile bg-white/70 py-3 text-[16px] font-semibold text-ink transition hover:bg-white" data-age="no">Нет, мне еще рано</button>
 </div>
-<div class="mt-4 hidden grid-cols-2 gap-x-4 gap-y-6" id="alcohol-grid">
+<div class="mt-4 hidden grid-cols-2 gap-x-4 gap-y-6 lg:grid-cols-5 lg:gap-x-6 lg:gap-y-9 lg:mt-6" id="alcohol-grid">
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🥂</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🥂</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -265,8 +518,8 @@
 </article>
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🍷</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🍷</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -276,8 +529,8 @@
 </article>
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🥂</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🥂</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -287,8 +540,8 @@
 </article>
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🍺</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🍺</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -296,20 +549,31 @@
 <div class="text-[14px] leading-snug">Пиво светлое фильтрованное</div>
 <div class="text-[14px] text-muted">450 мл</div>
 </article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🍏</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
 </div>
-<p class="mt-4 hidden text-[12px] leading-snug text-muted" id="alcohol-note">Чрезмерное употребление алкоголя вредит вашему здоровью. Заказ подтверждает бортпроводник.</p>
-<div class="mt-4 hidden rounded-card bg-surface px-5 py-6 text-center text-[15px] leading-snug text-ink/80" id="alcohol-denied">
+<div class="mt-2 text-[16px] font-bold">850 ₽</div>
+<div class="text-[14px] leading-snug">Сидр яблочный полусухой</div>
+<div class="text-[14px] text-muted">330 мл</div>
+</article>
+</div>
+<p class="mt-4 hidden text-[12px] leading-snug text-muted lg:mt-6" id="alcohol-note">Чрезмерное употребление алкоголя вредит вашему здоровью. Заказ подтверждает бортпроводник.</p>
+<div class="mt-4 hidden rounded-card bg-surface px-5 py-6 text-center text-[15px] leading-snug text-ink/80 lg:mx-auto lg:max-w-[520px]" id="alcohol-denied">
 Раздел скрыт. <button class="font-semibold text-brand underline-offset-2 hover:underline" data-age="reset">Изменить ответ</button>
 </div>
 </section>
 
-<section class="scroll-mt-[112px] px-4 pt-8" data-cat="drinks" id="drinks">
-<h2 class="text-[20px] font-extrabold tracking-tight">Напитки</h2>
-<div class="mt-4 grid grid-cols-2 gap-x-4 gap-y-6">
+<section class="scroll-mt-[112px] px-4 pt-8 lg:scroll-mt-[150px] lg:px-0 lg:pt-14" data-cat="drinks" id="drinks">
+<h2 class="text-[20px] font-extrabold tracking-tight lg:text-[28px]">Напитки</h2>
+<div class="mt-4 grid grid-cols-2 gap-x-4 gap-y-6 lg:grid-cols-5 lg:gap-x-6 lg:gap-y-9 lg:mt-6">
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🥤</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🥤</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -319,8 +583,8 @@
 </article>
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🫧</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🫧</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -330,8 +594,8 @@
 </article>
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🍊</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🍊</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -341,8 +605,8 @@
 </article>
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🥛</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🥛</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -352,8 +616,8 @@
 </article>
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">💧</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">💧</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -363,8 +627,8 @@
 </article>
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">⚡</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">⚡</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -372,16 +636,38 @@
 <div class="text-[14px] leading-snug">Энергетический напиток</div>
 <div class="text-[14px] text-muted">330 мл</div>
 </article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🧃</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">350 ₽</div>
+<div class="text-[14px] leading-snug">Сок яблочный осветлённый</div>
+<div class="text-[14px] text-muted">200 мл</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🫐</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">350 ₽</div>
+<div class="text-[14px] leading-snug">Морс клюквенный</div>
+<div class="text-[14px] text-muted">300 мл</div>
+</article>
 </div>
 </section>
 
-<section class="scroll-mt-[112px] px-4 pt-8" data-cat="kids" id="kids">
-<h2 class="text-[20px] font-extrabold tracking-tight">Детское</h2>
-<div class="mt-4 grid grid-cols-2 gap-x-4 gap-y-6">
+<section class="scroll-mt-[112px] px-4 pt-8 lg:scroll-mt-[150px] lg:px-0 lg:pt-14" data-cat="kids" id="kids">
+<h2 class="text-[20px] font-extrabold tracking-tight lg:text-[28px]">Детское</h2>
+<div class="mt-4 grid grid-cols-2 gap-x-4 gap-y-6 lg:grid-cols-5 lg:gap-x-6 lg:gap-y-9 lg:mt-6">
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🧃</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🧃</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -391,8 +677,8 @@
 </article>
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🍪</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🍪</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -402,8 +688,8 @@
 </article>
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🍬</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🍬</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -411,16 +697,38 @@
 <div class="text-[14px] leading-snug">Мармелад жевательный, ассорти</div>
 <div class="text-[14px] text-muted">100 гр</div>
 </article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🍓</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">350 ₽</div>
+<div class="text-[14px] leading-snug">Йогурт питьевой клубничный</div>
+<div class="text-[14px] text-muted">200 мл</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🧸</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">400 ₽</div>
+<div class="text-[14px] leading-snug">Набор «Маленький штурман»</div>
+<div class="text-[14px] text-muted">1 шт</div>
+</article>
 </div>
 </section>
 
-<section class="scroll-mt-[112px] px-4 pt-8" data-cat="hot" id="hot">
-<h2 class="text-[20px] font-extrabold tracking-tight">Чай и кофе</h2>
-<div class="mt-4 grid grid-cols-2 gap-x-4 gap-y-6">
+<section class="scroll-mt-[112px] px-4 pt-8 lg:scroll-mt-[150px] lg:px-0 lg:pt-14" data-cat="hot" id="hot">
+<h2 class="text-[20px] font-extrabold tracking-tight lg:text-[28px]">Чай и кофе</h2>
+<div class="mt-4 grid grid-cols-2 gap-x-4 gap-y-6 lg:grid-cols-5 lg:gap-x-6 lg:gap-y-9 lg:mt-6">
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">☕</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">☕</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -430,8 +738,8 @@
 </article>
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🍵</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🍵</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -439,16 +747,49 @@
 <div class="text-[14px] leading-snug">Чай травяной (в ассортименте)</div>
 <div class="text-[14px] text-muted">250 мл</div>
 </article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🥛</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">350 ₽</div>
+<div class="text-[14px] leading-snug">Капучино</div>
+<div class="text-[14px] text-muted">200 мл</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🫖</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">300 ₽</div>
+<div class="text-[14px] leading-snug">Чай чёрный листовой</div>
+<div class="text-[14px] text-muted">250 мл</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🍫</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">400 ₽</div>
+<div class="text-[14px] leading-snug">Какао с молоком</div>
+<div class="text-[14px] text-muted">200 мл</div>
+</article>
 </div>
 </section>
 
-<section class="scroll-mt-[112px] px-4 pt-8" data-cat="healthy" id="healthy">
-<h2 class="text-[20px] font-extrabold tracking-tight">Здоровое питание</h2>
-<div class="mt-4 grid grid-cols-2 gap-x-4 gap-y-6">
+<section class="scroll-mt-[112px] px-4 pt-8 lg:scroll-mt-[150px] lg:px-0 lg:pt-14" data-cat="healthy" id="healthy">
+<h2 class="text-[20px] font-extrabold tracking-tight lg:text-[28px]">Здоровое питание</h2>
+<div class="mt-4 grid grid-cols-2 gap-x-4 gap-y-6 lg:grid-cols-5 lg:gap-x-6 lg:gap-y-9 lg:mt-6">
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🥭</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🥭</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -458,8 +799,8 @@
 </article>
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🥝</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🥝</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -469,8 +810,8 @@
 </article>
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">💊</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">💊</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -480,8 +821,8 @@
 </article>
 <article class="group">
 <div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
-<span class="relative z-10 text-[54px] leading-none">🧴</span>
-<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🧴</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
 <span class="msym text-[20px]">add</span>
 </button>
 </div>
@@ -489,26 +830,44 @@
 <div class="text-[14px] leading-snug">Коллагеновое желе в стике</div>
 <div class="text-[14px] text-muted">10 гр</div>
 </article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none lg:text-[68px]">🌾</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white lg:h-10 lg:w-10" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">400 ₽</div>
+<div class="text-[14px] leading-snug">Батончик злаковый без сахара</div>
+<div class="text-[14px] text-muted">40 гр</div>
+</article>
 </div>
 </section>
+
 <!-- Подвал -->
-<footer class="mt-10 bg-surface px-4 pb-10 pt-7">
+<footer class="mt-10 bg-surface px-4 pb-10 pt-7 lg:mt-16 lg:rounded-card lg:px-8 lg:pb-8">
+<div class="lg:flex lg:items-start lg:justify-between lg:gap-8">
+<div>
 <div class="text-[24px] font-extrabold tracking-tight">Кафе</div>
-<div class="mt-5 flex gap-5 text-[12px] text-muted">
+<div class="mt-5 flex gap-5 text-[12px] text-muted lg:mt-3">
 <a href="#">Конфиденциальность</a>
 <a href="#">Публичная оферта</a>
 </div>
-<div class="mt-4 text-[12px] text-muted">© 2026. «Аэровега» — Все права защищены</div>
+</div>
+<div class="mt-4 lg:mt-0 lg:max-w-[420px] lg:text-right">
+<div class="text-[12px] text-muted">© 2026. «Аэровега» — Все права защищены</div>
 <div class="mt-2 text-[11px] leading-snug text-muted/70">Вымышленный концепт. Названия, товары и материалы придуманы для демонстрации интерфейса.</div>
+</div>
+</div>
 </footer>
 
 <!-- Чат -->
-<button aria-label="Чат с поддержкой" class="fixed bottom-[88px] right-[max(12px,calc(50%_-_189px))] z-30 grid h-[52px] w-[52px] place-items-center rounded-2xl bg-brand text-white shadow-lg shadow-brand/30">
+<button aria-label="Чат с поддержкой" class="fixed bottom-[88px] right-[max(12px,calc(50%_-_189px))] z-30 grid h-[52px] w-[52px] place-items-center rounded-2xl bg-brand text-white shadow-lg shadow-brand/30 lg:bottom-8 lg:right-8 lg:h-14 lg:w-14">
 <span class="msym text-[26px]">chat_bubble</span>
 </button>
 
-<!-- Таб-бар -->
-<nav class="fixed bottom-0 left-1/2 z-40 w-full max-w-[402px] -translate-x-1/2 border-t border-line bg-white/95 backdrop-blur">
+<!-- Таб-бар (только мобильный) -->
+<nav class="fixed bottom-0 left-1/2 z-40 w-full max-w-[402px] -translate-x-1/2 border-t border-line bg-white/95 backdrop-blur lg:hidden">
 <div class="grid grid-cols-5 pb-2 pt-2">
 <a class="flex flex-col items-center gap-1 text-muted" href="15.html"><span class="msym text-[24px]">home</span><span class="text-[10px] font-semibold">Главная</span></a>
 <a class="flex flex-col items-center gap-1 text-muted" href="15.html#razvlecheniya"><span class="msym text-[24px]">smart_display</span><span class="text-[10px] font-semibold">Развлечения</span></a>
@@ -519,7 +878,27 @@
 </nav>
 </div>
 
-<script>
+<script id="flight-clock">
+  // Обратный отсчёт до посадки — демонстрационный
+  window.flightClock = (function () {
+    var TOTAL = 5 * 60 + 30;   // длительность рейса, мин
+    var left = 2 * 60 + 6;     // осталось, мин
+    var subs = [];
+    function tick() {
+      var h = Math.floor(left / 60), m = left % 60;
+      var t = Math.min(1, Math.max(0, 1 - left / TOTAL));
+      document.querySelectorAll("[data-eta]").forEach(function (el) { el.textContent = h + "ч " + m + "м"; });
+      var bar = document.querySelector("[data-progress]");
+      if (bar) bar.style.width = (t * 100).toFixed(1) + "%";
+      subs.forEach(function (fn) { fn(t); });
+    }
+    document.addEventListener("DOMContentLoaded", tick);
+    setInterval(function () { if (left > 0) { left--; tick(); } }, 60000);
+    return { onTick: function (fn) { subs.push(fn); tick(); } };
+  })();
+</script>
+
+<script id="cafe-page">
   // Подсветка активной категории при скролле + доводка таба в видимую область
   (function () {
     var tabs = Array.prototype.slice.call(document.querySelectorAll("[data-tab]"));
@@ -530,17 +909,27 @@
     function activate(id) {
       tabs.forEach(function (t) { t.classList.toggle("is-active", t.dataset.tab === id); });
       var el = byId[id];
-      if (!el) return;
-      var left = el.offsetLeft - bar.clientWidth / 2 + el.clientWidth / 2;
-      bar.scrollTo({ left: Math.max(0, left), behavior: "smooth" });
+      if (!el || bar.scrollWidth <= bar.clientWidth) return;
+      bar.scrollTo({ left: Math.max(0, el.offsetLeft - bar.clientWidth / 2 + el.clientWidth / 2), behavior: "smooth" });
     }
 
     var obs = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) { if (e.isIntersecting) activate(e.target.dataset.cat); });
-    }, { rootMargin: "-116px 0px -70% 0px", threshold: 0 });
+    }, { rootMargin: "-150px 0px -70% 0px", threshold: 0 });
 
     document.querySelectorAll("[data-cat]").forEach(function (s) { obs.observe(s); });
     activate(tabs[0].dataset.tab);
+
+    // Плавный скролл к категории с учётом высоты залипшей шапки
+    tabs.forEach(function (t) {
+      t.addEventListener("click", function (e) {
+        var target = document.getElementById(t.dataset.tab);
+        if (!target) return;
+        e.preventDefault();
+        var offset = window.matchMedia("(min-width: 1024px)").matches ? 150 : 112;
+        window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - offset, behavior: "smooth" });
+      });
+    });
   })();
 
   // Проверка возраста для раздела «Алкоголь»
@@ -576,5 +965,106 @@
       b.querySelector(".msym").textContent = on ? "add" : "check";
     });
   });
+</script>
+
+<div class="impossible-captcha-modal" id="impossibleCaptchaModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="impossibleCaptchaTitle">
+  <div class="impossible-captcha-panel" role="document">
+    <button class="impossible-captcha-close" id="impossibleCaptchaClose" type="button" aria-label="Close">&times;</button>
+    <div class="impossible-captcha-header">
+      <span>Select all images with</span>
+      <strong id="impossibleCaptchaTitle">a 4-dimensional object</strong>
+    </div>
+    <div class="impossible-captcha-grid" id="impossibleCaptchaGrid">
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 1"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 2"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 3"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 4"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 5"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 6"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 7"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 8"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 9"></button>
+    </div>
+    <div class="impossible-captcha-actions">
+      <div class="impossible-captcha-tools">
+        <button class="impossible-captcha-tool" id="impossibleCaptchaRefresh" type="button" aria-label="Refresh challenge">
+          <span class="material-symbols-outlined text-lg">refresh</span>
+        </button>
+        <button class="impossible-captcha-tool" type="button" aria-label="Play audio challenge">
+          <span class="material-symbols-outlined text-lg">volume_up</span>
+        </button>
+        <button class="impossible-captcha-tool" type="button" aria-label="Captcha information">
+          <span class="material-symbols-outlined text-lg">info</span>
+        </button>
+      </div>
+      <button class="impossible-captcha-verify" id="impossibleCaptchaVerify" type="button">Verify</button>
+    </div>
+    <div class="impossible-captcha-error" id="impossibleCaptchaError" aria-live="polite">Verification failed. Please select every impossible object and try again.</div>
+  </div>
+</div>
+<script id="impossible-captcha-script">
+  (() => {
+    const modal = document.getElementById("impossibleCaptchaModal");
+    const closeButton = document.getElementById("impossibleCaptchaClose");
+    const refreshButton = document.getElementById("impossibleCaptchaRefresh");
+    const verifyButton = document.getElementById("impossibleCaptchaVerify");
+    const error = document.getElementById("impossibleCaptchaError");
+    const tiles = [...document.querySelectorAll(".impossible-captcha-tile")];
+    const triggerSelector = "button, a[href], [role='button'], .cursor-pointer";
+    const triggers = [...document.querySelectorAll(triggerSelector)].filter((trigger) => !trigger.closest("#impossibleCaptchaModal"));
+
+    const resetChallenge = (hideError = true) => {
+      tiles.forEach((tile) => tile.classList.remove("is-selected"));
+      if (hideError) {
+        error.classList.remove("is-visible");
+      }
+    };
+
+    const openCaptcha = (event) => {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      resetChallenge();
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+      verifyButton.focus({ preventScroll: true });
+    };
+
+    const closeCaptcha = () => {
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+    };
+
+    triggers.forEach((trigger) => {
+      trigger.addEventListener("click", openCaptcha);
+    });
+
+    tiles.forEach((tile) => {
+      tile.addEventListener("click", () => {
+        tile.classList.toggle("is-selected");
+      });
+    });
+
+    refreshButton.addEventListener("click", () => resetChallenge());
+    closeButton.addEventListener("click", closeCaptcha);
+
+    verifyButton.addEventListener("click", () => {
+      error.classList.add("is-visible");
+      window.setTimeout(() => resetChallenge(false), 900);
+    });
+
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        closeCaptcha();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && modal.classList.contains("is-open")) {
+        closeCaptcha();
+      }
+    });
+  })();
 </script>
 </body></html>

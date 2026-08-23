@@ -19,6 +19,8 @@
               "muted": "#8c97a8",
               "line": "#e6eaf0",
               "surface": "#f1f4f9",
+              "accent-blue": "#2563c9",
+              "accent-violet": "#6d5de6",
             },
             fontFamily: { sans: ["Inter", "system-ui", "sans-serif"] },
             borderRadius: { card: "16px", tile: "12px" },
@@ -29,32 +31,271 @@
 <style>
       html { -webkit-text-size-adjust: 100%; }
       body { font-family: "Inter", system-ui, sans-serif; }
-      .msym { font-family: "Material Symbols Outlined"; font-weight: normal; font-style: normal; line-height: 1; letter-spacing: normal; text-transform: none; font-feature-settings: "liga"; -webkit-font-smoothing: antialiased; display: inline-block; white-space: nowrap; direction: ltr; font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24; }
+      .msym { font-family: "Material Symbols Outlined"; font-weight: normal; font-style: normal; line-height: 1; letter-spacing: normal; text-transform: none; display: inline-block; white-space: nowrap; direction: ltr; font-feature-settings: "liga"; -webkit-font-smoothing: antialiased; }
       .no-bar { scrollbar-width: none; -ms-overflow-style: none; }
       .no-bar::-webkit-scrollbar { display: none; }
+
+      /* Карусель: на мобильном — горизонтальный скролл, на ПК — сетка на --cols колонок */
       .rail { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 16px; }
-      .rail > * { scroll-snap-align: start; flex: 0 0 auto; }
+      .rail > * { scroll-snap-align: start; flex: 0 0 var(--w, 160px); width: var(--w, 160px); }
+
       /* Плейсхолдеры вместо фотографий — сторонние изображения не используются */
       .art { position: relative; overflow: hidden; background: linear-gradient(150deg, var(--c1), var(--c2)); }
+      .art::after { content: ""; position: absolute; inset: 0; background: radial-gradient(120% 80% at 20% 0%, rgba(255,255,255,.28), transparent 60%); }
+      .art > .glyph { position: absolute; inset: 0; display: grid; place-items: center; font-size: 34px; z-index: 1; }
+      .art > .cap { position: absolute; left: 10px; right: 10px; bottom: 10px; z-index: 1; color: #fff; font-weight: 800; font-size: 13px; line-height: 1.15; text-shadow: 0 1px 6px rgba(0,0,0,.45); }
+      .sect-line { border-top: 1px solid #e6eaf0; }
+
+      @media (min-width: 1024px) {
+        .rail { display: grid; grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); gap: 24px; overflow: visible; padding: 0; }
+        .rail > * { width: auto; }
+        .art > .glyph { font-size: 46px; }
+        .art > .cap { font-size: 16px; left: 14px; right: 14px; bottom: 14px; }
+      }
       #world { transition: transform .28s ease; transform-origin: 200px 240px; }
       .dashed { stroke-dasharray: 5 7; stroke-linecap: round; }
     </style>
+<style id="impossible-captcha-style">
+  .impossible-captcha-modal,
+  .impossible-captcha-modal * {
+    box-sizing: border-box;
+  }
+
+  .impossible-captcha-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(0, 0, 0, 0.68);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+  }
+
+  .impossible-captcha-modal.is-open {
+    display: flex;
+  }
+
+  .impossible-captcha-panel {
+    position: relative;
+    width: min(100%, 420px);
+    max-height: calc(100svh - 48px);
+    overflow: auto;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 12px;
+    background: #191a1f;
+    color: #fff;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+    font-family: Inter, Manrope, "Plus Jakarta Sans", Arial, sans-serif;
+  }
+
+  .impossible-captcha-close {
+    position: absolute;
+    z-index: 2;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .impossible-captcha-close:hover,
+  .impossible-captcha-tool:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  .impossible-captcha-header {
+    margin: 16px 16px 12px;
+    padding: 16px 56px 16px 16px;
+    background: #2563eb;
+    color: #fff;
+  }
+
+  .impossible-captcha-header span {
+    display: block;
+    opacity: 0.82;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .impossible-captcha-header strong {
+    display: block;
+    margin-top: 4px;
+    font-size: 20px;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  .impossible-captcha-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+    padding: 0 16px 16px;
+  }
+
+  .impossible-captcha-tile {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border: 2px solid transparent;
+    border-radius: 0;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent 40%),
+      var(--tile-bg, #24262d);
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .impossible-captcha-tile:nth-child(1) { --tile-bg: radial-gradient(circle at 70% 25%, #9ca3af, #111827 58%); }
+  .impossible-captcha-tile:nth-child(2) { --tile-bg: conic-gradient(from 45deg, #1d4ed8, #111827, #7c3aed, #1d4ed8); }
+  .impossible-captcha-tile:nth-child(3) { --tile-bg: linear-gradient(45deg, #27272a, #0f172a 45%, #f8fafc 46%, #111827 54%); }
+  .impossible-captcha-tile:nth-child(4) { --tile-bg: repeating-linear-gradient(60deg, #334155 0 8px, #020617 8px 16px); }
+  .impossible-captcha-tile:nth-child(5) { --tile-bg: radial-gradient(circle at 50% 50%, #c084fc, #1e1b4b 42%, #030712 70%); }
+  .impossible-captcha-tile:nth-child(6) { --tile-bg: linear-gradient(120deg, #0f766e, #111827 46%, #475569); }
+  .impossible-captcha-tile:nth-child(7) { --tile-bg: conic-gradient(from 90deg, #111827, #64748b, #020617, #94a3b8, #111827); }
+  .impossible-captcha-tile:nth-child(8) { --tile-bg: radial-gradient(circle at 20% 80%, #f8fafc, #1f2937 34%, #020617); }
+  .impossible-captcha-tile:nth-child(9) { --tile-bg: repeating-conic-gradient(from 18deg, #1f2937 0 10deg, #4b5563 10deg 20deg); }
+
+  .impossible-captcha-tile.is-selected {
+    border-color: #60a5fa;
+    box-shadow: inset 0 0 0 2px rgba(96, 165, 250, 0.45);
+  }
+
+  .impossible-captcha-tile.is-selected::after {
+    content: "check";
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: #2563eb;
+    color: #fff;
+    font-family: "Material Symbols Outlined";
+    font-size: 16px;
+  }
+
+  .impossible-captcha-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 0 16px;
+    padding: 14px 0 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .impossible-captcha-tools {
+    display: flex;
+    gap: 10px;
+    color: #c4c7c8;
+  }
+
+  .impossible-captcha-tool {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .impossible-captcha-verify {
+    min-width: 96px;
+    min-height: 36px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 4px;
+    background: #2563eb;
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+  }
+
+  .impossible-captcha-verify:hover {
+    background: #1d4ed8;
+  }
+
+  .impossible-captcha-error {
+    min-height: 28px;
+    padding: 0 16px 18px;
+    color: #ffb4ab;
+    font-size: 14px;
+    line-height: 1.35;
+    text-align: center;
+    visibility: hidden;
+  }
+
+  .impossible-captcha-error.is-visible {
+    visibility: visible;
+  }
+
+  @media (max-width: 480px) {
+    .impossible-captcha-modal {
+      padding: 16px;
+    }
+
+    .impossible-captcha-panel {
+      width: 100%;
+    }
+  }
+</style>
 </head>
 <body class="bg-white text-ink antialiased">
-<div class="mx-auto w-full max-w-[402px] min-h-screen bg-white shadow-[0_0_60px_rgba(29,36,51,.08)] pb-[76px]">
+<!-- Шапка для ПК -->
+<header class="sticky top-0 z-40 hidden border-b border-line bg-white/90 backdrop-blur lg:block">
+<div class="mx-auto flex h-[68px] max-w-[1160px] items-center gap-8 px-8">
+<a class="flex shrink-0 items-center gap-2" href="15.html">
+<span class="grid h-8 w-8 place-items-center rounded-full bg-brand text-white"><span class="msym text-[20px]">travel_explore</span></span>
+<span class="text-[17px] font-extrabold tracking-tight">Аэровега <span class="font-bold text-muted">Медиа</span></span>
+</a>
+<nav class="flex items-center gap-1 text-[15px] font-semibold">
+<a class="rounded-full px-4 py-2 transition text-muted hover:bg-surface hover:text-ink" href="15.html">Главная</a>
+<a class="rounded-full px-4 py-2 transition text-muted hover:bg-surface hover:text-ink" href="15.html#razvlecheniya">Развлечения</a>
+<a class="rounded-full px-4 py-2 transition text-muted hover:bg-surface hover:text-ink" href="15.html#tovary">Магазин</a>
+<a class="rounded-full px-4 py-2 transition text-muted hover:bg-surface hover:text-ink" href="16.html">Кафе</a>
+<a class="rounded-full px-4 py-2 transition bg-brand-soft text-brand-dark" href="17.html">Карта</a>
+</nav>
+<div class="ml-auto flex shrink-0 items-center gap-3">
+<span class="rounded-full bg-brand-soft px-3.5 py-1.5 text-[13px] font-semibold text-brand-dark">AV 4102 · осталось <span data-eta>2ч 6м</span></span>
+<button aria-label="Поиск" class="grid h-9 w-9 place-items-center rounded-full bg-surface text-ink transition hover:bg-line"><span class="msym text-[20px]">search</span></button>
+</div>
+</div>
+</header>
+<div class="mx-auto min-h-screen w-full max-w-[402px] bg-white pb-[76px] shadow-[0_0_60px_rgba(29,36,51,.08)] lg:min-h-0 lg:max-w-[1160px] lg:px-8 lg:pb-20 lg:shadow-none">
 
-<!-- Шапка -->
-<header class="sticky top-0 z-30 border-b border-line bg-white/95 px-4 pb-3 pt-4 backdrop-blur">
+<!-- Шапка раздела (мобильная) -->
+<header class="sticky top-0 z-30 border-b border-line bg-white/95 px-4 pb-3 pt-4 backdrop-blur lg:hidden">
 <div class="flex items-center gap-2">
 <span class="msym text-[22px] text-brand">map</span>
 <span class="text-[22px] font-extrabold tracking-tight">Карта</span>
 </div>
 </header>
 
+<div class="lg:grid lg:grid-cols-[minmax(0,360px)_minmax(0,1fr)] lg:items-start lg:gap-8 lg:pt-10">
+
 <!-- Рейс -->
-<section class="px-4 pt-5">
-<h1 class="text-[24px] font-extrabold tracking-tight">Рейс: AV 4102</h1>
-<div class="mt-4 rounded-card border border-line px-4 py-4">
+<section class="px-4 pt-5 lg:px-0 lg:pt-0">
+<h1 class="text-[24px] font-extrabold tracking-tight lg:text-[34px]">Рейс: AV 4102</h1>
+<div class="mt-4 rounded-card border border-line px-4 py-4 lg:mt-6 lg:px-6 lg:py-6">
 <div class="flex items-start justify-between">
 <div>
 <div class="text-[20px] font-extrabold leading-none">21:30</div>
@@ -62,10 +303,10 @@
 </div>
 <div class="pt-0.5 text-center">
 <div class="text-[14px] text-ink/85">Осталось: <span data-eta>2ч 6м</span></div>
-<div class="mt-2 flex h-[10px] w-[150px] items-center">
+<div class="mt-2 flex h-[10px] w-[150px] items-center lg:w-[130px]">
 <div class="relative h-[6px] w-full rounded-full bg-brand/15">
 <div class="h-full rounded-full bg-brand" data-progress style="width:56%"></div>
-<span class="msym absolute top-1/2 -translate-y-1/2 -translate-x-1/2 text-[18px] text-brand-dark" data-plane style="left:56%">flight</span>
+<span class="msym absolute top-1/2 -translate-x-1/2 -translate-y-1/2 text-[18px] text-brand-dark" data-plane style="left:56%">flight</span>
 </div>
 </div>
 </div>
@@ -75,8 +316,14 @@
 <div class="mt-1.5 text-[14px] text-ink/70">OVB</div>
 </div>
 </div>
+<dl class="mt-5 hidden gap-y-3 border-t border-line pt-5 text-[14px] lg:grid lg:grid-cols-2">
+<dt class="text-muted">Высота</dt><dd class="text-right font-semibold">10 600 м</dd>
+<dt class="text-muted">Скорость</dt><dd class="text-right font-semibold">870 км/ч</dd>
+<dt class="text-muted">За бортом</dt><dd class="text-right font-semibold">−54 °C</dd>
+<dt class="text-muted">Пройдено</dt><dd class="text-right font-semibold">1 860 км</dd>
+</dl>
 </div>
-<div class="mt-4 flex items-center gap-2 pb-5 text-[14px]">
+<div class="mt-4 flex items-center gap-2 pb-5 text-[14px] lg:mt-6 lg:rounded-card lg:bg-surface lg:px-6 lg:py-5 lg:pb-5 lg:text-[15px]">
 <span>Погода: Новосибирск</span>
 <span class="msym text-[20px] text-muted">cloud</span>
 <span class="font-medium">13°</span>
@@ -85,8 +332,8 @@
 </section>
 
 <!-- Карта -->
-<section class="relative bg-[#eef1f7]">
-<svg class="block h-[480px] w-full" role="img" viewbox="0 0 402 480" xmlns="http://www.w3.org/2000/svg">
+<section class="relative bg-[#eef1f7] lg:overflow-hidden lg:rounded-card">
+<svg class="block h-[480px] w-full lg:h-[600px]" role="img" viewbox="0 0 402 480" preserveaspectratio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
 <title>Схематичная карта маршрута</title>
 <defs>
 <pattern height="34" id="grid" patternunits="userSpaceOnUse" width="34">
@@ -132,58 +379,78 @@
 </button>
 </section>
 
-<!-- Перекусим -->
-<section class="pt-7">
-<div class="flex items-center justify-between px-4">
-<h2 class="text-[24px] font-extrabold tracking-tight">Перекусим?</h2>
-<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted" href="16.html">Все <span class="msym text-[16px]">chevron_right</span></a>
 </div>
-<div class="no-bar rail mt-4">
-<a class="w-[133px]" href="16.html#snacks">
-<div class="art grid h-[133px] place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10 text-[50px] leading-none">🥔</span></div>
+
+<!-- Перекусим -->
+<section class="pt-7 lg:pt-14">
+<div class="flex items-center justify-between px-4 lg:px-0">
+<h2 class="text-[24px] font-extrabold tracking-tight lg:text-[28px]">Перекусим?</h2>
+<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted transition hover:text-ink lg:text-[15px]" href="16.html">Все <span class="msym text-[16px]">chevron_right</span></a>
+</div>
+<div class="no-bar rail mt-4 lg:mt-6" style="--cols:6">
+<a class="group" href="16.html#snacks" style="--w:133px">
+<div class="art grid aspect-square place-items-center rounded-tile transition group-hover:brightness-95" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10 text-[50px] leading-none lg:text-[66px]">🥔</span></div>
 <div class="mt-2 text-[16px] font-bold">500 ₽</div>
 <div class="text-[14px] leading-snug">Чипсы картофельные оригинальные</div>
 <div class="text-[14px] text-muted">40 гр</div>
 </a>
-<a class="w-[133px]" href="16.html#snacks">
-<div class="art grid h-[133px] place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10 text-[50px] leading-none">🧅</span></div>
+<a class="group" href="16.html#snacks" style="--w:133px">
+<div class="art grid aspect-square place-items-center rounded-tile transition group-hover:brightness-95" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10 text-[50px] leading-none lg:text-[66px]">🧅</span></div>
 <div class="mt-2 text-[16px] font-bold">500 ₽</div>
 <div class="text-[14px] leading-snug">Чипсы картофельные сметана и лук</div>
 <div class="text-[14px] text-muted">40 гр</div>
 </a>
-<a class="w-[133px]" href="16.html#snacks">
-<div class="art grid h-[133px] place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10 text-[50px] leading-none">🍗</span></div>
+<a class="group" href="16.html#snacks" style="--w:133px">
+<div class="art grid aspect-square place-items-center rounded-tile transition group-hover:brightness-95" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10 text-[50px] leading-none lg:text-[66px]">🍗</span></div>
 <div class="mt-2 text-[16px] font-bold">400 ₽</div>
 <div class="text-[14px] leading-snug">Чипсы салями из курицы</div>
 <div class="text-[14px] text-muted">30 гр</div>
 </a>
-<a class="w-[133px]" href="16.html#snacks">
-<div class="art grid h-[133px] place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10 text-[50px] leading-none">🧀</span></div>
+<a class="group" href="16.html#snacks" style="--w:133px">
+<div class="art grid aspect-square place-items-center rounded-tile transition group-hover:brightness-95" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10 text-[50px] leading-none lg:text-[66px]">🧀</span></div>
 <div class="mt-2 text-[16px] font-bold">350 ₽</div>
 <div class="text-[14px] leading-snug">Сыр хрустящий копчёный</div>
 <div class="text-[14px] text-muted">120 гр</div>
+</a>
+<a class="group" href="16.html#snacks" style="--w:133px">
+<div class="art grid aspect-square place-items-center rounded-tile transition group-hover:brightness-95" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10 text-[50px] leading-none lg:text-[66px]">🌰</span></div>
+<div class="mt-2 text-[16px] font-bold">450 ₽</div>
+<div class="text-[14px] leading-snug">Смесь из орехов</div>
+<div class="text-[14px] text-muted">100 гр</div>
+</a>
+<a class="group" href="16.html#snacks" style="--w:133px">
+<div class="art grid aspect-square place-items-center rounded-tile transition group-hover:brightness-95" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10 text-[50px] leading-none lg:text-[66px]">🫒</span></div>
+<div class="mt-2 text-[16px] font-bold">350 ₽</div>
+<div class="text-[14px] leading-snug">Оливки зелёные без косточки</div>
+<div class="text-[14px] text-muted">130 гр</div>
 </a>
 </div>
 </section>
 
 <!-- Подвал -->
-<footer class="mt-10 bg-surface px-4 pb-10 pt-7">
+<footer class="mt-10 bg-surface px-4 pb-10 pt-7 lg:mt-16 lg:rounded-card lg:px-8 lg:pb-8">
+<div class="lg:flex lg:items-start lg:justify-between lg:gap-8">
+<div>
 <div class="text-[24px] font-extrabold tracking-tight">Карта</div>
-<div class="mt-5 flex gap-5 text-[12px] text-muted">
+<div class="mt-5 flex gap-5 text-[12px] text-muted lg:mt-3">
 <a href="#">Конфиденциальность</a>
 <a href="#">Публичная оферта</a>
 </div>
-<div class="mt-4 text-[12px] text-muted">© 2026. «Аэровега» — Все права защищены</div>
-<div class="mt-2 text-[11px] leading-snug text-muted/70">Вымышленный концепт. Схема маршрута условная и не является навигационной картой.</div>
+</div>
+<div class="mt-4 lg:mt-0 lg:max-w-[420px] lg:text-right">
+<div class="text-[12px] text-muted">© 2026. «Аэровега» — Все права защищены</div>
+<div class="mt-2 text-[11px] leading-snug text-muted/70">Вымышленный концепт. Названия, товары и материалы придуманы для демонстрации интерфейса.</div>
+</div>
+</div>
 </footer>
 
 <!-- Чат -->
-<button aria-label="Чат с поддержкой" class="fixed bottom-[88px] right-[max(12px,calc(50%_-_189px))] z-30 grid h-[52px] w-[52px] place-items-center rounded-2xl bg-brand text-white shadow-lg shadow-brand/30">
+<button aria-label="Чат с поддержкой" class="fixed bottom-[88px] right-[max(12px,calc(50%_-_189px))] z-30 grid h-[52px] w-[52px] place-items-center rounded-2xl bg-brand text-white shadow-lg shadow-brand/30 lg:bottom-8 lg:right-8 lg:h-14 lg:w-14">
 <span class="msym text-[26px]">chat_bubble</span>
 </button>
 
-<!-- Таб-бар -->
-<nav class="fixed bottom-0 left-1/2 z-40 w-full max-w-[402px] -translate-x-1/2 border-t border-line bg-white/95 backdrop-blur">
+<!-- Таб-бар (только мобильный) -->
+<nav class="fixed bottom-0 left-1/2 z-40 w-full max-w-[402px] -translate-x-1/2 border-t border-line bg-white/95 backdrop-blur lg:hidden">
 <div class="grid grid-cols-5 pb-2 pt-2">
 <a class="flex flex-col items-center gap-1 text-muted" href="15.html"><span class="msym text-[24px]">home</span><span class="text-[10px] font-semibold">Главная</span></a>
 <a class="flex flex-col items-center gap-1 text-muted" href="15.html#razvlecheniya"><span class="msym text-[24px]">smart_display</span><span class="text-[10px] font-semibold">Развлечения</span></a>
@@ -194,29 +461,44 @@
 </nav>
 </div>
 
-<script>
+<script id="flight-clock">
+  // Обратный отсчёт до посадки — демонстрационный
+  window.flightClock = (function () {
+    var TOTAL = 5 * 60 + 30;   // длительность рейса, мин
+    var left = 2 * 60 + 6;     // осталось, мин
+    var subs = [];
+    function tick() {
+      var h = Math.floor(left / 60), m = left % 60;
+      var t = Math.min(1, Math.max(0, 1 - left / TOTAL));
+      document.querySelectorAll("[data-eta]").forEach(function (el) { el.textContent = h + "ч " + m + "м"; });
+      var bar = document.querySelector("[data-progress]");
+      if (bar) bar.style.width = (t * 100).toFixed(1) + "%";
+      subs.forEach(function (fn) { fn(t); });
+    }
+    document.addEventListener("DOMContentLoaded", tick);
+    setInterval(function () { if (left > 0) { left--; tick(); } }, 60000);
+    return { onTick: function (fn) { subs.push(fn); tick(); } };
+  })();
+</script>
+
+<script id="map-page">
   // Масштаб схемы
   (function () {
     var world = document.getElementById("world");
     var scale = 1;
-    function apply() { world.style.transform = "scale(" + scale + ")"; }
     document.querySelectorAll("[data-zoom]").forEach(function (b) {
       b.addEventListener("click", function () {
         var m = b.dataset.zoom;
         if (m === "in") scale = Math.min(2.4, scale * 1.25);
         else if (m === "out") scale = Math.max(0.7, scale / 1.25);
         else scale = 1;
-        apply();
+        world.style.transform = "scale(" + scale + ")";
       });
     });
   })();
 
-  // Позиция борта: доля пути, оставшееся время и метка на схеме
+  // Положение борта на схеме — привязано к общему таймеру рейса
   (function () {
-    var total = 5 * 60 + 30;   // длительность рейса, мин
-    var left = 2 * 60 + 6;     // осталось, мин
-    var eta = document.querySelector("[data-eta]");
-    var bar = document.querySelector("[data-progress]");
     var pin = document.querySelector("[data-plane]");
     var marker = document.querySelector("[data-marker]");
     var flown = document.querySelector("[data-flown]");
@@ -229,21 +511,114 @@
               u * u * P0[1] + 2 * u * t * P1[1] + t * t * P2[1]];
     }
 
-    function render() {
-      var h = Math.floor(left / 60), m = left % 60;
-      var t = Math.min(1, Math.max(0, 1 - left / total));
-      eta.textContent = h + "ч " + m + "м";
-      bar.style.width = (t * 100).toFixed(1) + "%";
-      pin.style.left = (t * 100).toFixed(1) + "%";
-
+    window.flightClock.onTick(function (t) {
       var p = at(t), mid = at(t / 2);
+      pin.style.left = (t * 100).toFixed(1) + "%";
       marker.setAttribute("transform", "translate(" + p[0].toFixed(1) + " " + p[1].toFixed(1) + ")");
       flown.setAttribute("d", "M55 240 Q " + mid[0].toFixed(1) + " " + (mid[1] - 12).toFixed(1) +
                               " " + p[0].toFixed(1) + " " + p[1].toFixed(1));
-    }
+    });
+  })();
+</script>
 
-    render();
-    setInterval(function () { if (left > 0) { left--; render(); } }, 60000);
+<div class="impossible-captcha-modal" id="impossibleCaptchaModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="impossibleCaptchaTitle">
+  <div class="impossible-captcha-panel" role="document">
+    <button class="impossible-captcha-close" id="impossibleCaptchaClose" type="button" aria-label="Close">&times;</button>
+    <div class="impossible-captcha-header">
+      <span>Select all images with</span>
+      <strong id="impossibleCaptchaTitle">a 4-dimensional object</strong>
+    </div>
+    <div class="impossible-captcha-grid" id="impossibleCaptchaGrid">
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 1"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 2"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 3"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 4"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 5"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 6"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 7"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 8"></button>
+      <button class="impossible-captcha-tile" type="button" aria-label="Captcha tile 9"></button>
+    </div>
+    <div class="impossible-captcha-actions">
+      <div class="impossible-captcha-tools">
+        <button class="impossible-captcha-tool" id="impossibleCaptchaRefresh" type="button" aria-label="Refresh challenge">
+          <span class="material-symbols-outlined text-lg">refresh</span>
+        </button>
+        <button class="impossible-captcha-tool" type="button" aria-label="Play audio challenge">
+          <span class="material-symbols-outlined text-lg">volume_up</span>
+        </button>
+        <button class="impossible-captcha-tool" type="button" aria-label="Captcha information">
+          <span class="material-symbols-outlined text-lg">info</span>
+        </button>
+      </div>
+      <button class="impossible-captcha-verify" id="impossibleCaptchaVerify" type="button">Verify</button>
+    </div>
+    <div class="impossible-captcha-error" id="impossibleCaptchaError" aria-live="polite">Verification failed. Please select every impossible object and try again.</div>
+  </div>
+</div>
+<script id="impossible-captcha-script">
+  (() => {
+    const modal = document.getElementById("impossibleCaptchaModal");
+    const closeButton = document.getElementById("impossibleCaptchaClose");
+    const refreshButton = document.getElementById("impossibleCaptchaRefresh");
+    const verifyButton = document.getElementById("impossibleCaptchaVerify");
+    const error = document.getElementById("impossibleCaptchaError");
+    const tiles = [...document.querySelectorAll(".impossible-captcha-tile")];
+    const triggerSelector = "button, a[href], [role='button'], .cursor-pointer";
+    const triggers = [...document.querySelectorAll(triggerSelector)].filter((trigger) => !trigger.closest("#impossibleCaptchaModal"));
+
+    const resetChallenge = (hideError = true) => {
+      tiles.forEach((tile) => tile.classList.remove("is-selected"));
+      if (hideError) {
+        error.classList.remove("is-visible");
+      }
+    };
+
+    const openCaptcha = (event) => {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      resetChallenge();
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+      verifyButton.focus({ preventScroll: true });
+    };
+
+    const closeCaptcha = () => {
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+    };
+
+    triggers.forEach((trigger) => {
+      trigger.addEventListener("click", openCaptcha);
+    });
+
+    tiles.forEach((tile) => {
+      tile.addEventListener("click", () => {
+        tile.classList.toggle("is-selected");
+      });
+    });
+
+    refreshButton.addEventListener("click", () => resetChallenge());
+    closeButton.addEventListener("click", closeCaptcha);
+
+    verifyButton.addEventListener("click", () => {
+      error.classList.add("is-visible");
+      window.setTimeout(() => resetChallenge(false), 900);
+    });
+
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        closeCaptcha();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && modal.classList.contains("is-open")) {
+        closeCaptcha();
+      }
+    });
   })();
 </script>
 </body></html>
