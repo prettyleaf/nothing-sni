@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+
+<html lang="ru"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Аэровега Медиа — Главная</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "brand": "#0e9aa7",
+              "brand-dark": "#0b7b86",
+              "brand-soft": "#e2f4f6",
+              "ink": "#1d2433",
+              "muted": "#8c97a8",
+              "line": "#e6eaf0",
+              "surface": "#f1f4f9",
+              "accent-blue": "#2563c9",
+              "accent-violet": "#6d5de6",
+            },
+            fontFamily: { sans: ["Inter", "system-ui", "sans-serif"] },
+            borderRadius: { card: "16px", tile: "12px" },
+          },
+        },
+      };
+</script>
+<style>
+      html { -webkit-text-size-adjust: 100%; }
+      body { font-family: "Inter", system-ui, sans-serif; }
+      .msym { font-family: "Material Symbols Outlined"; font-weight: normal; font-style: normal; line-height: 1; letter-spacing: normal; text-transform: none; font-feature-settings: "liga"; -webkit-font-smoothing: antialiased; display: inline-block; white-space: nowrap; direction: ltr; font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24; }
+      .no-bar { scrollbar-width: none; -ms-overflow-style: none; }
+      .no-bar::-webkit-scrollbar { display: none; }
+      .rail { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 16px; }
+      .rail > * { scroll-snap-align: start; flex: 0 0 auto; }
+      /* Placeholder artwork — no third-party imagery is used anywhere on this page */
+      .art { position: relative; overflow: hidden; background: linear-gradient(150deg, var(--c1), var(--c2)); }
+      .art::after { content: ""; position: absolute; inset: 0; background: radial-gradient(120% 80% at 20% 0%, rgba(255,255,255,.28), transparent 60%); }
+      .art > .glyph { position: absolute; inset: 0; display: grid; place-items: center; font-size: 34px; opacity: .95; z-index: 1; }
+      .art > .cap { position: absolute; left: 10px; right: 10px; bottom: 10px; z-index: 1; color: #fff; font-weight: 800; font-size: 13px; line-height: 1.15; text-shadow: 0 1px 6px rgba(0,0,0,.45); }
+      .sect-line { border-top: 1px solid #e6eaf0; }
+    </style>
+</head>
+<body class="bg-white text-ink antialiased">
+<div class="mx-auto w-full max-w-[402px] min-h-screen bg-white shadow-[0_0_60px_rgba(29,36,51,.08)] pb-[76px]">
+
+<!-- Шапка -->
+<header class="pt-6 pb-1">
+<div class="flex items-center justify-center gap-2">
+<span class="grid h-8 w-8 place-items-center rounded-full bg-brand text-white">
+<span class="msym text-[20px]">travel_explore</span>
+</span>
+<span class="text-[20px] font-extrabold tracking-tight text-ink">Аэровега <span class="text-muted font-bold">Медиа</span></span>
+</div>
+<h1 class="mt-5 text-center text-[20px] font-extrabold tracking-tight">Чем заняться на борту</h1>
+</header>
+
+<!-- Три входа -->
+<section class="mt-4 grid grid-cols-2 gap-3 px-4">
+<a class="art relative row-span-2 flex min-h-[340px] flex-col rounded-card p-4 text-white" href="#razvlecheniya" style="--c1:#12b3a6;--c2:#0b7b86">
+<span class="relative z-10 text-[20px] font-extrabold leading-tight">Развлечения</span>
+<span class="relative z-10 mt-1 text-[12px] leading-snug text-white/90">Посмотреть сериал, послушать подкаст, почитать журнал — всё, что не успевали на земле</span>
+<span class="relative z-10 mt-auto text-[64px] leading-none">🎧</span>
+</a>
+<a class="art relative flex min-h-[164px] flex-col rounded-card p-4 text-white" href="16.html" style="--c1:#2f74d6;--c2:#1a4a9c">
+<span class="relative z-10 text-[20px] font-extrabold leading-tight">Кафе</span>
+<span class="relative z-10 mt-1 text-[12px] leading-snug text-white/90">Перекусить, если проголодались в полете</span>
+<span class="relative z-10 mt-auto self-end text-[44px] leading-none">🥤</span>
+</a>
+<a class="art relative flex min-h-[164px] flex-col rounded-card p-4 text-white" href="#tovary" style="--c1:#7d6df0;--c2:#4f3fc4">
+<span class="relative z-10 text-[20px] font-extrabold leading-tight">Магазин</span>
+<span class="relative z-10 mt-1 text-[12px] leading-snug text-white/90">Устроить себе воздушный шопинг</span>
+<span class="relative z-10 mt-auto self-end text-[44px] leading-none">🛍️</span>
+</a>
+</section>
+
+<!-- Полётная плашка -->
+<section class="px-4 pt-4">
+<div class="rounded-card bg-surface px-4 py-4">
+<div class="flex items-start justify-between">
+<div>
+<div class="text-[20px] font-extrabold leading-none">21:30</div>
+<div class="mt-1.5 text-[13px] text-ink/70">MOW</div>
+</div>
+<div class="pt-0.5 text-center">
+<div class="text-[13px] text-ink/80">Осталось: <span data-eta>2ч 4м</span></div>
+<div class="mt-2 h-[6px] w-[120px] rounded-full bg-ink/10">
+<div class="h-full rounded-full bg-brand" data-progress style="width:58%"></div>
+</div>
+</div>
+<div class="text-right">
+<div class="text-[11px] text-muted">+4ч</div>
+<div class="text-[20px] font-extrabold leading-none">05:29</div>
+<div class="mt-1.5 text-[13px] text-ink/70">OVB</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Собственный промо-баннер -->
+<section class="px-4 pt-3">
+<div class="art relative overflow-hidden rounded-card p-4 text-white" style="--c1:#243043;--c2:#0d131d">
+<div class="relative z-10 max-w-[62%]">
+<div class="text-[11px] font-bold uppercase tracking-[.14em] text-brand">Тариф «Комфорт»</div>
+<div class="mt-1 text-[17px] font-extrabold leading-tight">Выбрать место<br/>бесплатно</div>
+<div class="mt-2 text-[10px] leading-snug text-white/55">Условия тарифа доступны на сайте авиакомпании. Реклама вымышленного перевозчика «Аэровега».</div>
+</div>
+<span class="absolute right-3 bottom-2 z-10 text-[62px] leading-none opacity-90">💺</span>
+</div>
+</section>
+
+<!-- Развлечения -->
+<section class="pt-7" id="razvlecheniya">
+<div class="flex items-center justify-between px-4">
+<h2 class="text-[20px] font-extrabold tracking-tight">Развлечения</h2>
+<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted" href="#">Все <span class="msym text-[16px]">chevron_right</span></a>
+</div>
+<div class="mt-3 grid grid-cols-2 gap-3 px-4">
+<a class="flex items-center gap-3 rounded-tile bg-surface px-4 py-3.5" href="#filmy"><span class="text-[22px]">🍿</span><span class="text-[14px] font-semibold">Смотреть</span></a>
+<a class="flex items-center gap-3 rounded-tile bg-surface px-4 py-3.5" href="#zhurnaly"><span class="text-[22px]">📚</span><span class="text-[14px] font-semibold">Читать</span></a>
+<a class="flex items-center gap-3 rounded-tile bg-surface px-4 py-3.5" href="#audio"><span class="text-[22px]">🎧</span><span class="text-[14px] font-semibold">Слушать</span></a>
+<a class="flex items-center gap-3 rounded-tile bg-surface px-4 py-3.5" href="#obrazovanie"><span class="text-[22px]">🎥</span><span class="text-[14px] font-semibold">Изучать</span></a>
+<a class="flex items-center gap-3 rounded-tile bg-surface px-4 py-3.5" href="#detyam"><span class="text-[22px]">🧸</span><span class="text-[14px] font-semibold">Детям</span></a>
+</div>
+</section>
+
+<!-- Кафе -->
+<section class="pt-7">
+<div class="sect-line mx-4 mb-5"></div>
+<div class="flex items-center justify-between px-4">
+<h2 class="text-[20px] font-extrabold tracking-tight">Кафе</h2>
+<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted" href="16.html">Все <span class="msym text-[16px]">chevron_right</span></a>
+</div>
+<div class="no-bar rail mt-3">
+<a class="w-[133px]" href="16.html">
+<div class="art grid h-[133px] place-items-center rounded-tile text-[46px]" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10">🥔</span></div>
+<div class="mt-2 text-[16px] font-bold">500 ₽</div>
+<div class="text-[14px] leading-snug">Чипсы картофельные оригинальные</div>
+<div class="text-[14px] text-muted">40 гр</div>
+</a>
+<a class="w-[133px]" href="16.html">
+<div class="art grid h-[133px] place-items-center rounded-tile text-[46px]" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10">🧅</span></div>
+<div class="mt-2 text-[16px] font-bold">500 ₽</div>
+<div class="text-[14px] leading-snug">Чипсы картофельные сметана и лук</div>
+<div class="text-[14px] text-muted">40 гр</div>
+</a>
+<a class="w-[133px]" href="16.html">
+<div class="art grid h-[133px] place-items-center rounded-tile text-[46px]" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10">🍗</span></div>
+<div class="mt-2 text-[16px] font-bold">400 ₽</div>
+<div class="text-[14px] leading-snug">Чипсы салями из курицы</div>
+<div class="text-[14px] text-muted">30 гр</div>
+</a>
+<a class="w-[133px]" href="16.html">
+<div class="art grid h-[133px] place-items-center rounded-tile text-[46px]" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10">🧀</span></div>
+<div class="mt-2 text-[16px] font-bold">350 ₽</div>
+<div class="text-[14px] leading-snug">Сыр хрустящий копчёный</div>
+<div class="text-[14px] text-muted">120 гр</div>
+</a>
+</div>
+</section>
+
+<!-- Фильмы -->
+<section class="pt-7" id="filmy">
+<div class="sect-line mx-4 mb-5"></div>
+<div class="flex items-center justify-between px-4">
+<h2 class="text-[20px] font-extrabold tracking-tight">Фильмы</h2>
+<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted" href="#">Все <span class="msym text-[16px]">chevron_right</span></a>
+</div>
+<div class="no-bar rail mt-3">
+<a class="w-[139px]">
+<div class="art h-[208px] rounded-tile" style="--c1:#2f7fc4;--c2:#123a78">
+<span class="absolute right-2 top-2 z-10 rounded-md bg-brand px-1.5 py-0.5 text-[12px] font-bold text-white">8.5</span>
+<span class="cap">Первый<br/>на вершине</span>
+</div>
+<div class="mt-2 text-[15px] font-semibold leading-snug">Первый на вершине</div>
+</a>
+<a class="w-[139px]">
+<div class="art h-[208px] rounded-tile" style="--c1:#1b6f7c;--c2:#0a2230">
+<span class="absolute right-2 top-2 z-10 rounded-md bg-brand px-1.5 py-0.5 text-[12px] font-bold text-white">7.7</span>
+<span class="cap">Глубина</span>
+</div>
+<div class="mt-2 text-[15px] font-semibold leading-snug">Глубина</div>
+</a>
+<a class="w-[139px]">
+<div class="art h-[208px] rounded-tile" style="--c1:#b98a3f;--c2:#3d2a12">
+<span class="absolute left-2 top-2 z-10 rounded-md bg-black/45 px-1.5 py-0.5 text-[11px] font-semibold text-white">12+</span>
+<span class="cap">Пророчество<br/>севера</span>
+</div>
+<div class="mt-2 text-[15px] font-semibold leading-snug">Пророчество севера</div>
+</a>
+<a class="w-[139px]">
+<div class="art h-[208px] rounded-tile" style="--c1:#6d5de6;--c2:#2a1f66">
+<span class="absolute right-2 top-2 z-10 rounded-md bg-brand px-1.5 py-0.5 text-[12px] font-bold text-white">8.0</span>
+<span class="cap">Тихий<br/>эшелон</span>
+</div>
+<div class="mt-2 text-[15px] font-semibold leading-snug">Тихий эшелон</div>
+</a>
+</div>
+</section>
+
+<!-- Сериалы -->
+<section class="pt-7">
+<div class="sect-line mx-4 mb-5"></div>
+<div class="flex items-center justify-between px-4">
+<h2 class="text-[20px] font-extrabold tracking-tight">Сериалы</h2>
+<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted" href="#">Все <span class="msym text-[16px]">chevron_right</span></a>
+</div>
+<div class="no-bar rail mt-3">
+<a class="w-[179px]">
+<div class="art h-[101px] rounded-tile" style="--c1:#3a4a63;--c2:#1b2432"><span class="glyph">🎬</span></div>
+<div class="mt-2 text-[15px] font-semibold leading-snug">Городские правила. 1 серия</div>
+<div class="mt-0.5 flex items-center gap-1.5 text-[13px]"><span class="text-amber-400">★</span><span class="font-medium">7.7</span><span class="text-muted">• 2025</span></div>
+</a>
+<a class="w-[179px]">
+<div class="art h-[101px] rounded-tile" style="--c1:#2f6a5e;--c2:#152b27"><span class="glyph">🚜</span></div>
+<div class="mt-2 text-[15px] font-semibold leading-snug">Кибердача 2. Серия 1</div>
+<div class="mt-0.5 flex items-center gap-1.5 text-[13px]"><span class="text-amber-400">★</span><span class="font-medium">8.1</span><span class="text-muted">• 2025</span></div>
+</a>
+<a class="w-[179px]">
+<div class="art h-[101px] rounded-tile" style="--c1:#6b4a7d;--c2:#2b1b33"><span class="glyph">🏙️</span></div>
+<div class="mt-2 text-[15px] font-semibold leading-snug">Стеклянный этаж. 1 серия</div>
+<div class="mt-0.5 flex items-center gap-1.5 text-[13px]"><span class="text-amber-400">★</span><span class="font-medium">7.9</span><span class="text-muted">• 2025</span></div>
+</a>
+</div>
+</section>
+
+<!-- Детям -->
+<section class="pt-7" id="detyam">
+<div class="sect-line mx-4 mb-5"></div>
+<div class="flex items-center justify-between px-4">
+<h2 class="text-[20px] font-extrabold tracking-tight">Детям</h2>
+<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted" href="#">Все <span class="msym text-[16px]">chevron_right</span></a>
+</div>
+<div class="no-bar rail mt-3">
+<a class="w-[179px]">
+<div class="art h-[101px] rounded-tile" style="--c1:#3f8ec9;--c2:#1c4a72"><span class="glyph">🪄</span></div>
+<div class="mt-2 text-[15px] font-semibold leading-snug">Волшебник Медного города</div>
+<div class="mt-0.5 flex items-center gap-1.5 text-[13px]"><span class="text-amber-400">★</span><span class="font-medium">7.1</span><span class="text-muted">• 2024</span></div>
+</a>
+<a class="w-[179px]">
+<div class="art h-[101px] rounded-tile" style="--c1:#57a86b;--c2:#22482c"><span class="glyph">🦕</span></div>
+<div class="mt-2 text-[15px] font-semibold leading-snug">Доктор Динозаврик</div>
+<div class="mt-0.5 flex items-center gap-1.5 text-[13px]"><span class="text-amber-400">★</span><span class="font-medium">7.6</span><span class="text-muted">• 2025</span></div>
+</a>
+<a class="w-[179px]">
+<div class="art h-[101px] rounded-tile" style="--c1:#e0a33f;--c2:#7a4d13"><span class="glyph">🗺️</span></div>
+<div class="mt-2 text-[15px] font-semibold leading-snug">Большая карта приключений</div>
+<div class="mt-0.5 flex items-center gap-1.5 text-[13px]"><span class="text-amber-400">★</span><span class="font-medium">7.4</span><span class="text-muted">• 2025</span></div>
+</a>
+</div>
+</section>
+
+<!-- Журналы -->
+<section class="pt-7" id="zhurnaly">
+<div class="sect-line mx-4 mb-5"></div>
+<div class="flex items-center justify-between px-4">
+<h2 class="text-[20px] font-extrabold tracking-tight">Журналы</h2>
+<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted" href="#">Все <span class="msym text-[16px]">chevron_right</span></a>
+</div>
+<div class="no-bar rail mt-3">
+<a class="w-[179px]">
+<div class="art h-[248px] rounded-tile" style="--c1:#e2618a;--c2:#6c1f3c"><span class="cap" style="font-size:16px">Психология<br/>и мы</span></div>
+<div class="mt-2 text-[15px] font-semibold">Психология и мы</div>
+<div class="text-[14px] text-muted">Июль 2026</div>
+</a>
+<a class="w-[179px]">
+<div class="art h-[248px] rounded-tile" style="--c1:#2f8f6d;--c2:#123b2c"><span class="cap" style="font-size:16px">Финансы</span></div>
+<div class="mt-2 text-[15px] font-semibold">Финансы</div>
+<div class="text-[14px] text-muted">Июль 2026</div>
+</a>
+<a class="w-[179px]">
+<div class="art h-[248px] rounded-tile" style="--c1:#4b6ad0;--c2:#1a2559"><span class="cap" style="font-size:16px">Технологии<br/>и мы</span></div>
+<div class="mt-2 text-[15px] font-semibold">Технологии</div>
+<div class="text-[14px] text-muted">Июль 2026</div>
+</a>
+</div>
+</section>
+
+<!-- Образование -->
+<section class="pt-7" id="obrazovanie">
+<div class="sect-line mx-4 mb-5"></div>
+<div class="flex items-center justify-between px-4">
+<h2 class="text-[20px] font-extrabold tracking-tight">Образование</h2>
+<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted" href="#">Все <span class="msym text-[16px]">chevron_right</span></a>
+</div>
+<div class="no-bar rail mt-3">
+<a class="w-[179px]">
+<div class="art h-[101px] rounded-tile" style="--c1:#3f6fb5;--c2:#18325c"><span class="glyph">🗣️</span></div>
+<div class="mt-2 text-[15px] font-semibold leading-snug">Аргументация. Лекция 1 — как убеждать</div>
+<div class="mt-0.5 text-[14px] leading-snug text-muted">Строим сильные аргументы…</div>
+</a>
+<a class="w-[179px]">
+<div class="art h-[101px] rounded-tile" style="--c1:#c98a52;--c2:#5a3418"><span class="glyph">🖼️</span></div>
+<div class="mt-2 text-[15px] font-semibold leading-snug">Импрессионизм. Лекция 1</div>
+<div class="mt-0.5 text-[14px] leading-snug text-muted">Появление импрессионизма…</div>
+</a>
+<a class="w-[179px]">
+<div class="art h-[101px] rounded-tile" style="--c1:#5b57c4;--c2:#221f57"><span class="glyph">🧠</span></div>
+<div class="mt-2 text-[15px] font-semibold leading-snug">Нейросети. Лекция 1</div>
+<div class="mt-0.5 text-[14px] leading-snug text-muted">Как машины учатся…</div>
+</a>
+</div>
+</section>
+
+<!-- Контент авиакомпании -->
+<section class="pt-7">
+<div class="sect-line mx-4 mb-5"></div>
+<div class="flex items-center justify-between px-4">
+<h2 class="text-[20px] font-extrabold tracking-tight">Аэровега</h2>
+<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted" href="#">Все <span class="msym text-[16px]">chevron_right</span></a>
+</div>
+<div class="no-bar rail mt-3">
+<a class="w-[179px]">
+<div class="art h-[101px] rounded-tile" style="--c1:#0e9aa7;--c2:#083b45"><span class="glyph">🏒</span></div>
+<div class="mt-2 text-[15px] font-semibold leading-snug">Небо в деталях. 3 сезон, 1 серия</div>
+<div class="mt-0.5 text-[14px] leading-snug text-muted">Искали золото, а нашли серебро! В премьерном…</div>
+<div class="text-[14px] text-muted">2025</div>
+</a>
+<a class="w-[179px]">
+<div class="art h-[101px] rounded-tile" style="--c1:#4a7cb8;--c2:#1b3552"><span class="glyph">📷</span></div>
+<div class="mt-2 text-[15px] font-semibold leading-snug">Кадры из иллюминатора</div>
+<div class="mt-0.5 text-[14px] leading-snug text-muted">Изо дня в день мы получаем новые…</div>
+</a>
+<a class="w-[179px]">
+<div class="art h-[101px] rounded-tile" style="--c1:#8a6fd0;--c2:#33265c"><span class="glyph">📍</span></div>
+<div class="mt-2 text-[15px] font-semibold leading-snug">Точка на маршруте. 2 серия</div>
+<div class="mt-0.5 text-[14px] leading-snug text-muted">Города, в которые стоит вернуться…</div>
+</a>
+</div>
+</section>
+
+<!-- Товары -->
+<section class="pt-7" id="tovary">
+<div class="sect-line mx-4 mb-5"></div>
+<div class="flex items-center justify-between px-4">
+<h2 class="text-[20px] font-extrabold tracking-tight">Товары «Аэровега»</h2>
+<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted" href="#">Все <span class="msym text-[16px]">chevron_right</span></a>
+</div>
+<div class="no-bar rail mt-3">
+<a class="w-[133px]">
+<div class="art grid h-[133px] place-items-center rounded-tile text-[42px]" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10">🏷️</span></div>
+<div class="mt-2 text-[16px] font-bold">750 ₽</div>
+<div class="text-[14px] leading-snug">Ремувка «100 лет авиации»</div>
+</a>
+<a class="w-[133px]">
+<div class="art grid h-[133px] place-items-center rounded-tile text-[42px]" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10">🎫</span></div>
+<div class="mt-2 text-[16px] font-bold">650 ₽</div>
+<div class="text-[14px] leading-snug">Ремувка «Аэровега»</div>
+</a>
+<a class="w-[133px]">
+<div class="art grid h-[133px] place-items-center rounded-tile text-[42px]" style="--c1:#f4f7fb;--c2:#e3e9f2"><span class="relative z-10">🖊️</span></div>
+<div class="mt-2 text-[16px] font-bold">70 ₽</div>
+<div class="text-[14px] leading-snug">Ручка «Аэровега»</div>
+</a>
+</div>
+</section>
+
+<!-- Аудиостатьи -->
+<section class="pt-7" id="audio">
+<div class="sect-line mx-4 mb-5"></div>
+<div class="flex items-center justify-between px-4">
+<h2 class="text-[20px] font-extrabold tracking-tight">Аудиостатьи</h2>
+<a class="flex items-center gap-0.5 text-[14px] font-semibold text-muted" href="#">Все <span class="msym text-[16px]">chevron_right</span></a>
+</div>
+<div class="no-bar rail mt-3">
+<a class="w-[342px]">
+<div class="art h-[219px] rounded-tile" style="--c1:#2b6f8f;--c2:#0d2634">
+<span class="absolute left-1/2 top-1/2 z-10 grid h-[54px] w-[54px] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-ink"><span class="msym text-[30px]">play_arrow</span></span>
+</div>
+<div class="mt-2 text-[16px] font-bold leading-snug">Третий путь атомной энергетики</div>
+<div class="mt-0.5 text-[14px] text-muted">Наука вокруг • 12:26</div>
+</a>
+<a class="w-[342px]">
+<div class="art h-[219px] rounded-tile" style="--c1:#8f6b2b;--c2:#33240d">
+<span class="absolute left-1/2 top-1/2 z-10 grid h-[54px] w-[54px] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-ink"><span class="msym text-[30px]">play_arrow</span></span>
+</div>
+<div class="mt-2 text-[16px] font-bold leading-snug">Как мы принимаем решения</div>
+<div class="mt-0.5 text-[14px] text-muted">Полка • 18:40</div>
+</a>
+</div>
+</section>
+
+<!-- Подвал -->
+<footer class="mt-8 bg-surface px-4 pb-10 pt-7">
+<div class="text-[24px] font-extrabold tracking-tight">Главная</div>
+<div class="mt-5 flex gap-5 text-[12px] text-muted">
+<a href="#">Конфиденциальность</a>
+<a href="#">Публичная оферта</a>
+</div>
+<div class="mt-4 text-[12px] text-muted">© 2026. «Аэровега» — Все права защищены</div>
+<div class="mt-2 text-[11px] leading-snug text-muted/70">Вымышленный концепт. Названия, товары и материалы придуманы для демонстрации интерфейса.</div>
+</footer>
+
+<!-- Чат -->
+<button aria-label="Чат с поддержкой" class="fixed bottom-[88px] right-[max(12px,calc(50%_-_189px))] z-30 grid h-[52px] w-[52px] place-items-center rounded-2xl bg-brand text-white shadow-lg shadow-brand/30">
+<span class="msym text-[26px]">chat_bubble</span>
+</button>
+
+<!-- Таб-бар -->
+<nav class="fixed bottom-0 left-1/2 z-40 w-full max-w-[402px] -translate-x-1/2 border-t border-line bg-white/95 backdrop-blur">
+<div class="grid grid-cols-5 pb-2 pt-2">
+<a class="flex flex-col items-center gap-1 text-brand" href="15.html"><span class="msym text-[24px]" style="font-variation-settings:'FILL' 1">home</span><span class="text-[10px] font-semibold">Главная</span></a>
+<a class="flex flex-col items-center gap-1 text-muted" href="#razvlecheniya"><span class="msym text-[24px]">smart_display</span><span class="text-[10px] font-semibold">Развлечения</span></a>
+<a class="flex flex-col items-center gap-1 text-muted" href="#tovary"><span class="msym text-[24px]">shopping_bag</span><span class="text-[10px] font-semibold">Магазин</span></a>
+<a class="flex flex-col items-center gap-1 text-muted" href="16.html"><span class="msym text-[24px]">storefront</span><span class="text-[10px] font-semibold">Кафе</span></a>
+<a class="flex flex-col items-center gap-1 text-muted" href="17.html"><span class="msym text-[24px]">public</span><span class="text-[10px] font-semibold">Карта</span></a>
+</div>
+</nav>
+</div>
+
+<script>
+  // Обратный отсчёт до посадки — демонстрационный, стартует с 2ч 4м
+  (function () {
+    var total = 5 * 60 + 30;         // полная длительность рейса, мин
+    var left = 2 * 60 + 4;           // осталось, мин
+    var eta = document.querySelector("[data-eta]");
+    var bar = document.querySelector("[data-progress]");
+    function render() {
+      var h = Math.floor(left / 60), m = left % 60;
+      eta.textContent = h + "ч " + m + "м";
+      bar.style.width = Math.min(100, Math.round((1 - left / total) * 100)) + "%";
+    }
+    render();
+    setInterval(function () { if (left > 0) { left--; render(); } }, 60000);
+  })();
+</script>
+</body></html>

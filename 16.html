@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+
+<html lang="ru"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Аэровега Медиа — Кафе</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "brand": "#0e9aa7",
+              "brand-dark": "#0b7b86",
+              "brand-soft": "#e2f4f6",
+              "ink": "#1d2433",
+              "muted": "#8c97a8",
+              "line": "#e6eaf0",
+              "surface": "#f1f4f9",
+            },
+            fontFamily: { sans: ["Inter", "system-ui", "sans-serif"] },
+            borderRadius: { card: "16px", tile: "12px" },
+          },
+        },
+      };
+</script>
+<style>
+      html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+      body { font-family: "Inter", system-ui, sans-serif; }
+      .msym { font-family: "Material Symbols Outlined"; font-weight: normal; font-style: normal; line-height: 1; letter-spacing: normal; text-transform: none; font-feature-settings: "liga"; -webkit-font-smoothing: antialiased; display: inline-block; white-space: nowrap; direction: ltr; font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24; }
+      .no-bar { scrollbar-width: none; -ms-overflow-style: none; }
+      .no-bar::-webkit-scrollbar { display: none; }
+      /* Плейсхолдеры вместо фотографий — сторонние изображения не используются */
+      .art { position: relative; overflow: hidden; background: linear-gradient(150deg, var(--c1), var(--c2)); }
+      [data-tab].is-active { color: #1d2433; border-bottom-color: #0e9aa7; }
+    </style>
+</head>
+<body class="bg-white text-ink antialiased">
+<div class="mx-auto w-full max-w-[402px] min-h-screen bg-white shadow-[0_0_60px_rgba(29,36,51,.08)] pb-[76px]">
+
+<!-- Шапка -->
+<header class="sticky top-0 z-30 bg-white/95 backdrop-blur">
+<div class="flex items-center justify-between px-4 pb-3 pt-4">
+<div class="flex items-center gap-2">
+<span class="msym text-[22px] text-brand">restaurant</span>
+<span class="text-[22px] font-extrabold tracking-tight">Кафе</span>
+</div>
+<button aria-label="Помощь" class="grid h-8 w-8 place-items-center rounded-full text-muted transition hover:bg-surface hover:text-ink">
+<span class="msym text-[22px]">help</span>
+</button>
+</div>
+<nav class="no-bar flex overflow-x-auto border-b border-line" id="tabs">
+<a class="shrink-0 border-b-2 border-transparent px-4 py-3 text-[14px] font-semibold text-muted transition" data-tab="snacks" href="#snacks">Снэки</a>
+<a class="shrink-0 border-b-2 border-transparent px-4 py-3 text-[14px] font-semibold text-muted transition" data-tab="sweets" href="#sweets">Сладости</a>
+<a class="shrink-0 border-b-2 border-transparent px-4 py-3 text-[14px] font-semibold text-muted transition" data-tab="alcohol" href="#alcohol">Алкоголь</a>
+<a class="shrink-0 border-b-2 border-transparent px-4 py-3 text-[14px] font-semibold text-muted transition" data-tab="drinks" href="#drinks">Напитки</a>
+<a class="shrink-0 border-b-2 border-transparent px-4 py-3 text-[14px] font-semibold text-muted transition" data-tab="kids" href="#kids">Детское</a>
+<a class="shrink-0 border-b-2 border-transparent px-4 py-3 text-[14px] font-semibold text-muted transition" data-tab="hot" href="#hot">Чай и кофе</a>
+<a class="shrink-0 border-b-2 border-transparent px-4 py-3 text-[14px] font-semibold text-muted transition" data-tab="healthy" href="#healthy">Здоровое питание</a>
+</nav>
+</header>
+
+<!-- Пояснение -->
+<div class="px-4 pt-5">
+<div class="rounded-card bg-[#e8eefb] px-4 py-4">
+<div class="flex gap-3">
+<span class="msym mt-0.5 text-[22px] text-[#3a63c0]">info</span>
+<div>
+<div class="text-[16px] font-bold leading-snug">Перед вами электронное меню</div>
+<div class="mt-1 text-[14px] leading-snug text-ink/80">Заказ делается через бортпроводника</div>
+<a class="mt-2 inline-flex items-center gap-0.5 text-[16px] font-semibold text-[#3a63c0]" href="#">Как сделать заказ <span class="msym text-[18px]">chevron_right</span></a>
+</div>
+</div>
+</div>
+</div>
+
+<section class="scroll-mt-[112px] px-4 pt-8" data-cat="snacks" id="snacks">
+<h2 class="text-[20px] font-extrabold tracking-tight">Снэки</h2>
+<div class="mt-4 grid grid-cols-2 gap-x-4 gap-y-6">
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🥔</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">500 ₽</div>
+<div class="text-[14px] leading-snug">Чипсы картофельные оригинальные</div>
+<div class="text-[14px] text-muted">40 гр</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🧅</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">500 ₽</div>
+<div class="text-[14px] leading-snug">Чипсы картофельные сметана и лук</div>
+<div class="text-[14px] text-muted">40 гр</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🍗</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">400 ₽</div>
+<div class="text-[14px] leading-snug">Чипсы салями из курицы</div>
+<div class="text-[14px] text-muted">30 гр</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🧀</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">350 ₽</div>
+<div class="text-[14px] leading-snug">Сыр хрустящий копчёный</div>
+<div class="text-[14px] text-muted">120 гр</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🌰</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">450 ₽</div>
+<div class="text-[14px] leading-snug">Смесь из орехов (миндаль, грецкий орех, кешью)</div>
+<div class="text-[14px] text-muted">100 гр</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🥜</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">300 ₽</div>
+<div class="text-[14px] leading-snug">Арахис обжаренный солёный с пряностями</div>
+<div class="text-[14px] text-muted">80 гр</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🥜</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">450 ₽</div>
+<div class="text-[14px] leading-snug">Кешью обжаренный солёный с луком</div>
+<div class="text-[14px] text-muted">80 гр</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🫒</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">350 ₽</div>
+<div class="text-[14px] leading-snug">Оливки зелёные без косточки</div>
+<div class="text-[14px] text-muted">130 гр</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🌭</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">450 ₽</div>
+<div class="text-[14px] leading-snug">Колбаски сырокопчёные пикантные</div>
+<div class="text-[14px] text-muted">70 гр</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🍜</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">350 ₽</div>
+<div class="text-[14px] leading-snug">Лапша быстрого приготовления со вкусом курицы</div>
+<div class="text-[14px] text-muted">65 гр</div>
+</article>
+</div>
+</section>
+
+<section class="scroll-mt-[112px] px-4 pt-8" data-cat="sweets" id="sweets">
+<h2 class="text-[20px] font-extrabold tracking-tight">Сладости</h2>
+<div class="mt-4 grid grid-cols-2 gap-x-4 gap-y-6">
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🍫</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">280 ₽</div>
+<div class="text-[14px] leading-snug">Батончик шоколадный с арахисом и карамелью</div>
+<div class="text-[14px] text-muted">50 гр</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🍫</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">280 ₽</div>
+<div class="text-[14px] leading-snug">Батончик шоколадный с печеньем и карамелью</div>
+<div class="text-[14px] text-muted">55 гр</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🥥</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">280 ₽</div>
+<div class="text-[14px] leading-snug">Батончик шоколадный с кокосом</div>
+<div class="text-[14px] text-muted">55 гр</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🍬</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">300 ₽</div>
+<div class="text-[14px] leading-snug">Драже с арахисом в шоколаде</div>
+<div class="text-[14px] text-muted">45 гр</div>
+</article>
+</div>
+</section>
+
+<section class="scroll-mt-[112px] px-4 pt-8" data-cat="alcohol" id="alcohol">
+<h2 class="text-[20px] font-extrabold tracking-tight">Алкоголь</h2>
+<div class="mt-4 rounded-card bg-surface px-5 py-7 text-center" id="age-gate">
+<div class="mx-auto grid h-[74px] w-[74px] place-items-center rounded-[26px] bg-gradient-to-b from-amber-300 to-amber-500 text-[38px] font-black text-white shadow-inner">!</div>
+<h3 class="mt-4 text-[16px] font-bold">Вам есть 18 лет?</h3>
+<p class="mx-auto mt-2 max-w-[300px] text-[15px] leading-snug text-ink/80">Алкоголь на борту мы продаем только совершеннолетним — для проверки можем попросить паспорт.</p>
+<button class="mt-5 w-full rounded-tile bg-brand py-3 text-[16px] font-semibold text-white transition hover:bg-brand-dark" data-age="yes">Да, мне есть 18 лет</button>
+<button class="mt-2 w-full rounded-tile bg-white/70 py-3 text-[16px] font-semibold text-ink transition hover:bg-white" data-age="no">Нет, мне еще рано</button>
+</div>
+<div class="mt-4 hidden grid-cols-2 gap-x-4 gap-y-6" id="alcohol-grid">
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🥂</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">900 ₽</div>
+<div class="text-[14px] leading-snug">Игристое вино брют</div>
+<div class="text-[14px] text-muted">200 мл</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🍷</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">700 ₽</div>
+<div class="text-[14px] leading-snug">Вино красное сухое</div>
+<div class="text-[14px] text-muted">187 мл</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🥂</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">700 ₽</div>
+<div class="text-[14px] leading-snug">Вино белое сухое</div>
+<div class="text-[14px] text-muted">187 мл</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🍺</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">600 ₽</div>
+<div class="text-[14px] leading-snug">Пиво светлое фильтрованное</div>
+<div class="text-[14px] text-muted">450 мл</div>
+</article>
+</div>
+<p class="mt-4 hidden text-[12px] leading-snug text-muted" id="alcohol-note">Чрезмерное употребление алкоголя вредит вашему здоровью. Заказ подтверждает бортпроводник.</p>
+<div class="mt-4 hidden rounded-card bg-surface px-5 py-6 text-center text-[15px] leading-snug text-ink/80" id="alcohol-denied">
+Раздел скрыт. <button class="font-semibold text-brand underline-offset-2 hover:underline" data-age="reset">Изменить ответ</button>
+</div>
+</section>
+
+<section class="scroll-mt-[112px] px-4 pt-8" data-cat="drinks" id="drinks">
+<h2 class="text-[20px] font-extrabold tracking-tight">Напитки</h2>
+<div class="mt-4 grid grid-cols-2 gap-x-4 gap-y-6">
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🥤</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">500 ₽</div>
+<div class="text-[14px] leading-snug">Кола газированная</div>
+<div class="text-[14px] text-muted">330 мл</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🫧</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">450 ₽</div>
+<div class="text-[14px] leading-snug">Тоник газированный</div>
+<div class="text-[14px] text-muted">330 мл</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🍊</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">500 ₽</div>
+<div class="text-[14px] leading-snug">Холодный кофе с апельсиновым соком</div>
+<div class="text-[14px] text-muted">250 мл</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🥛</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">500 ₽</div>
+<div class="text-[14px] leading-snug">Холодный кофе с молоком</div>
+<div class="text-[14px] text-muted">250 мл</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">💧</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">250 ₽</div>
+<div class="text-[14px] leading-snug">Вода минеральная газированная</div>
+<div class="text-[14px] text-muted">330 мл</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">⚡</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">500 ₽</div>
+<div class="text-[14px] leading-snug">Энергетический напиток</div>
+<div class="text-[14px] text-muted">330 мл</div>
+</article>
+</div>
+</section>
+
+<section class="scroll-mt-[112px] px-4 pt-8" data-cat="kids" id="kids">
+<h2 class="text-[20px] font-extrabold tracking-tight">Детское</h2>
+<div class="mt-4 grid grid-cols-2 gap-x-4 gap-y-6">
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🧃</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">300 ₽</div>
+<div class="text-[14px] leading-snug">Сок детский яблочный прямого отжима</div>
+<div class="text-[14px] text-muted">90 мл</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🍪</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">300 ₽</div>
+<div class="text-[14px] leading-snug">Печенье с шоколадом</div>
+<div class="text-[14px] text-muted">40 гр</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🍬</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">300 ₽</div>
+<div class="text-[14px] leading-snug">Мармелад жевательный, ассорти</div>
+<div class="text-[14px] text-muted">100 гр</div>
+</article>
+</div>
+</section>
+
+<section class="scroll-mt-[112px] px-4 pt-8" data-cat="hot" id="hot">
+<h2 class="text-[20px] font-extrabold tracking-tight">Чай и кофе</h2>
+<div class="mt-4 grid grid-cols-2 gap-x-4 gap-y-6">
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">☕</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">350 ₽</div>
+<div class="text-[14px] leading-snug">Кофе заварной, 100% арабика</div>
+<div class="text-[14px] text-muted">180 мл</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🍵</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">300 ₽</div>
+<div class="text-[14px] leading-snug">Чай травяной (в ассортименте)</div>
+<div class="text-[14px] text-muted">250 мл</div>
+</article>
+</div>
+</section>
+
+<section class="scroll-mt-[112px] px-4 pt-8" data-cat="healthy" id="healthy">
+<h2 class="text-[20px] font-extrabold tracking-tight">Здоровое питание</h2>
+<div class="mt-4 grid grid-cols-2 gap-x-4 gap-y-6">
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🥭</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">450 ₽</div>
+<div class="text-[14px] leading-snug">Фруктовое пюре (яблоко, манго, папайя, банан)</div>
+<div class="text-[14px] text-muted">200 гр</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🥝</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">450 ₽</div>
+<div class="text-[14px] leading-snug">Фруктово-овощное пюре (яблоко, киви, шпинат, банан)</div>
+<div class="text-[14px] text-muted">200 гр</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">💊</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">1 950 ₽</div>
+<div class="text-[14px] leading-snug">Коллагеновый комплекс, курс</div>
+<div class="text-[14px] text-muted">50 гр</div>
+</article>
+<article class="group">
+<div class="art grid aspect-square place-items-center rounded-tile" style="--c1:#f4f7fb;--c2:#e3e9f2">
+<span class="relative z-10 text-[54px] leading-none">🧴</span>
+<button aria-label="Добавить в список" class="absolute bottom-2 right-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-white text-ink shadow-sm transition hover:bg-brand hover:text-white" data-add>
+<span class="msym text-[20px]">add</span>
+</button>
+</div>
+<div class="mt-2 text-[16px] font-bold">150 ₽</div>
+<div class="text-[14px] leading-snug">Коллагеновое желе в стике</div>
+<div class="text-[14px] text-muted">10 гр</div>
+</article>
+</div>
+</section>
+<!-- Подвал -->
+<footer class="mt-10 bg-surface px-4 pb-10 pt-7">
+<div class="text-[24px] font-extrabold tracking-tight">Кафе</div>
+<div class="mt-5 flex gap-5 text-[12px] text-muted">
+<a href="#">Конфиденциальность</a>
+<a href="#">Публичная оферта</a>
+</div>
+<div class="mt-4 text-[12px] text-muted">© 2026. «Аэровега» — Все права защищены</div>
+<div class="mt-2 text-[11px] leading-snug text-muted/70">Вымышленный концепт. Названия, товары и материалы придуманы для демонстрации интерфейса.</div>
+</footer>
+
+<!-- Чат -->
+<button aria-label="Чат с поддержкой" class="fixed bottom-[88px] right-[max(12px,calc(50%_-_189px))] z-30 grid h-[52px] w-[52px] place-items-center rounded-2xl bg-brand text-white shadow-lg shadow-brand/30">
+<span class="msym text-[26px]">chat_bubble</span>
+</button>
+
+<!-- Таб-бар -->
+<nav class="fixed bottom-0 left-1/2 z-40 w-full max-w-[402px] -translate-x-1/2 border-t border-line bg-white/95 backdrop-blur">
+<div class="grid grid-cols-5 pb-2 pt-2">
+<a class="flex flex-col items-center gap-1 text-muted" href="15.html"><span class="msym text-[24px]">home</span><span class="text-[10px] font-semibold">Главная</span></a>
+<a class="flex flex-col items-center gap-1 text-muted" href="15.html#razvlecheniya"><span class="msym text-[24px]">smart_display</span><span class="text-[10px] font-semibold">Развлечения</span></a>
+<a class="flex flex-col items-center gap-1 text-muted" href="15.html#tovary"><span class="msym text-[24px]">shopping_bag</span><span class="text-[10px] font-semibold">Магазин</span></a>
+<a class="flex flex-col items-center gap-1 text-brand" href="16.html"><span class="msym text-[24px]" style="font-variation-settings:'FILL' 1">storefront</span><span class="text-[10px] font-semibold">Кафе</span></a>
+<a class="flex flex-col items-center gap-1 text-muted" href="17.html"><span class="msym text-[24px]">public</span><span class="text-[10px] font-semibold">Карта</span></a>
+</div>
+</nav>
+</div>
+
+<script>
+  // Подсветка активной категории при скролле + доводка таба в видимую область
+  (function () {
+    var tabs = Array.prototype.slice.call(document.querySelectorAll("[data-tab]"));
+    var bar = document.getElementById("tabs");
+    var byId = {};
+    tabs.forEach(function (t) { byId[t.dataset.tab] = t; });
+
+    function activate(id) {
+      tabs.forEach(function (t) { t.classList.toggle("is-active", t.dataset.tab === id); });
+      var el = byId[id];
+      if (!el) return;
+      var left = el.offsetLeft - bar.clientWidth / 2 + el.clientWidth / 2;
+      bar.scrollTo({ left: Math.max(0, left), behavior: "smooth" });
+    }
+
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) activate(e.target.dataset.cat); });
+    }, { rootMargin: "-116px 0px -70% 0px", threshold: 0 });
+
+    document.querySelectorAll("[data-cat]").forEach(function (s) { obs.observe(s); });
+    activate(tabs[0].dataset.tab);
+  })();
+
+  // Проверка возраста для раздела «Алкоголь»
+  (function () {
+    var gate = document.getElementById("age-gate");
+    var grid = document.getElementById("alcohol-grid");
+    var note = document.getElementById("alcohol-note");
+    var denied = document.getElementById("alcohol-denied");
+
+    function show(state) {
+      gate.classList.toggle("hidden", state !== "ask");
+      grid.classList.toggle("hidden", state !== "yes");
+      grid.classList.toggle("grid", state === "yes");
+      note.classList.toggle("hidden", state !== "yes");
+      denied.classList.toggle("hidden", state !== "no");
+    }
+
+    document.querySelectorAll("[data-age]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var v = b.dataset.age;
+        show(v === "reset" ? "ask" : v);
+      });
+    });
+  })();
+
+  // Кнопка «+» — демонстрационная отметка выбора
+  document.querySelectorAll("[data-add]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var on = b.dataset.on === "1";
+      b.dataset.on = on ? "0" : "1";
+      b.classList.toggle("bg-brand", !on);
+      b.classList.toggle("text-white", !on);
+      b.querySelector(".msym").textContent = on ? "add" : "check";
+    });
+  });
+</script>
+</body></html>
